@@ -31,7 +31,7 @@ public class QuizComment {
 
 	@ManyToOne
 	@JoinColumn(name = "quiz_post_id")
-	private GeneralPost post;
+	private QuizPost post;
 
 	@Column(nullable = false)
 	private String content;

@@ -24,7 +24,7 @@ import lombok.Setter;
 public class BoardManagerApply {
 	@Id
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
-	@Column(name = "board_manager_apply", unique = true, nullable = false)
+	@Column(name = "board_manager_apply_id", unique = true, nullable = false)
 	private Long id;
 
 	@ManyToOne

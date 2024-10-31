@@ -38,7 +38,7 @@ public class QuizPost {
 	@Column(name = "quiz_title",nullable = false)
 	private String quizTitle;
 
-	@Column(name = "hint_contenet",nullable = false)
+	@Column(name = "hint_content",nullable = false)
 	private String hintContent;
 
 	@Column(nullable = false)
@@ -46,7 +46,7 @@ public class QuizPost {
 
 	@Column(name = "is_hidden", nullable = false)
 	@ColumnDefault("false")
-	private boolean isHidden;
+	private Boolean isHidden;
 
 	@Column(nullable = false)
 	private Long view;

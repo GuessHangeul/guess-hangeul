@@ -28,9 +28,6 @@ public class GeneralBoard {
 	@Column(nullable = false)
 	private String title;
 
-	@Column(nullable = false)
-	private Long userId;
-
 	@Column(name = "created_at")
 	private LocalDateTime createdAt;
 
