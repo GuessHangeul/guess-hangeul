@@ -18,30 +18,23 @@ import lombok.Setter;
 
 @Getter
 @Setter
-@NoArgsConstructor
 @Entity
-@Table(name = "comment")
-public class Comment {
+@NoArgsConstructor
+@Table(name = "board_manager_apply")
+public class BoardManagerApply {
 	@Id
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
-	@Column(name = "comment_id", unique = true, nullable = false)
+	@Column(name = "board_manager_apply_id", unique = true, nullable = false)
 	private Long id;
 
 	@ManyToOne
 	@JoinColumn(name = "user_id")
-	private Users user;
-
-	@ManyToOne
-	@JoinColumn(name = "post_id")
-	private Post post;
+	private Users users;
 
 	@Column(nullable = false)
-	private String content;
+	@ColumnDefault("0")
+	private int status;
 
-	@Column(nullable = false)
-	@ColumnDefault("1")
-	private int type; //게시판 속성
-
-	@Column(nullable = false)
+	@Column(name = "created_at")
 	private LocalDateTime createdAt;
 }
