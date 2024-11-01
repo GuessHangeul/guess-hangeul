@@ -4,7 +4,6 @@ import static org.mockito.Mockito.*;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.*;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.*;
 
-import java.time.LocalDateTime;
 import java.util.List;
 
 import org.junit.jupiter.api.Test;
@@ -32,7 +31,7 @@ public class QuizBoardControllerTest {
 	@Test
 	void testReadAllExistingQuizBoardSuccess() throws Exception {
 		// given
-		QuizBoard quizBoard = new QuizBoard("title1", 1L, LocalDateTime.of(2024, 11, 1, 9, 0), false);
+		QuizBoard quizBoard = new QuizBoard("title1", 1L, false);
 		List<QuizBoardResponse> result = List.of(new QuizBoardResponse(quizBoard));
 		when(quizBoardService.findAllQuizBoardByIsDeleted(false)).thenReturn(result);
 
@@ -44,7 +43,6 @@ public class QuizBoardControllerTest {
 		resultActions.andExpect(status().isOk())
 			.andExpect(jsonPath("$[0].title").value("title1"))
 			.andExpect(jsonPath("$[0].userId").value(1L))
-			.andExpect(jsonPath("$[0].createdAt").value("2024-11-01T09:00:00"))
 			.andExpect(jsonPath("$[0].isDeleted").value(false));
 	}
 }
