@@ -1,15 +1,18 @@
 package com.estsoft.guesshangeul.repository.board;
 
 import static org.assertj.core.api.Assertions.*;
+import static org.junit.jupiter.api.Assertions.*;
 
 import java.util.List;
+import java.util.Optional;
 
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.autoconfigure.jdbc.AutoConfigureTestDatabase;
 import org.springframework.boot.test.autoconfigure.orm.jpa.DataJpaTest;
 
-import com.estsoft.guesshangeul.entity.QuizBoard;
+import com.estsoft.guesshangeul.board.entity.QuizBoard;
+import com.estsoft.guesshangeul.board.repository.QuizBoardRepository;
 
 @DataJpaTest
 @AutoConfigureTestDatabase(replace = AutoConfigureTestDatabase.Replace.NONE)
@@ -44,5 +47,27 @@ public class QuizBoardRepositoryTest {
 		assertThat(deletedQuizBoardList.get(0).getTitle()).isEqualTo("title3");
 		assertThat(deletedQuizBoardList.get(0).getUserId()).isEqualTo(3L);
 		assertThat(deletedQuizBoardList.get(0).getIsDeleted()).isTrue();
+	}
+
+	@Test
+	void testFindByTitleSuccess() {
+		// given
+		QuizBoard quizBoard1 = new QuizBoard("title1", 1L, false);
+		QuizBoard quizBoard2 = new QuizBoard("title2", 2L, false);
+		QuizBoard quizBoard3 = new QuizBoard("title3", 3L, true);
+
+		quizBoardRepository.saveAll(List.of(quizBoard1, quizBoard2, quizBoard3));
+
+		// when
+		Optional<QuizBoard> result1 = quizBoardRepository.findByTitle("title1");
+		Optional<QuizBoard> result2 = quizBoardRepository.findByTitle("wrongTitle");
+
+		// then
+		assertTrue(result1.isPresent());
+		assertThat(result1.get().getTitle()).isEqualTo("title1");
+		assertThat(result1.get().getUserId()).isEqualTo(1L);
+		assertFalse(result1.get().getIsDeleted());
+
+		assertTrue(result2.isEmpty());
 	}
 }

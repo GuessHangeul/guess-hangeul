@@ -1,17 +1,24 @@
 package com.estsoft.guesshangeul.service.board;
 
 import static org.assertj.core.api.Assertions.*;
+import static org.mockito.Mockito.*;
 
 import java.util.List;
 
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
+import org.springframework.boot.test.mock.mockito.MockBean;
+import org.springframework.security.test.context.support.WithMockUser;
 import org.springframework.transaction.annotation.Transactional;
 
-import com.estsoft.guesshangeul.dto.board.QuizBoardResponse;
-import com.estsoft.guesshangeul.entity.QuizBoard;
-import com.estsoft.guesshangeul.repository.board.QuizBoardRepository;
+import com.estsoft.guesshangeul.board.dto.QuizBoardCreateRequest;
+import com.estsoft.guesshangeul.board.dto.QuizBoardDto;
+import com.estsoft.guesshangeul.board.entity.QuizBoard;
+import com.estsoft.guesshangeul.board.repository.QuizBoardRepository;
+import com.estsoft.guesshangeul.board.service.QuizBoardService;
+import com.estsoft.guesshangeul.user.entity.Users;
+import com.estsoft.guesshangeul.user.service.UsersService;
 
 @SpringBootTest
 @Transactional
@@ -21,6 +28,9 @@ public class QuizBoardServiceTest {
 
 	@Autowired
 	private QuizBoardRepository quizBoardRepository;
+
+	@MockBean
+	private UsersService usersService;
 
 	@Test
 	void testFindAllQuizBoardByIsDeletedSuccess() {
@@ -32,8 +42,8 @@ public class QuizBoardServiceTest {
 		quizBoardRepository.saveAll(List.of(quizBoard1, quizBoard2, quizBoard3));
 
 		// when
-		List<QuizBoardResponse> existingQuizBoardList = quizBoardService.findAllQuizBoardByIsDeleted(false);
-		List<QuizBoardResponse> deletedQuizBoardList = quizBoardService.findAllQuizBoardByIsDeleted(true);
+		List<QuizBoardDto> existingQuizBoardList = quizBoardService.findAllQuizBoardByIsDeleted(false);
+		List<QuizBoardDto> deletedQuizBoardList = quizBoardService.findAllQuizBoardByIsDeleted(true);
 
 		// then
 		assertThat(existingQuizBoardList).hasSize(2);
@@ -49,5 +59,20 @@ public class QuizBoardServiceTest {
 		assertThat(deletedQuizBoardList.get(0).getTitle()).isEqualTo("title3");
 		assertThat(deletedQuizBoardList.get(0).getUserId()).isEqualTo(3L);
 		assertThat(deletedQuizBoardList.get(0).getIsDeleted()).isTrue();
+	}
+
+	@Test
+	@WithMockUser
+	void testAddNewQuizBoardSuccess() {
+		// given
+		QuizBoardCreateRequest request = new QuizBoardCreateRequest("title");
+		String username = anyString();
+		when(usersService.loadUserByUsername(username)).thenReturn(new Users(1L));
+
+		// when
+		QuizBoardDto quizBoard = quizBoardService.addNewQuizBoard(request);
+
+		// then
+		assertThat(quizBoard.getTitle()).isEqualTo("title");
 	}
 }

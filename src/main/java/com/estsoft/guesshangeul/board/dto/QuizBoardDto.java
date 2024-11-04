@@ -1,22 +1,22 @@
-package com.estsoft.guesshangeul.dto.board;
+package com.estsoft.guesshangeul.board.dto;
 
 import java.time.LocalDateTime;
 
-import com.estsoft.guesshangeul.entity.QuizBoard;
+import com.estsoft.guesshangeul.board.entity.QuizBoard;
 
 import lombok.AllArgsConstructor;
 import lombok.Getter;
 
 @AllArgsConstructor
 @Getter
-public class QuizBoardResponse {
+public class QuizBoardDto {
 	private Long id;
 	private String title;
 	private Long userId;
 	private LocalDateTime createdAt;
 	private Boolean isDeleted;
 
-	public QuizBoardResponse(QuizBoard quizBoard) {
+	public QuizBoardDto(QuizBoard quizBoard) {
 		this.id = quizBoard.getId();
 		this.title = quizBoard.getTitle();
 		this.userId = quizBoard.getUserId();

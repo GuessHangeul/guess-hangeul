@@ -46,7 +46,6 @@ public class QuizBoard {
 	public QuizBoard(String title, Long userId, Boolean isDeleted) {
 		this.title = title;
 		this.userId = userId;
-		this.createdAt = createdAt;
 		this.isDeleted = isDeleted;
 	}
 }
