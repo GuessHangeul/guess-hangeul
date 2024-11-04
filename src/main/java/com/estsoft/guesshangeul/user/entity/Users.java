@@ -4,7 +4,6 @@ import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.Collection;
 
-import org.hibernate.annotations.ColumnDefault;
 import org.hibernate.annotations.DynamicInsert;
 import org.springframework.data.annotation.CreatedDate;
 import org.springframework.data.jpa.domain.support.AuditingEntityListener;
@@ -46,7 +45,6 @@ public class Users implements UserDetails {
 	private String nickname;
 
 	@Column(nullable = false)
-	@ColumnDefault("0")
 	private int score;
 
 	@CreatedDate
@@ -57,11 +55,9 @@ public class Users implements UserDetails {
 	private LocalDateTime connectedAt;
 
 	@Column(name = "connect_count", nullable = false)
-	@ColumnDefault("0")
 	private int connectCount;
 
 	@Column(name = "is_deleted", nullable = false)
-	@ColumnDefault("false")
 	private boolean isDeleted;
 
 	// 권한 리스트

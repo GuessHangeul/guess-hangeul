@@ -46,14 +46,16 @@ public class SecurityConfig {
 					// .authenticated()
 					.permitAll()
 			)
-			.formLogin(custom -> custom.loginPage("/login")
+			.formLogin(custom -> custom
+				.loginPage("/login")
 				.defaultSuccessUrl("/", true)
 				.failureHandler(customAuthFailureHandler())
 				.usernameParameter("email")
 				.passwordParameter("password")
 				.permitAll()
 			)
-			.logout(custom -> custom.logoutSuccessUrl("/")
+			.logout(custom -> custom
+				.logoutSuccessUrl("/login")
 				.logoutUrl("/logout")
 				.deleteCookies("SESSION", "JSESSIONID")
 				.invalidateHttpSession(true)
