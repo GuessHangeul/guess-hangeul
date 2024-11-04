@@ -2,14 +2,15 @@ package com.estsoft.guesshangeul.comment.entity;
 
 import java.time.LocalDateTime;
 
-import com.estsoft.guesshangeul.post.entity.GeneralPost;
-import com.estsoft.guesshangeul.user.entity.Users;
+import org.springframework.data.annotation.CreatedDate;
+import org.springframework.data.jpa.domain.support.AuditingEntityListener;
 
 import com.estsoft.guesshangeul.post.entity.GeneralPost;
 import com.estsoft.guesshangeul.user.entity.Users;
 
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
+import jakarta.persistence.EntityListeners;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
@@ -25,10 +26,11 @@ import lombok.Setter;
 @NoArgsConstructor
 @Entity
 @Table(name = "general_comment")
+@EntityListeners(AuditingEntityListener.class)
 public class GeneralComment {
 	@Id
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
-	@Column(name = "general_comment_id", unique = true, nullable = false)
+	@Column(name = "general_comment_id")
 	private Long id;
 
 	@ManyToOne
@@ -42,6 +44,7 @@ public class GeneralComment {
 	@Column(nullable = false)
 	private String content;
 
+	@CreatedDate
 	@Column(nullable = false)
 	private LocalDateTime createdAt;
 }
