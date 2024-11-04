@@ -47,7 +47,7 @@ public class Users {
 	private int score;
 
 	@CreatedDate
-	@Column(name = "created_at", nullable = false)
+	@Column(name = "create_at", nullable = false)
 	private LocalDateTime createdAt;
 
 	@Column(name = "connected_at", nullable = false)

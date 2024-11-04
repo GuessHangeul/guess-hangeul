@@ -1,4 +1,4 @@
-package com.estsoft.guesshangeul.user.DTO;
+package com.estsoft.guesshangeul.user.dto;
 
 import java.time.LocalDateTime;
 

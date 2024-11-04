@@ -4,19 +4,18 @@ import java.util.List;
 
 import org.springframework.stereotype.Service;
 
-import com.estsoft.guesshangeul.user.DTO.Users;
-import com.estsoft.guesshangeul.user.DTO.UsersResponse;
-import com.estsoft.guesshangeul.user.repository.UsersRepository;
+import com.estsoft.guesshangeul.user.dto.Users;
+import com.estsoft.guesshangeul.user.dto.usersResponse;
 
 import lombok.RequiredArgsConstructor;
 
 @RequiredArgsConstructor
 @Service
 public class adminBoardService {
-	private final UsersRepository usersRepository;
+	private final com.estsoft.guesshangeul.user.repository.usersRepository usersRepository;
 
-	public List<UsersResponse> findAllUsersbyIsDeleted(Boolean isDeleted){
+	public List<usersResponse> findAllUsersbyIsDeleted(Boolean isDeleted){
 		List<Users> usersList = usersRepository.findAllByIsDeleted(isDeleted);
-		return usersList.stream().map(UsersResponse::new).toList();
+		return usersList.stream().map(usersResponse::new).toList();
 	}
 }
