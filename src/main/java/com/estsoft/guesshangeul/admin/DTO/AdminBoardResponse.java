@@ -7,14 +7,14 @@ import lombok.Getter;
 
 @AllArgsConstructor
 @Getter
-public class adminBoardResponse {
+public class AdminBoardResponse {
 	private Long id;
 	private String email;
 	private Long userId;
 	private LocalDateTime createdAt;
 	private Boolean isDeleted;
 
-	public adminBoardResponse() {
+	public AdminBoardResponse() {
 		this.id = getId();
 		this.email = getEmail();
 		this.createdAt = getCreatedAt();

@@ -7,17 +7,17 @@ import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 
-import com.estsoft.guesshangeul.admin.service.adminBoardService;
-import com.estsoft.guesshangeul.user.dto.usersResponse;
+import com.estsoft.guesshangeul.admin.service.AdminBoardService;
+import com.estsoft.guesshangeul.user.dto.UsersResponse;
 
 @RequestMapping("/admin/members")
 @Controller
-public class adminBoardController {
-	private adminBoardService adminBoardService;
+public class AdminBoardController {
+	private AdminBoardService adminBoardService;
 
 	@GetMapping
-	public ResponseEntity<List<usersResponse>> getAllUsers() {
-		List<usersResponse> response = adminBoardService.findAllUsersbyIsDeleted(false);
+	public ResponseEntity<List<UsersResponse>> getAllUsers() {
+		List<UsersResponse> response = adminBoardService.findAllUsersbyIsDeleted(false);
 		return ResponseEntity.ok(response);
 	}
 }

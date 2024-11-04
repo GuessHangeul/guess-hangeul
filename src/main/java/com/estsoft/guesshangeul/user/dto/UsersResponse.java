@@ -7,7 +7,7 @@ import lombok.NoArgsConstructor;
 
 @Getter
 @NoArgsConstructor
-public class usersResponse {
+public class UsersResponse {
 	private Long user_id;
 	private String email;
 	private String nickname;
@@ -19,7 +19,7 @@ public class usersResponse {
 	private String userAgent;
 	private boolean isDeleted;
 
-	public usersResponse(Users users) {
+	public UsersResponse(Users users) {
 		this.user_id = users.getId();
 		this.email = users.getEmail();
 		this.nickname = users.getNickname();

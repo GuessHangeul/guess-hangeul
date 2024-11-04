@@ -8,6 +8,6 @@ import org.springframework.stereotype.Repository;
 import com.estsoft.guesshangeul.user.dto.Users;
 
 @Repository
-public interface usersRepository extends JpaRepository<Users, Long> {
+public interface UsersRepository extends JpaRepository<Users, Long> {
 	List<Users> findAllByIsDeleted(Boolean isDeleted);
 }
