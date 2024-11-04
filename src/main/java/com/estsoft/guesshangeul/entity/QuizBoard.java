@@ -1,4 +1,4 @@
-package com.estsoft.guesshangeul.board.entity;
+package com.estsoft.guesshangeul.entity;
 
 import java.time.LocalDateTime;
 
