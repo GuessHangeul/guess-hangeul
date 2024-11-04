@@ -1,14 +1,12 @@
-package com.estsoft.guesshangeul.entity;
+package com.estsoft.guesshangeul.comment.entity;
 
 import java.time.LocalDateTime;
 
-import org.hibernate.annotations.ColumnDefault;
-import org.springframework.data.annotation.CreatedDate;
-import org.springframework.data.jpa.domain.support.AuditingEntityListener;
+import com.estsoft.guesshangeul.post.entity.QuizPost;
+import com.estsoft.guesshangeul.user.entity.Users;
 
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
-import jakarta.persistence.EntityListeners;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
@@ -21,25 +19,26 @@ import lombok.Setter;
 
 @Getter
 @Setter
-@Entity
 @NoArgsConstructor
-@Table(name = "board_manager_apply")
-@EntityListeners(AuditingEntityListener.class)
-public class BoardManagerApply {
+@Entity
+@Table(name = "quiz_comment")
+public class QuizComment {
 	@Id
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
-	@Column(name = "board_manager_apply_id")
+	@Column(name = "quiz_comment_id", unique = true, nullable = false)
 	private Long id;
 
 	@ManyToOne
 	@JoinColumn(name = "user_id")
-	private Users users;
+	private Users user;
+
+	@ManyToOne
+	@JoinColumn(name = "quiz_post_id")
+	private QuizPost post;
 
 	@Column(nullable = false)
-	@ColumnDefault("0")
-	private int status;
+	private String content;
 
-	@CreatedDate
-	@Column(name = "created_at")
+	@Column(nullable = false)
 	private LocalDateTime createdAt;
 }
