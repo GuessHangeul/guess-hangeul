@@ -1,8 +1,9 @@
-package com.estsoft.guesshangeul.entity;
+package com.estsoft.guesshangeul.comment.entity;
 
 import java.time.LocalDateTime;
 
-import org.hibernate.annotations.ColumnDefault;
+import com.estsoft.guesshangeul.post.entity.QuizPost;
+import com.estsoft.guesshangeul.users.entity.Users;
 
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
@@ -18,39 +19,26 @@ import lombok.Setter;
 
 @Getter
 @Setter
-@Entity
 @NoArgsConstructor
-@Table(name = "general_post")
-public class GeneralPost {
+@Entity
+@Table(name = "quiz_comment")
+public class QuizComment {
 	@Id
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
-	@Column(name = "general_post_id", unique = true, nullable = false)
+	@Column(name = "quiz_comment_id", unique = true, nullable = false)
 	private Long id;
 
 	@ManyToOne
 	@JoinColumn(name = "user_id")
-	private Users users;
+	private Users user;
 
 	@ManyToOne
-	@JoinColumn(name = "general_board_id")
-	private GeneralBoard generalBoard;
-
-	@Column(nullable = false)
-	private String title;
+	@JoinColumn(name = "quiz_post_id")
+	private QuizPost post;
 
 	@Column(nullable = false)
 	private String content;
 
-	@Column(name = "is_hidden", nullable = false)
-	@ColumnDefault("false")
-	private boolean isHidden;
-
 	@Column(nullable = false)
-	private Long view;
-
-	@Column(name = "created_at")
 	private LocalDateTime createdAt;
-
-	@Column(name = "updated_at")
-	private LocalDateTime updatedAt;
 }

@@ -1,6 +1,9 @@
-package com.estsoft.guesshangeul.entity;
+package com.estsoft.guesshangeul.comment.entity;
 
 import java.time.LocalDateTime;
+
+import com.estsoft.guesshangeul.post.entity.GeneralPost;
+import com.estsoft.guesshangeul.users.entity.Users;
 
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
@@ -18,20 +21,20 @@ import lombok.Setter;
 @Setter
 @NoArgsConstructor
 @Entity
-@Table(name = "quiz_comment")
-public class QuizComment {
+@Table(name = "general_comment")
+public class GeneralComment {
 	@Id
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
-	@Column(name = "quiz_comment_id", unique = true, nullable = false)
+	@Column(name = "general_comment_id", unique = true, nullable = false)
 	private Long id;
 
 	@ManyToOne
 	@JoinColumn(name = "user_id")
-	private Users user;
+	private Users users;
 
 	@ManyToOne
-	@JoinColumn(name = "quiz_post_id")
-	private QuizPost post;
+	@JoinColumn(name = "general_post_id")
+	private GeneralPost post;
 
 	@Column(nullable = false)
 	private String content;

@@ -1,8 +1,11 @@
-package com.estsoft.guesshangeul.entity;
+package com.estsoft.guesshangeul.post.entity;
 
 import java.time.LocalDateTime;
 
 import org.hibernate.annotations.ColumnDefault;
+
+import com.estsoft.guesshangeul.board.entity.GeneralBoard;
+import com.estsoft.guesshangeul.users.entity.Users;
 
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
