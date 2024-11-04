@@ -1,4 +1,4 @@
-package com.estsoft.guesshangeul.entity;
+package com.estsoft.guesshangeul.user.entity;
 
 import java.time.LocalDateTime;
 
@@ -21,22 +21,45 @@ import lombok.Setter;
 @Setter
 @Entity
 @NoArgsConstructor
-@Table(name = "general_board")
+@Table
 @EntityListeners(AuditingEntityListener.class)
-public class GeneralBoard {
+public class Users {
 	@Id
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
-	@Column(name = "general_board_id")
+	@Column(name = "user_id")
 	private Long id;
 
+	@Column(name = "email", nullable = false)
+	private String email;
+
+	@Column(name = "password", nullable = false)
+	private String password;
+
+	@Column(name = "nickname", nullable = false)
+	private String nickname;
+
+	@Column(name = "user_rank", nullable = false)
+	@ColumnDefault("0") //디폴트 값 0으로 지정
+	private int userrank;
+
 	@Column(nullable = false)
-	private String title;
+	@ColumnDefault("0")
+	private int score;
 
 	@CreatedDate
-	@Column(name = "created_at")
+	@Column(name = "create_at", nullable = false)
 	private LocalDateTime createdAt;
+
+	@Column(name = "connected_at", nullable = false)
+	private LocalDateTime connectedAt;
+
+	@Column(name = "connect_count", nullable = false)
+	private int connectCount;
+
+	@Column(name = "user_agent_value", nullable = false)
+	private String userAgent;
 
 	@Column(name = "is_deleted", nullable = false)
 	@ColumnDefault("false")
-	private Boolean isDeleted;
+	private boolean isDeleted;
 }

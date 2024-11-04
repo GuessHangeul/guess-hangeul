@@ -1,9 +1,12 @@
-package com.estsoft.guesshangeul.entity;
+package com.estsoft.guesshangeul.comment.entity;
 
 import java.time.LocalDateTime;
 
 import org.springframework.data.annotation.CreatedDate;
 import org.springframework.data.jpa.domain.support.AuditingEntityListener;
+
+import com.estsoft.guesshangeul.post.entity.GeneralPost;
+import com.estsoft.guesshangeul.user.entity.Users;
 
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
@@ -22,21 +25,21 @@ import lombok.Setter;
 @Setter
 @NoArgsConstructor
 @Entity
-@Table(name = "quiz_comment")
+@Table(name = "general_comment")
 @EntityListeners(AuditingEntityListener.class)
-public class QuizComment {
+public class GeneralComment {
 	@Id
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
-	@Column(name = "quiz_comment_id")
+	@Column(name = "general_comment_id")
 	private Long id;
 
 	@ManyToOne
 	@JoinColumn(name = "user_id")
-	private Users user;
+	private Users users;
 
 	@ManyToOne
-	@JoinColumn(name = "quiz_post_id")
-	private QuizPost post;
+	@JoinColumn(name = "general_post_id")
+	private GeneralPost post;
 
 	@Column(nullable = false)
 	private String content;
