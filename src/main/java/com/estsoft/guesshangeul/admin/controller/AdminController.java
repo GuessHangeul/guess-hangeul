@@ -5,8 +5,8 @@ import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 
-import com.estsoft.guesshangeul.admin.dto.UsersResponse;
 import com.estsoft.guesshangeul.admin.service.AdminService;
+import com.estsoft.guesshangeul.user.dto.UsersResponse;
 import com.estsoft.guesshangeul.user.entity.Users;
 
 @Controller

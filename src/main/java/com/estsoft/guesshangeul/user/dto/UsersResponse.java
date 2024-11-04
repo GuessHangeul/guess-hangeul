@@ -1,4 +1,4 @@
-package com.estsoft.guesshangeul.admin.dto;
+package com.estsoft.guesshangeul.user.dto;
 
 import com.estsoft.guesshangeul.user.entity.Users;
 
