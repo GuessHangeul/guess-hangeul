@@ -1,6 +1,6 @@
 package com.estsoft.guesshangeul.post.entity;
 
-import com.estsoft.guesshangeul.users.entity.Users;
+import com.estsoft.guesshangeul.user.entity.Users;
 
 import jakarta.persistence.Column;
 import jakarta.persistence.ManyToOne;

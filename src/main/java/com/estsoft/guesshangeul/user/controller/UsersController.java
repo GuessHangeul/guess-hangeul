@@ -1,4 +1,4 @@
-package com.estsoft.guesshangeul.users.controller;
+package com.estsoft.guesshangeul.user.controller;
 
 import org.springframework.stereotype.Controller;
 

@@ -1,4 +1,4 @@
-package com.estsoft.guesshangeul.users.DTO;
+package com.estsoft.guesshangeul.user.DTO;
 
 import java.time.LocalDateTime;
 
@@ -19,7 +19,7 @@ public class UsersResponse {
 	private String userAgent;
 	private boolean isDeleted;
 
-	public UsersResponseDTO(Users users) {
+	public UsersResponse(Users users) {
 		Users usersFormDisplay = users.getUsers();
 
 		id = users.getId();

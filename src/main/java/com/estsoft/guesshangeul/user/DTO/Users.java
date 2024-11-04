@@ -1,4 +1,4 @@
-package com.estsoft.guesshangeul.users.DTO;
+package com.estsoft.guesshangeul.user.DTO;
 
 import java.time.LocalDateTime;
 
@@ -31,32 +31,28 @@ public class Users {
 		this.password = password;
 	}
 
-	@Override
 	public String getUsername() {
 		return email;
 	}
 
 	// 계정의 만료 여부
-	@Override
 	public boolean isAccountNonExpired() {
 		return true;
 	}
 
 	// 계정의 잠김 여부
-	@Override
 	public boolean isAccountNonLocked() {
 		return true;
 	}
 
 	// 계정의 pw정보 만료 여부
-	@Override
 	public boolean isCredentialsNonExpired() {
 		return true;
 	}
 
 	// 계정 활성화
-	@Override
 	public boolean isEnabled() {
 		return true;
 	}
+
 }

@@ -3,7 +3,7 @@ package com.estsoft.guesshangeul.comment.entity;
 import java.time.LocalDateTime;
 
 import com.estsoft.guesshangeul.post.entity.QuizPost;
-import com.estsoft.guesshangeul.users.entity.Users;
+import com.estsoft.guesshangeul.user.entity.Users;
 
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;

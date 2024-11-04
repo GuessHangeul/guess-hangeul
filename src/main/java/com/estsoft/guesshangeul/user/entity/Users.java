@@ -1,4 +1,4 @@
-package com.estsoft.guesshangeul.users.entity;
+package com.estsoft.guesshangeul.user.entity;
 
 import java.time.LocalDateTime;
 
@@ -56,5 +56,5 @@ public class Users {
 
 	@Column(name = "is_deleted", nullable = false)
 	@ColumnDefault("false")
-	private boolean isDeleted;
+	private Boolean isDeleted;
 }
