@@ -1,4 +1,4 @@
-package com.estsoft.guesshangeul.entity;
+package com.estsoft.guesshangeul.board.entity;
 
 import java.time.LocalDateTime;
 
@@ -21,19 +21,16 @@ import lombok.Setter;
 @Setter
 @Entity
 @NoArgsConstructor
-@Table(name = "quiz_board")
+@Table(name = "general_board")
 @EntityListeners(AuditingEntityListener.class)
-public class QuizBoard {
+public class GeneralBoard {
 	@Id
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
-	@Column(name = "quiz_board_id")
+	@Column(name = "general_board_id")
 	private Long id;
 
 	@Column(nullable = false)
 	private String title;
-
-	@Column(nullable = false)
-	private Long userId;
 
 	@CreatedDate
 	@Column(name = "created_at")
