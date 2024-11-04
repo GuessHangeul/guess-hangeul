@@ -3,6 +3,7 @@ package com.estsoft.guesshangeul.config;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
+import org.springframework.security.config.annotation.web.configuration.EnableWebSecurity;
 import org.springframework.security.config.annotation.web.configuration.WebSecurityCustomizer;
 import org.springframework.security.config.annotation.web.configurers.AbstractHttpConfigurer;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
@@ -12,6 +13,7 @@ import org.springframework.security.web.authentication.AuthenticationFailureHand
 import com.estsoft.guesshangeul.user.controller.CustomAuthFailureHandler;
 
 @Configuration
+@EnableWebSecurity
 public class SecurityConfig {
 	@Bean
 	public WebSecurityCustomizer webSecurityCustomizer() {

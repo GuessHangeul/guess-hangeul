@@ -258,6 +258,7 @@ gradle-app.setting
 # Java heap dump
 *.hprof
 
-./sql
-*/resources/main/application-local.properties
 # End of https://www.toptal.com/developers/gitignore/api/windows,intellij,git,java,gradle,macos,maven
+
+# Local DB Configuration
+application-local.properties
