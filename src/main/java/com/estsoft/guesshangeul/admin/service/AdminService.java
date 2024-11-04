@@ -11,8 +11,8 @@ public class AdminService {
 	@Autowired
 	UsersRepository usersRepository;
 
-	public Users resetNickname(Long user_id) {
-		Users users = usersRepository.findById(user_id).orElseThrow();
+	public Users resetNickname(Long userId) {
+		Users users = usersRepository.findById(userId).orElseThrow();
 		users.setNickname("hangeul_" + users.getId());
 		return usersRepository.save(users);
 	}

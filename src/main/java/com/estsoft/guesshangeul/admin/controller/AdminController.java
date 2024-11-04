@@ -1,15 +1,15 @@
 package com.estsoft.guesshangeul.admin.controller;
 
 import org.springframework.http.ResponseEntity;
-import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
+import org.springframework.web.bind.annotation.RestController;
 
 import com.estsoft.guesshangeul.admin.service.AdminService;
 import com.estsoft.guesshangeul.user.dto.UsersResponse;
 import com.estsoft.guesshangeul.user.entity.Users;
 
-@Controller
+@RestController
 public class AdminController {
 	private final AdminService adminService;
 
@@ -17,9 +17,9 @@ public class AdminController {
 		this.adminService = adminService;
 	}
 
-	@GetMapping("/api/admin/initializeNickname/{user_id}")
-	public ResponseEntity<UsersResponse> resetNickname(@PathVariable Long user_id) {
-		Users users = adminService.resetNickname(user_id);
+	@GetMapping("/api/admin/initializeNickname/{userId}")
+	public ResponseEntity<UsersResponse> resetNickname(@PathVariable Long userId) {
+		Users users = adminService.resetNickname(userId);
 		return ResponseEntity.ok(new UsersResponse(users));
 	}
 
