@@ -1,6 +1,6 @@
-package com.estsoft.guesshangeul.entity.dto;
+package com.estsoft.guesshangeul.admin.dto;
 
-import com.estsoft.guesshangeul.entity.Users;
+import com.estsoft.guesshangeul.user.entity.Users;
 
 import lombok.Getter;
 import lombok.NoArgsConstructor;

@@ -1,10 +1,10 @@
-package com.estsoft.guesshangeul.service.admin;
+package com.estsoft.guesshangeul.admin.service;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
-import com.estsoft.guesshangeul.entity.Users;
-import com.estsoft.guesshangeul.repository.UsersRepository;
+import com.estsoft.guesshangeul.user.entity.Users;
+import com.estsoft.guesshangeul.user.repository.UsersRepository;
 
 @Service
 public class AdminService {
