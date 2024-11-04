@@ -1,11 +1,8 @@
-package com.estsoft.guesshangeul.post.entity;
+package com.estsoft.guesshangeul.entity;
 
 import java.time.LocalDateTime;
 
 import org.hibernate.annotations.ColumnDefault;
-
-import com.estsoft.guesshangeul.board.entity.GeneralBoard;
-import com.estsoft.guesshangeul.user.entity.Users;
 
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
@@ -23,33 +20,30 @@ import lombok.Setter;
 @Setter
 @Entity
 @NoArgsConstructor
-@Table(name = "quiz_post")
-public class QuizPost {
+@Table(name = "general_post")
+public class GeneralPost {
 	@Id
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
-	@Column(name = "quiz_post_id", unique = true, nullable = false)
+	@Column(name = "general_post_id", unique = true, nullable = false)
 	private Long id;
 
 	@ManyToOne
 	@JoinColumn(name = "user_id")
-	private Users user;
+	private Users users;
 
 	@ManyToOne
-	@JoinColumn(name = "quiz_board_id")
+	@JoinColumn(name = "general_board_id")
 	private GeneralBoard generalBoard;
 
-	@Column(name = "quiz_title", nullable = false)
-	private String quizTitle;
-
-	@Column(name = "hint_content", nullable = false)
-	private String hintContent;
+	@Column(nullable = false)
+	private String title;
 
 	@Column(nullable = false)
-	private String answer;
+	private String content;
 
 	@Column(name = "is_hidden", nullable = false)
 	@ColumnDefault("false")
-	private Boolean isHidden;
+	private boolean isHidden;
 
 	@Column(nullable = false)
 	private Long view;

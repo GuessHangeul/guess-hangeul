@@ -1,4 +1,4 @@
-package com.estsoft.guesshangeul.user.entity;
+package com.estsoft.guesshangeul.entity;
 
 import java.time.LocalDateTime;
 
@@ -42,7 +42,7 @@ public class Users {
 	@ColumnDefault("0")
 	private int score;
 
-	@Column(name = "created_at", nullable = false)
+	@Column(name = "create_at", nullable = false)
 	private LocalDateTime createdAt;
 
 	@Column(name = "connected_at", nullable = false)
