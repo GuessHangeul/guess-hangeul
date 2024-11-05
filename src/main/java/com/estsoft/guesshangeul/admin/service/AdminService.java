@@ -5,7 +5,6 @@ import java.util.List;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
-
 import com.estsoft.guesshangeul.board.entity.GeneralBoard;
 import com.estsoft.guesshangeul.board.entity.QuizBoard;
 import com.estsoft.guesshangeul.board.repository.GeneralBoardRepository;
@@ -22,13 +21,13 @@ public class AdminService {
 	@Autowired
 	UsersRepository usersRepository;
 	@Autowired
-
 	private GeneralBoardRepository generalBoardRepository;
 	@Autowired
 	private QuizBoardRepository quizBoardRepository;
-	private QuizPostRepository quizPostRepository;
 	@Autowired
 	private GeneralPostRepository generalPostRepository;
+	@Autowired
+	private QuizPostRepository quizPostRepository;
 
 	public Users resetNickname(Long userId) {
 		Users users = usersRepository.findById(userId).orElseThrow();
@@ -46,6 +45,7 @@ public class AdminService {
 		QuizBoard quizBoard = quizBoardRepository.findById(boardId).orElseThrow();
 		quizBoard.setIsDeleted(true);
 		return quizBoardRepository.save(quizBoard);
+	}
 
 	public List<GeneralPost> generalPostHide(Long generalBoardId, List<Long> generalPostId) {
 		List<GeneralPost> generalPosts = generalPostRepository.findByGeneralBoardIdAndIdIn(generalBoardId,

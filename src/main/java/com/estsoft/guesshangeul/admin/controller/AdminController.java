@@ -45,6 +45,7 @@ public class AdminController {
 	public ResponseEntity<QuizBoardResponse> deleteQuizBoard(@PathVariable Long boardId) {
 		QuizBoard quizBoard = adminService.deleteQuizBoard(boardId);
 		return ResponseEntity.ok(new QuizBoardResponse(quizBoard));
+	}
 
 	@GetMapping("/api/admin/generalBoard/{boardId}/post/changeVisibilityHide")
 	public ResponseEntity<List<GeneralPostResponse>> changeVisibilityHide(@PathVariable Long boardId,
