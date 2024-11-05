@@ -42,4 +42,10 @@ public class QuizBoard {
 	@Column(name = "is_deleted", nullable = false)
 	@ColumnDefault("false")
 	private Boolean isDeleted;
+
+	public QuizBoard(String title, Long userId, Boolean isDeleted) {
+		this.title = title;
+		this.userId = userId;
+		this.isDeleted = isDeleted;
+	}
 }

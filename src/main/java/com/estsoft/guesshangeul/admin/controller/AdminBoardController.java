@@ -10,10 +10,13 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import com.estsoft.guesshangeul.admin.service.AdminBoardService;
 import com.estsoft.guesshangeul.user.dto.UsersResponse;
 
-@RequestMapping("/admin/members")
+import lombok.RequiredArgsConstructor;
+
+@RequestMapping("/api/user")
 @Controller
+@RequiredArgsConstructor
 public class AdminBoardController {
-	private AdminBoardService adminBoardService;
+	private final AdminBoardService adminBoardService;
 
 	@GetMapping
 	public ResponseEntity<List<UsersResponse>> getAllUsers() {

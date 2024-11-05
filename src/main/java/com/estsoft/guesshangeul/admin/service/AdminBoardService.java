@@ -4,7 +4,7 @@ import java.util.List;
 
 import org.springframework.stereotype.Service;
 
-import com.estsoft.guesshangeul.user.dto.Users;
+import com.estsoft.guesshangeul.user.entity.Users;
 import com.estsoft.guesshangeul.user.dto.UsersResponse;
 import com.estsoft.guesshangeul.user.repository.UsersRepository;
 
