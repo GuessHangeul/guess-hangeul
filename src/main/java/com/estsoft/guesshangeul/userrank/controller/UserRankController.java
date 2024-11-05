@@ -24,13 +24,9 @@ import lombok.extern.slf4j.Slf4j;
 @Slf4j
 @RestController
 @RequestMapping("/api")
-@RequiredArgsConstructorS
+@RequiredArgsConstructor
 public class UserRankController {
 	private final UserRankService userRankService;
-
-	public UserRankController(UserRankService userRankService)
-	{this.userRankService = userRankService;}
-
 
 	@PostMapping("/api/boardManagerApply")
 	public void rankup(@ModelAttribute AddUserRankRequest request, HttpServletResponse response) {
