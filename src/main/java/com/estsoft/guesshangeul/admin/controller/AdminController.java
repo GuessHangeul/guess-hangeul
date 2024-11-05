@@ -42,8 +42,8 @@ public class AdminController {
 		return ResponseEntity.ok(generalPostResponses);
 	}
 
-	@GetMapping("/api/admin/generalBoard/{boardId}/post/changeVisibilityUnhide")
-	public ResponseEntity<List<GeneralPostResponse>> changeVisibilityUnhide(@PathVariable Long boardId,
+	@GetMapping("/api/admin/generalBoard/{boardId}/post/changeVisibilityUnhidden")
+	public ResponseEntity<List<GeneralPostResponse>> changeVisibilityUnhidden(@PathVariable Long boardId,
 		@RequestParam List<Long> postId) {
 		List<GeneralPost> generalPosts = adminService.generalPostUnhide(boardId, postId);
 		List<GeneralPostResponse> generalPostResponses = new ArrayList<>();
@@ -64,8 +64,8 @@ public class AdminController {
 		return ResponseEntity.ok(quizPostResponses);
 	}
 
-	@GetMapping("/api/admin/quizBoard/{boardId}/post/changeVisibilityHide")
-	public ResponseEntity<List<QuizPostResponse>> quizChangeVisibilityUnhide(@PathVariable Long boardId,
+	@GetMapping("/api/admin/quizBoard/{boardId}/post/changeVisibilityUnhidden")
+	public ResponseEntity<List<QuizPostResponse>> quizChangeVisibilityUnhidden(@PathVariable Long boardId,
 		@RequestParam List<Long> postId) {
 		List<QuizPost> quizPosts = adminService.quizPostUnhide(boardId, postId);
 		List<QuizPostResponse> quizPostResponses = new ArrayList<>();

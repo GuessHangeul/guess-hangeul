@@ -38,9 +38,9 @@ public class Users {
 	@Column(name = "nickname", nullable = false)
 	private String nickname;
 
-	@Column(name = "user_rank", nullable = false)
-	@ColumnDefault("0") //디폴트 값 0으로 지정
-	private int userrank;
+	// @Column(name = "user_rank", nullable = false)
+	// @ColumnDefault("0") //디폴트 값 0으로 지정
+	// private int userrank;
 
 	@Column(nullable = false)
 	@ColumnDefault("0")
@@ -56,8 +56,8 @@ public class Users {
 	@Column(name = "connect_count", nullable = false)
 	private int connectCount;
 
-	@Column(name = "user_agent_value", nullable = false)
-	private String userAgent;
+	// @Column(name = "user_agent_value", nullable = false)
+	// private String userAgent;
 
 	@Column(name = "is_deleted", nullable = false)
 	@ColumnDefault("false")
