@@ -51,7 +51,7 @@ public class Users implements UserDetails {
 	@Column(name = "created_at", nullable = false)
 	private LocalDateTime createdAt;
 
-	@Column(name = "connected_at", nullable = true)
+	@Column(name = "connected_at")
 	private LocalDateTime connectedAt;
 
 	@Column(name = "connect_count", nullable = false)
@@ -68,6 +68,11 @@ public class Users implements UserDetails {
 		this.email = email;
 		this.password = password;
 		this.nickname = nickname;
+	}
+
+	public Users(Long userId, String email) {
+		this.id = userId;
+		this.email = email;
 	}
 
 	@Override
