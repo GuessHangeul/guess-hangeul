@@ -63,6 +63,7 @@ class AdminControllerTest {
 		// then
 		resultActions.andExpect(status().isOk())
 			.andExpect(jsonPath("$.isDeleted").value(true));
+	}
 
 	// get /api/admin/generalBoard/{boardId}/post/changeVisibilityHide
 	@Test
