@@ -8,11 +8,11 @@ import lombok.NoArgsConstructor;
 @Getter
 @NoArgsConstructor
 public class UsersResponse {
-	Long user_id;
+	Long userId;
 	String nickname;
 
 	public UsersResponse(Users users) {
-		this.user_id = users.getId();
+		this.userId = users.getId();
 		this.nickname = users.getNickname();
 	}
 }

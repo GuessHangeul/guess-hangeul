@@ -5,6 +5,7 @@ import java.util.List;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Service;
 
+import com.estsoft.guesshangeul.exception.UsersNotFoundException;
 import com.estsoft.guesshangeul.user.dto.AddAuthorityRequest;
 import com.estsoft.guesshangeul.user.dto.AddUserRequest;
 import com.estsoft.guesshangeul.user.entity.Authorities;
@@ -14,12 +15,16 @@ import com.estsoft.guesshangeul.user.repository.UsersRepository;
 
 import lombok.RequiredArgsConstructor;
 
-@Service
 @RequiredArgsConstructor
+@Service
 public class UsersService {
 	private final UsersRepository usersRepository;
 	private final AuthoritiesRepository authoritiesRepository;
 	private final BCryptPasswordEncoder bCryptPasswordEncoder;
+
+	public Users findUserByEmail(String email) {
+		return usersRepository.findByEmail(email).orElseThrow(() -> new UsersNotFoundException("email", email));
+	}
 
 	public Users save(AddUserRequest request) {
 		request.setPassword(bCryptPasswordEncoder.encode(request.getPassword()));
