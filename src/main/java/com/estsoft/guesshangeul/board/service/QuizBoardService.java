@@ -5,7 +5,6 @@ import java.util.Optional;
 
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.context.SecurityContextHolder;
-import org.springframework.security.core.userdetails.User;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.stereotype.Service;
 
@@ -38,7 +37,7 @@ public class QuizBoardService {
 
 	public QuizBoardDto addNewQuizBoard(QuizBoardCreateRequest request) {
 		Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
-		String username = ((User)authentication.getPrincipal()).getUsername();
+		String username = ((Users)authentication.getPrincipal()).getUsername();
 
 		UserDetails userDetails = usersDetailsService.loadUserByUsername(username);
 		String email = userDetails.getUsername();
