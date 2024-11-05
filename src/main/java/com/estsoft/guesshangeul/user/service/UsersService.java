@@ -8,6 +8,8 @@ import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Service;
 
 import com.estsoft.guesshangeul.exception.InvalidEmailFormatException;
+import com.estsoft.guesshangeul.exception.UsersEmailDuplicateException;
+import com.estsoft.guesshangeul.exception.UsersNicknameDuplicateException;
 import com.estsoft.guesshangeul.exception.UsersNotFoundException;
 import com.estsoft.guesshangeul.user.dto.AddAuthorityRequest;
 import com.estsoft.guesshangeul.user.dto.AddUserRequest;
@@ -40,6 +42,14 @@ public class UsersService {
 	}
 
 	public Users save(AddUserRequest request) {
+		String email = request.getEmail();
+		if (checkEmailExists(email)) {
+			throw new UsersEmailDuplicateException(email);
+		}
+		String nickname = request.getNickname();
+		if (checkNicknameExists(request.getNickname())) {
+			throw new UsersNicknameDuplicateException(nickname);
+		}
 		request.setPassword(bCryptPasswordEncoder.encode(request.getPassword()));
 		return usersRepository.save(request.toEntity());
 	}

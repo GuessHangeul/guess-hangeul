@@ -11,6 +11,9 @@ import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.transaction.annotation.Transactional;
 
 import com.estsoft.guesshangeul.exception.InvalidEmailFormatException;
+import com.estsoft.guesshangeul.exception.UsersEmailDuplicateException;
+import com.estsoft.guesshangeul.exception.UsersNicknameDuplicateException;
+import com.estsoft.guesshangeul.user.dto.AddUserRequest;
 import com.estsoft.guesshangeul.user.entity.Users;
 import com.estsoft.guesshangeul.user.repository.UsersRepository;
 import com.estsoft.guesshangeul.user.service.UsersService;
@@ -82,5 +85,32 @@ public class UsersServiceTest {
 		// then
 		assertTrue(nicknameExists);
 		assertFalse(nicknameNotExists);
+	}
+
+	@Test
+	void testSaveThrowsDuplicateException() {
+		// given
+		String password = "123";
+		List<Users> usersList = List.of(
+			new Users("user@example.com", password, "name"),
+			new Users("other@email.com", password, "exist-user")
+		);
+		usersRepository.saveAll(usersList);
+
+		// when & then
+		Users user1 = usersList.get(0);
+		String duplicatedEmail = user1.getEmail();
+		AddUserRequest request1 = new AddUserRequest(duplicatedEmail, password, "other-name");
+
+		request1.setEmail(duplicatedEmail);
+		assertThrows(UsersEmailDuplicateException.class, () -> usersService.save(request1),
+			"Duplicate on email: " + duplicatedEmail);
+
+		Users user2 = usersList.get(1);
+		String duplicatedNickname = user2.getNickname();
+		AddUserRequest request2 = new AddUserRequest("new@email.com", password, duplicatedNickname);
+		request2.setNickname(duplicatedNickname);
+		assertThrows(UsersNicknameDuplicateException.class, () -> usersService.save(request2),
+			"Duplicate on nickname: " + duplicatedNickname);
 	}
 }
