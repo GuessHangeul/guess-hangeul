@@ -39,12 +39,12 @@ class AdminControllerTest {
 	@Test
 	public void testChangeVisibilityHide() throws Exception {
 		// given
-		Long booardId = 1L;
+		Long boardId = 1L;
 		List<Long> postIds = Arrays.asList(1L, 3L);
 
 		// when
 		ResultActions resultActions = mockMvc
-			.perform(get("/api/admin/generalBoard/{boardId}/post/changeVisibilityHide", booardId)
+			.perform(get("/api/admin/generalBoard/{boardId}/post/changeVisibilityHide", boardId)
 				.queryParam("postId", postIds.stream().map(String::valueOf).toArray(String[]::new))
 				.accept(MediaType.APPLICATION_JSON));
 
@@ -58,12 +58,12 @@ class AdminControllerTest {
 	@Test
 	public void testChangeVisibilityUnhidden() throws Exception {
 		// given
-		Long booardId = 1L;
+		Long boardId = 1L;
 		List<Long> postIds = Arrays.asList(1L, 3L);
 
 		// when
 		ResultActions resultActions = mockMvc
-			.perform(get("/api/admin/generalBoard/{boardId}/post/changeVisibilityUnhidden", booardId)
+			.perform(get("/api/admin/generalBoard/{boardId}/post/changeVisibilityUnhidden", boardId)
 				.queryParam("postId", postIds.stream().map(String::valueOf).toArray(String[]::new))
 				.accept(MediaType.APPLICATION_JSON));
 
@@ -77,12 +77,12 @@ class AdminControllerTest {
 	@Test
 	public void testQuizChangeVisibilityHide() throws Exception {
 		// given
-		Long booardId = 1L;
+		Long boardId = 1L;
 		List<Long> postIds = Arrays.asList(1L, 3L);
 
 		// when
 		ResultActions resultActions = mockMvc
-			.perform(get("/api/admin/quizBoard/{boardId}/post/changeVisibilityHide", booardId)
+			.perform(get("/api/admin/quizBoard/{boardId}/post/changeVisibilityHide", boardId)
 				.queryParam("postId", postIds.stream().map(String::valueOf).toArray(String[]::new))
 				.accept(MediaType.APPLICATION_JSON));
 
@@ -96,12 +96,12 @@ class AdminControllerTest {
 	@Test
 	public void testQuizChangeVisibilityUnhidden() throws Exception {
 		// given
-		Long booardId = 1L;
+		Long boardId = 1L;
 		List<Long> postIds = Arrays.asList(1L, 3L);
 
 		// when
 		ResultActions resultActions = mockMvc
-			.perform(get("/api/admin/quizBoard/{boardId}/post/changeVisibilityUnhidden", booardId)
+			.perform(get("/api/admin/quizBoard/{boardId}/post/changeVisibilityUnhidden", boardId)
 				.queryParam("postId", postIds.stream().map(String::valueOf).toArray(String[]::new))
 				.accept(MediaType.APPLICATION_JSON));
 
