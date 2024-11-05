@@ -7,6 +7,7 @@ import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
+import com.estsoft.guesshangeul.board.dto.GeneralBoardDto;
 import com.estsoft.guesshangeul.board.dto.GeneralBoardResponse;
 import com.estsoft.guesshangeul.board.service.GeneralBoardService;
 
@@ -21,7 +22,8 @@ public class GeneralBoardController {
 	@GetMapping
 	public ResponseEntity<List<GeneralBoardResponse>> readAllExistingGeneralBoard() {
 		// 삭제되지 않은 일반 게시판 리스트를 반환
-		List<GeneralBoardResponse> response = generalBoardService.findAllGeneralBoardByIsDeleted(false);
+		List<GeneralBoardDto> result = generalBoardService.findAllGeneralBoardByIsDeleted(false);
+		List<GeneralBoardResponse> response = result.stream().map(GeneralBoardResponse::new).toList();
 		return ResponseEntity.ok(response);
 	}
 }

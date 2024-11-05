@@ -16,7 +16,7 @@ import org.springframework.test.web.servlet.MockMvc;
 import org.springframework.test.web.servlet.ResultActions;
 
 import com.estsoft.guesshangeul.board.controller.GeneralBoardController;
-import com.estsoft.guesshangeul.board.dto.GeneralBoardResponse;
+import com.estsoft.guesshangeul.board.dto.GeneralBoardDto;
 import com.estsoft.guesshangeul.board.entity.GeneralBoard;
 import com.estsoft.guesshangeul.board.service.GeneralBoardService;
 
@@ -32,8 +32,8 @@ public class GeneralBoardControllerTest {
 	@Test
 	void testReadAllExistingGeneralBoardSuccess() throws Exception {
 		// given
-		GeneralBoard quizBoard = new GeneralBoard("title1", false);
-		List<GeneralBoardResponse> result = List.of(new GeneralBoardResponse(quizBoard));
+		GeneralBoard generalBoard = new GeneralBoard("title1", false);
+		List<GeneralBoardDto> result = List.of(new GeneralBoardDto(generalBoard));
 		when(generalBoardService.findAllGeneralBoardByIsDeleted(false)).thenReturn(result);
 
 		// when

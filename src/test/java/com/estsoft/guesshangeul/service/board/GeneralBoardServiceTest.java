@@ -9,7 +9,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.transaction.annotation.Transactional;
 
-import com.estsoft.guesshangeul.board.dto.GeneralBoardResponse;
+import com.estsoft.guesshangeul.board.dto.GeneralBoardDto;
 import com.estsoft.guesshangeul.board.entity.GeneralBoard;
 import com.estsoft.guesshangeul.board.repository.GeneralBoardRepository;
 import com.estsoft.guesshangeul.board.service.GeneralBoardService;
@@ -33,8 +33,8 @@ public class GeneralBoardServiceTest {
 		generalBoardRepository.saveAll(List.of(generalBoard1, generalBoard2, generalBoard3));
 
 		// when
-		List<GeneralBoardResponse> existingGeneralBoardList = generalBoardService.findAllGeneralBoardByIsDeleted(false);
-		List<GeneralBoardResponse> deletedGeneralBoardList = generalBoardService.findAllGeneralBoardByIsDeleted(true);
+		List<GeneralBoardDto> existingGeneralBoardList = generalBoardService.findAllGeneralBoardByIsDeleted(false);
+		List<GeneralBoardDto> deletedGeneralBoardList = generalBoardService.findAllGeneralBoardByIsDeleted(true);
 
 		// then
 		assertThat(existingGeneralBoardList).hasSize(2);
