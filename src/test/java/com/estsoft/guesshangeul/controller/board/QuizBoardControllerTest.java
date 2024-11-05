@@ -21,6 +21,7 @@ import com.estsoft.guesshangeul.board.dto.QuizBoardCreateRequest;
 import com.estsoft.guesshangeul.board.dto.QuizBoardDto;
 import com.estsoft.guesshangeul.board.entity.QuizBoard;
 import com.estsoft.guesshangeul.board.service.QuizBoardService;
+import com.estsoft.guesshangeul.user.entity.Users;
 import com.estsoft.guesshangeul.user.service.UsersService;
 import com.fasterxml.jackson.databind.ObjectMapper;
 
@@ -42,7 +43,8 @@ public class QuizBoardControllerTest {
 	@Test
 	void testReadAllExistingQuizBoardSuccess() throws Exception {
 		// given
-		QuizBoard quizBoard = new QuizBoard("title1", 1L, false);
+		Users users = new Users(1L, "example@email.com");
+		QuizBoard quizBoard = new QuizBoard("title1", users, false);
 		List<QuizBoardDto> result = List.of(new QuizBoardDto(quizBoard));
 		when(quizBoardService.findAllQuizBoardByIsDeleted(false)).thenReturn(result);
 
@@ -58,7 +60,8 @@ public class QuizBoardControllerTest {
 	@Test
 	void testCreateQuizBoardSuccess() throws Exception {
 		// given
-		QuizBoard quizBoard = new QuizBoard("title", 1L, false);
+		Users users = new Users(1L, "example@email.com");
+		QuizBoard quizBoard = new QuizBoard("title", users, false);
 		QuizBoardDto result = new QuizBoardDto(quizBoard);
 		QuizBoardCreateRequest request = new QuizBoardCreateRequest(quizBoard.getTitle());
 		String json = objectMapper.writeValueAsString(request);

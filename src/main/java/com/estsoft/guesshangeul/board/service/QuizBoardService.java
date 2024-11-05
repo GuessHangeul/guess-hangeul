@@ -14,7 +14,6 @@ import com.estsoft.guesshangeul.board.entity.QuizBoard;
 import com.estsoft.guesshangeul.board.repository.QuizBoardRepository;
 import com.estsoft.guesshangeul.user.entity.Users;
 import com.estsoft.guesshangeul.user.service.UsersDetailsService;
-import com.estsoft.guesshangeul.user.service.UsersService;
 
 import lombok.RequiredArgsConstructor;
 
@@ -23,7 +22,6 @@ import lombok.RequiredArgsConstructor;
 public class QuizBoardService {
 	private final QuizBoardRepository quizBoardRepository;
 	private final UsersDetailsService usersDetailsService;
-	private final UsersService usersService;
 
 	public List<QuizBoardDto> findAllQuizBoardByIsDeleted(Boolean isDeleted) {
 		List<QuizBoard> quizBoardList = quizBoardRepository.findAllByIsDeleted(isDeleted);
@@ -37,14 +35,11 @@ public class QuizBoardService {
 
 	public QuizBoardDto addNewQuizBoard(QuizBoardCreateRequest request) {
 		Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
-		String username = ((Users)authentication.getPrincipal()).getUsername();
+		String username = ((UserDetails)authentication.getPrincipal()).getUsername();
 
-		UserDetails userDetails = usersDetailsService.loadUserByUsername(username);
-		String email = userDetails.getUsername();
-		Users users = usersService.findUserByEmail(email);
-		Long userId = users.getId();
+		Users users = (Users)usersDetailsService.loadUserByUsername(username);
 		String title = request.getTitle();
-		QuizBoard quizBoard = quizBoardRepository.save(new QuizBoard(title, userId, false));
+		QuizBoard quizBoard = quizBoardRepository.save(new QuizBoard(title, users, false));
 
 		return new QuizBoardDto(quizBoard);
 	}
