@@ -45,7 +45,7 @@ public class Users implements UserDetails {
 	private String nickname;
 
 	@Column(nullable = false)
-	private int score = 0;
+	private int score;
 
 	@CreatedDate
 	@Column(name = "created_at", nullable = false)
