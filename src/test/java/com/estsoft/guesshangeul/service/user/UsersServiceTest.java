@@ -66,4 +66,22 @@ public class UsersServiceTest {
 				"Wrong on email: " + email);
 		}
 	}
+
+	@Test
+	void testCheckNicknameExistsSuccess() {
+		// given
+		String exists = "exist-user";
+		String notExists = "not-exists";
+
+		Users users = new Users("user@example.com", "", exists);
+		usersRepository.save(users);
+
+		// when
+		Boolean nicknameExists = usersService.checkNicknameExists(exists);
+		Boolean nicknameNotExists = usersService.checkNicknameExists(notExists);
+
+		// then
+		assertTrue(nicknameExists);
+		assertFalse(nicknameNotExists);
+	}
 }

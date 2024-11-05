@@ -50,6 +50,11 @@ public class UsersService {
 		return result.isPresent();
 	}
 
+	public Boolean checkNicknameExists(String nickname) {
+		Optional<Users> result = usersRepository.findByNickname(nickname);
+		return result.isPresent();
+	}
+
 	public List<Authorities> saveAuthorities(List<AddAuthorityRequest> addAuthorityRequestList) {
 		List<Authorities> authorities = addAuthorityRequestList.stream()
 			.map(AddAuthorityRequest::toEntity)
