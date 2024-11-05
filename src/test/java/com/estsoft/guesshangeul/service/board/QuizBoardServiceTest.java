@@ -10,6 +10,7 @@ import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.boot.test.mock.mockito.MockBean;
+import org.springframework.data.domain.Pageable;
 import org.springframework.security.test.context.support.WithMockUser;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -53,8 +54,10 @@ public class QuizBoardServiceTest {
 		quizBoardRepository.saveAll(List.of(quizBoard1, quizBoard2, quizBoard3));
 
 		// when
-		List<QuizBoardDto> existingQuizBoardList = quizBoardService.findAllQuizBoardByIsDeleted(false);
-		List<QuizBoardDto> deletedQuizBoardList = quizBoardService.findAllQuizBoardByIsDeleted(true);
+		List<QuizBoardDto> existingQuizBoardList = quizBoardService.findAllQuizBoardByIsDeleted(false,
+			Pageable.unpaged());
+		List<QuizBoardDto> deletedQuizBoardList = quizBoardService.findAllQuizBoardByIsDeleted(true,
+			Pageable.unpaged());
 
 		// then
 		assertThat(existingQuizBoardList).hasSize(2);

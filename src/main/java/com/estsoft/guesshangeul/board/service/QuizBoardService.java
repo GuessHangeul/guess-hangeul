@@ -3,6 +3,7 @@ package com.estsoft.guesshangeul.board.service;
 import java.util.List;
 import java.util.Optional;
 
+import org.springframework.data.domain.Pageable;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.core.userdetails.UserDetails;
@@ -23,8 +24,8 @@ public class QuizBoardService {
 	private final QuizBoardRepository quizBoardRepository;
 	private final UsersDetailsService usersDetailsService;
 
-	public List<QuizBoardDto> findAllQuizBoardByIsDeleted(Boolean isDeleted) {
-		List<QuizBoard> quizBoardList = quizBoardRepository.findAllByIsDeleted(isDeleted);
+	public List<QuizBoardDto> findAllQuizBoardByIsDeleted(Boolean isDeleted, Pageable pageable) {
+		List<QuizBoard> quizBoardList = quizBoardRepository.findAllByIsDeleted(isDeleted, pageable);
 		return quizBoardList.stream().map(QuizBoardDto::new).toList();
 	}
 

@@ -2,6 +2,7 @@ package com.estsoft.guesshangeul.controller.board;
 
 import static org.mockito.Mockito.*;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.*;
+import static org.springframework.test.web.servlet.result.MockMvcResultHandlers.*;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.*;
 
 import java.util.List;
@@ -10,6 +11,7 @@ import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.autoconfigure.web.servlet.WebMvcTest;
 import org.springframework.boot.test.mock.mockito.MockBean;
+import org.springframework.data.domain.Pageable;
 import org.springframework.http.MediaType;
 import org.springframework.security.test.context.support.WithMockUser;
 import org.springframework.test.web.servlet.MockMvc;
@@ -34,11 +36,12 @@ public class GeneralBoardControllerTest {
 		// given
 		GeneralBoard generalBoard = new GeneralBoard("title1", false);
 		List<GeneralBoardDto> result = List.of(new GeneralBoardDto(generalBoard));
-		when(generalBoardService.findAllGeneralBoardByIsDeleted(false)).thenReturn(result);
+		when(generalBoardService.findAllGeneralBoardByIsDeleted(eq(false), any(Pageable.class)))
+			.thenReturn(result);
 
 		// when
 		ResultActions resultActions = mockMvc.perform(get("/api/generalBoard")
-			.accept(MediaType.APPLICATION_JSON));
+			.accept(MediaType.APPLICATION_JSON)).andDo(print());
 
 		// then
 		resultActions.andExpect(status().isOk())

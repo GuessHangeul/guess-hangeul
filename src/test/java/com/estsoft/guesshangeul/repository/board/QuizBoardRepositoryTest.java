@@ -11,6 +11,7 @@ import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.autoconfigure.jdbc.AutoConfigureTestDatabase;
 import org.springframework.boot.test.autoconfigure.orm.jpa.DataJpaTest;
+import org.springframework.data.domain.Pageable;
 
 import com.estsoft.guesshangeul.board.entity.QuizBoard;
 import com.estsoft.guesshangeul.board.repository.QuizBoardRepository;
@@ -38,8 +39,8 @@ public class QuizBoardRepositoryTest {
 		quizBoardRepository.saveAll(List.of(quizBoard1, quizBoard2, quizBoard3));
 
 		// when
-		List<QuizBoard> existingQuizBoardList = quizBoardRepository.findAllByIsDeleted(false);
-		List<QuizBoard> deletedQuizBoardList = quizBoardRepository.findAllByIsDeleted(true);
+		List<QuizBoard> existingQuizBoardList = quizBoardRepository.findAllByIsDeleted(false, Pageable.unpaged());
+		List<QuizBoard> deletedQuizBoardList = quizBoardRepository.findAllByIsDeleted(true, Pageable.unpaged());
 
 		// then
 		assertThat(existingQuizBoardList).hasSize(2);

@@ -2,6 +2,9 @@ package com.estsoft.guesshangeul.board.controller;
 
 import java.util.List;
 
+import org.springframework.data.domain.Pageable;
+import org.springframework.data.domain.Sort;
+import org.springframework.data.web.PageableDefault;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.core.annotation.AuthenticationPrincipal;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -36,9 +39,10 @@ public class QuizBoardController {
 	}
 
 	@GetMapping
-	public ResponseEntity<List<QuizBoardResponse>> readAllExistingQuizBoard() {
+	public ResponseEntity<List<QuizBoardResponse>> readAllExistingQuizBoard(
+		@PageableDefault(size = 6, sort = "id", direction = Sort.Direction.DESC) Pageable pageable) {
 		// 삭제되지 않은 퀴즈 게시판 리스트를 반환
-		List<QuizBoardDto> result = quizBoardService.findAllQuizBoardByIsDeleted(false);
+		List<QuizBoardDto> result = quizBoardService.findAllQuizBoardByIsDeleted(false, pageable);
 		List<QuizBoardResponse> response = result.stream().map(QuizBoardResponse::new).toList();
 		return ResponseEntity.ok(response);
 	}

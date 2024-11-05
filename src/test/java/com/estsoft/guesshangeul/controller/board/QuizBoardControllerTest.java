@@ -3,6 +3,7 @@ package com.estsoft.guesshangeul.controller.board;
 import static org.mockito.Mockito.*;
 import static org.springframework.security.test.web.servlet.request.SecurityMockMvcRequestPostProcessors.*;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.*;
+import static org.springframework.test.web.servlet.result.MockMvcResultHandlers.*;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.*;
 
 import java.util.List;
@@ -11,6 +12,7 @@ import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.autoconfigure.web.servlet.WebMvcTest;
 import org.springframework.boot.test.mock.mockito.MockBean;
+import org.springframework.data.domain.Pageable;
 import org.springframework.http.MediaType;
 import org.springframework.security.test.context.support.WithMockUser;
 import org.springframework.test.web.servlet.MockMvc;
@@ -46,11 +48,12 @@ public class QuizBoardControllerTest {
 		Users users = new Users(1L, "example@email.com");
 		QuizBoard quizBoard = new QuizBoard("title1", users, false);
 		List<QuizBoardDto> result = List.of(new QuizBoardDto(quizBoard));
-		when(quizBoardService.findAllQuizBoardByIsDeleted(false)).thenReturn(result);
+		when(quizBoardService.findAllQuizBoardByIsDeleted(eq(false), any(Pageable.class)))
+			.thenReturn(result);
 
 		// when
 		ResultActions resultActions = mockMvc.perform(get("/api/quizBoard")
-			.accept(MediaType.APPLICATION_JSON));
+			.accept(MediaType.APPLICATION_JSON)).andDo(print());
 
 		// then
 		resultActions.andExpect(status().isOk())
