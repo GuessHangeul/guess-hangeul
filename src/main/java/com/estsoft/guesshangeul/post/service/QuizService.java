@@ -1,3 +1,4 @@
+// QuizService.java
 package com.estsoft.guesshangeul.post.service;
 
 import com.estsoft.guesshangeul.post.dto.CheckAnswerRequest;
@@ -16,18 +17,13 @@ public class QuizService {
 	private QuizPostRepository quizPostRepository;
 
 	@Autowired
-	private UsersRepository usersRepository;
+	private UsersRepository userRepository;
 
 	public CheckAnswerResponse checkAnswer(CheckAnswerRequest request) {
-		QuizPost quizPost = quizPostRepository.findById(request.getQuizPostId()).orElse(null);
-		Users user = usersRepository.findById(request.getUserId()).orElse(null);
+		QuizPost quizPost = quizPostRepository.findById(request.getQuizPostId()).get(); // Optional에서 직접 가져오기
+		Users user = userRepository.findById(request.getUserId()).get(); // Optional에서 직접 가져오기
 
 		CheckAnswerResponse response = new CheckAnswerResponse();
-
-		if (quizPost == null || user == null) {
-			response.setMessage("퀴즈 포스트 또는 유저를 찾을 수 없습니다.");
-			return response;
-		}
 
 		if (quizPost.getAnswer().equalsIgnoreCase(request.getAnswer())) {
 			user.setScore(user.getScore() + 10); // 점수 10점 추가
@@ -35,13 +31,28 @@ public class QuizService {
 			response.setScore(user.getScore());
 			response.setMessage("정답입니다! 10점을 획득하셨습니다.");
 		} else {
-			user.setScore(user.getScore() - 20); // 점수 20점 감점
 			response.setCorrect(false);
 			response.setScore(user.getScore());
-			response.setMessage("오답입니다. 정답은 " + quizPost.getAnswer() + "입니다.");
+			response.setMessage("오답입니다.");
 		}
 
-		usersRepository.save(user); // 유저 점수 저장
+		userRepository.save(user); // 유저 점수 저장
+		return response;
+	}
+
+	public CheckAnswerResponse checkCorrectAnswer(CheckAnswerRequest request) {
+		QuizPost quizPost = quizPostRepository.findById(request.getQuizPostId()).get(); // Optional에서 직접 가져오기
+		Users user = userRepository.findById(request.getUserId()).get(); // Optional에서 직접 가져오기
+
+		CheckAnswerResponse response = new CheckAnswerResponse();
+
+		// 점수 20점 감점
+		user.setScore(user.getScore() - 20);
+		response.setScore(user.getScore());
+		response.setMessage("정답은 " + quizPost.getAnswer() + "입니다.");
+
+		userRepository.save(user); // 유저 점수 저장
 		return response;
 	}
 }
+
