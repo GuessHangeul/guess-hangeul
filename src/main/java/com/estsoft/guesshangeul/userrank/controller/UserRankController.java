@@ -1,18 +1,10 @@
 package com.estsoft.guesshangeul.userrank.controller;
 
-import java.io.IOException;
-import java.util.ArrayList;
-import java.util.List;
-
-import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
-import com.estsoft.guesshangeul.user.dto.AddAuthorityRequest;
-import com.estsoft.guesshangeul.user.dto.AddUserRequest;
-import com.estsoft.guesshangeul.user.entity.Users;
 import com.estsoft.guesshangeul.userrank.dto.AddUserRankRequest;
 import com.estsoft.guesshangeul.userrank.entity.boardManagerApply;
 import com.estsoft.guesshangeul.userrank.service.UserRankService;
