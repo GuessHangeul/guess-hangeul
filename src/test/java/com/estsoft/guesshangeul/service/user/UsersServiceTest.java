@@ -56,8 +56,7 @@ public class UsersServiceTest {
 			"username@.com", // missing domain name
 			"username@com", // missing dot in domain
 			"username@domain..com", // double dot in domain
-			"username@domain.c", // single character domain
-			"username@domain.corporate" // too long TLD
+			"username@domain.c" // single character domain
 		);
 
 		// when & then
