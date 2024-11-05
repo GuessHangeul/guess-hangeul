@@ -10,6 +10,7 @@ import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.stereotype.Service;
 
+import com.estsoft.guesshangeul.user.dto.AddAuthorityRequest;
 import com.estsoft.guesshangeul.user.entity.Authorities;
 import com.estsoft.guesshangeul.user.entity.Users;
 import com.estsoft.guesshangeul.user.repository.AuthoritiesRepository;
@@ -25,12 +26,15 @@ public class UsersDetailsService implements UserDetailsService {
 
 	@Override
 	public UserDetails loadUserByUsername(String username) throws UsernameNotFoundException {
+		// 아이디로 DB 조회후 UserDetails에 담아 반환
 		Users users = usersRepository.findByEmail(username)
 			.orElseThrow(() -> new UsernameNotFoundException(username));
+		// userId 로 권한을 가져와 UserDetails에 입력
 		users.setGrantedAuthority(loadUserAuthorities(users.getId()));
 		return users;
 	}
 
+	// 권한 조회
 	public ArrayList<GrantedAuthority> loadUserAuthorities(Long userId) {
 		List<Authorities> authorities = authoritiesRepository.findByUserId(userId);
 		ArrayList<GrantedAuthority> grantedAuthorities = new ArrayList<>();
@@ -40,6 +44,14 @@ public class UsersDetailsService implements UserDetailsService {
 		}
 
 		return grantedAuthorities;
+	}
+
+	// 권한 추가
+	public List<Authorities> saveAuthorities(List<AddAuthorityRequest> addAuthorityRequestList) {
+		List<Authorities> authorities = addAuthorityRequestList.stream()
+			.map(AddAuthorityRequest::toEntity)
+			.toList();
+		return authoritiesRepository.saveAll(authorities);
 	}
 
 }
