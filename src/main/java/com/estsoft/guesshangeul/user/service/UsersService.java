@@ -1,27 +1,40 @@
 package com.estsoft.guesshangeul.user.service;
 
-import org.springframework.security.core.userdetails.UserDetailsService;
-import org.springframework.security.core.userdetails.UsernameNotFoundException;
+import java.util.List;
+
+import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Service;
 
 import com.estsoft.guesshangeul.exception.UsersNotFoundException;
+import com.estsoft.guesshangeul.user.dto.AddAuthorityRequest;
+import com.estsoft.guesshangeul.user.dto.AddUserRequest;
+import com.estsoft.guesshangeul.user.entity.Authorities;
 import com.estsoft.guesshangeul.user.entity.Users;
+import com.estsoft.guesshangeul.user.repository.AuthoritiesRepository;
 import com.estsoft.guesshangeul.user.repository.UsersRepository;
 
 import lombok.RequiredArgsConstructor;
 
 @RequiredArgsConstructor
 @Service
-public class UsersService implements UserDetailsService {
+public class UsersService {
 	private final UsersRepository usersRepository;
+	private final AuthoritiesRepository authoritiesRepository;
+	private final BCryptPasswordEncoder bCryptPasswordEncoder;
 
-	public boolean isUserExistsByUserId(Long userId) {
-		return usersRepository.existsById(userId);
+	public Users findUserByEmail(String email) {
+		return usersRepository.findByEmail(email).orElseThrow(() -> new UsersNotFoundException("email", email));
 	}
 
-	@Override
-	public Users loadUserByUsername(String email) throws UsernameNotFoundException {
-		return usersRepository.findByEmail(email)
-			.orElseThrow(() -> new UsersNotFoundException("email", email));
+	public Users save(AddUserRequest request) {
+		request.setPassword(bCryptPasswordEncoder.encode(request.getPassword()));
+		return usersRepository.save(request.toEntity());
+	}
+
+	public List<Authorities> saveAuthorities(List<AddAuthorityRequest> addAuthorityRequestList) {
+		List<Authorities> authorities = addAuthorityRequestList.stream()
+			.map(AddAuthorityRequest::toEntity)
+			.toList();
+		return authoritiesRepository.saveAll(authorities);
 	}
 }

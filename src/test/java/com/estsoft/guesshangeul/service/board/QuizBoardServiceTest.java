@@ -18,6 +18,7 @@ import com.estsoft.guesshangeul.board.entity.QuizBoard;
 import com.estsoft.guesshangeul.board.repository.QuizBoardRepository;
 import com.estsoft.guesshangeul.board.service.QuizBoardService;
 import com.estsoft.guesshangeul.user.entity.Users;
+import com.estsoft.guesshangeul.user.service.UsersDetailsService;
 import com.estsoft.guesshangeul.user.service.UsersService;
 
 @SpringBootTest
@@ -28,6 +29,9 @@ public class QuizBoardServiceTest {
 
 	@Autowired
 	private QuizBoardRepository quizBoardRepository;
+
+	@MockBean
+	private UsersDetailsService usersDetailsService;
 
 	@MockBean
 	private UsersService usersService;
@@ -66,8 +70,10 @@ public class QuizBoardServiceTest {
 	void testAddNewQuizBoardSuccess() {
 		// given
 		QuizBoardCreateRequest request = new QuizBoardCreateRequest("title");
+		Users users = new Users(1L, "example@email.com");
 		String username = anyString();
-		when(usersService.loadUserByUsername(username)).thenReturn(new Users(1L));
+		when(usersDetailsService.loadUserByUsername(username)).thenReturn(users);
+		when(usersService.findUserByEmail(users.getEmail())).thenReturn(users);
 
 		// when
 		QuizBoardDto quizBoard = quizBoardService.addNewQuizBoard(request);

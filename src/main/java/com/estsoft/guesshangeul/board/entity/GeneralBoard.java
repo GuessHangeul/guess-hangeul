@@ -39,4 +39,9 @@ public class GeneralBoard {
 	@Column(name = "is_deleted", nullable = false)
 	@ColumnDefault("false")
 	private Boolean isDeleted;
+
+	public GeneralBoard(String title, Boolean isDeleted) {
+		this.title = title;
+		this.isDeleted = isDeleted;
+	}
 }
