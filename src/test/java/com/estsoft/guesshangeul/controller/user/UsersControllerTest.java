@@ -47,13 +47,13 @@ public class UsersControllerTest {
 		doReturn(false).when(usersService).checkEmailExists(email2);
 
 		// when
-		ResultActions resultActions1 = mockMvc.perform(post("/api/emailExists")
+		ResultActions resultActions1 = mockMvc.perform(post("/api/checkEmailDuplicate")
 			.contentType(MediaType.APPLICATION_JSON)
 			.accept(MediaType.APPLICATION_JSON)
 			.content(json1)
 			.with(csrf()));
 
-		ResultActions resultActions2 = mockMvc.perform(post("/api/emailExists")
+		ResultActions resultActions2 = mockMvc.perform(post("/api/checkEmailDuplicate")
 			.contentType(MediaType.APPLICATION_JSON)
 			.accept(MediaType.APPLICATION_JSON)
 			.content(json2)
@@ -84,13 +84,13 @@ public class UsersControllerTest {
 		doReturn(false).when(usersService).checkNicknameExists(nickname2);
 
 		// when
-		ResultActions resultActions1 = mockMvc.perform(post("/api/nicknameExists")
+		ResultActions resultActions1 = mockMvc.perform(post("/api/checkNicknameDuplicate")
 			.contentType(MediaType.APPLICATION_JSON)
 			.accept(MediaType.APPLICATION_JSON)
 			.content(json1)
 			.with(csrf()));
 
-		ResultActions resultActions2 = mockMvc.perform(post("/api/nicknameExists")
+		ResultActions resultActions2 = mockMvc.perform(post("/api/checkNicknameDuplicate")
 			.contentType(MediaType.APPLICATION_JSON)
 			.accept(MediaType.APPLICATION_JSON)
 			.content(json2)

@@ -59,7 +59,7 @@ public class UsersController {
 				.toList());
 	}
 
-	@PostMapping("/emailExists")
+	@PostMapping("/checkEmailDuplicate")
 	public ResponseEntity<CheckEmailExistsResponse> checkEmailExists(@RequestBody CheckEmailExistsRequest request) {
 		String email = request.getEmail();
 		Boolean result = usersService.checkEmailExists(email);
@@ -68,7 +68,7 @@ public class UsersController {
 		return ResponseEntity.ok(response);
 	}
 
-	@PostMapping("/nicknameExists")
+	@PostMapping("/checkNicknameDuplicate")
 	public ResponseEntity<CheckNicknameExistsResponse> checkNicknameExists(
 		@RequestBody CheckNicknameExistsRequest request) {
 		String nickname = request.getNickname();
