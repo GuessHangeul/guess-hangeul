@@ -87,10 +87,10 @@ public class UsersController {
 
 	// 비밀번호 변경 메일
 	@PostMapping("/resetPasswordRequest/{email}")
-	public ResponseEntity<String> resetPassword(@PathVariable String email) {
+	public ResponseEntity<String> createTokenSendEmail(@PathVariable String email) {
 		Users user = usersService.findUserByEmail(email);
 
-		usersService.createPasswordResetTokenForUser(user);
+		usersService.createTokenSendEmail(user);
 		return ResponseEntity.ok("비밀번호 재설정 링크가 이메일로 발송되었습니다.");
 	}
 

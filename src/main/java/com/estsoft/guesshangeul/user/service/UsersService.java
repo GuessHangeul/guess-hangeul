@@ -74,7 +74,7 @@ public class UsersService {
 
 	// 비밀번호 변경 메일
 	@Transactional
-	public void createPasswordResetTokenForUser(Users user) {
+	public void createTokenSendEmail(Users user) {
 		// 기존 토큰이 있다면 삭제
 		tokenRepository.deleteByUser(user);
 
