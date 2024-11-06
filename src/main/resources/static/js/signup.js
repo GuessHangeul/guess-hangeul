@@ -58,17 +58,18 @@ verifyPwd.addEventListener('input', validatePasswordMatch);
 
 // 회원가입 버튼 클릭 시 유호성 검사 함수
 signupForm.addEventListener('submit', function (event) {
-    event.preventDefault();
 
     if (!PasswordRule) {
         alert('비밀번호가 규칙에 맞지 않습니다.');
+        event.preventDefault();
         return;
     }
 
     if (!PasswordMatch) {
         alert('비밀번호가 일치하지 않습니다. 다시 확인해주세요.');
+        event.preventDefault();
         return;
     }
-
-    this.submit();
+    
+    alert('회원가입이 완료되었습니다!');
 });
