@@ -1,3 +1,4 @@
+// QuizController.java
 package com.estsoft.guesshangeul.post.controller;
 
 import com.estsoft.guesshangeul.post.dto.CheckAnswerRequest;
@@ -14,9 +15,16 @@ public class QuizController {
 	@Autowired
 	private QuizService quizService;
 
-	@PostMapping("/checkanswer")
+	@PostMapping("/checkAnswer")
 	public ResponseEntity<CheckAnswerResponse> checkAnswer(@RequestBody CheckAnswerRequest request) {
 		CheckAnswerResponse response = quizService.checkAnswer(request);
 		return ResponseEntity.ok(response);
 	}
+
+	@PostMapping("/checkCorrectAnswer")
+	public ResponseEntity<CheckAnswerResponse> checkCorrectAnswer(@RequestBody CheckAnswerRequest request) {
+		CheckAnswerResponse response = quizService.checkCorrectAnswer(request);
+		return ResponseEntity.ok(response);
+	}
 }
+
