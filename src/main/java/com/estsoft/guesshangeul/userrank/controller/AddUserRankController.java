@@ -17,7 +17,7 @@ import lombok.extern.slf4j.Slf4j;
 @Slf4j
 @RestController
 @RequestMapping("/api")
-public class AddUserRankController {
+public class AddUserRankController {//신청 내용 저장을 위한 컨트롤러
 	private final BoardManagerApplyService service;
 
 	public AddUserRankController(BoardManagerApplyService service) {
