@@ -17,6 +17,10 @@ import org.springframework.web.bind.annotation.RestController;
 import com.estsoft.guesshangeul.user.dto.AddAuthorityRequest;
 import com.estsoft.guesshangeul.user.dto.AddAuthorityResponse;
 import com.estsoft.guesshangeul.user.dto.AddUserRequest;
+import com.estsoft.guesshangeul.user.dto.CheckEmailExistsRequest;
+import com.estsoft.guesshangeul.user.dto.CheckEmailExistsResponse;
+import com.estsoft.guesshangeul.user.dto.CheckNicknameExistsRequest;
+import com.estsoft.guesshangeul.user.dto.CheckNicknameExistsResponse;
 import com.estsoft.guesshangeul.user.entity.Authorities;
 import com.estsoft.guesshangeul.user.entity.Users;
 import com.estsoft.guesshangeul.user.service.UsersDetailsService;
@@ -61,8 +65,22 @@ public class UsersController {
 				.toList());
 	}
 
-	// 이메일 중복 체크
-	@GetMapping("/idDupeCheck")
-	public void idDuplicateCheck(@RequestParam String email) {
+	@PostMapping("/checkEmailDuplicate")
+	public ResponseEntity<CheckEmailExistsResponse> checkEmailExists(@RequestBody CheckEmailExistsRequest request) {
+		String email = request.getEmail();
+		Boolean result = usersService.checkEmailExists(email);
+		String message = result ? "이메일이 존재합니다." : "존재하지 않는 이메일입니다.";
+		CheckEmailExistsResponse response = new CheckEmailExistsResponse(email, result, message);
+		return ResponseEntity.ok(response);
+	}
+
+	@PostMapping("/checkNicknameDuplicate")
+	public ResponseEntity<CheckNicknameExistsResponse> checkNicknameExists(
+		@RequestBody CheckNicknameExistsRequest request) {
+		String nickname = request.getNickname();
+		Boolean result = usersService.checkNicknameExists(nickname);
+		String message = result ? "닉네임이 존재합니다." : "존재하지 않는 닉네임입니다.";
+		CheckNicknameExistsResponse response = new CheckNicknameExistsResponse(nickname, result, message);
+		return ResponseEntity.ok(response);
 	}
 }

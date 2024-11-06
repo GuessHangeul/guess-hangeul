@@ -2,9 +2,11 @@ package com.estsoft.guesshangeul.user.dto;
 
 import com.estsoft.guesshangeul.user.entity.Users;
 
+import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.Setter;
 
+@AllArgsConstructor
 @Getter
 @Setter
 public class AddUserRequest {
