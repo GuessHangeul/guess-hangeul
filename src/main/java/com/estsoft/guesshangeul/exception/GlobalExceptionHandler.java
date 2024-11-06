@@ -16,4 +16,9 @@ public class GlobalExceptionHandler {
 	public ResponseEntity<String> handleEntityDuplicateException(EntityAttributeDuplicateException exception) {
 		return ResponseEntity.status(HttpStatus.CONFLICT).body(exception.getMessage());
 	}
+
+	@ExceptionHandler(InvalidInputException.class)
+	public ResponseEntity<String> handleEntityDuplicateException(InvalidInputException exception) {
+		return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(exception.getMessage());
+	}
 }
