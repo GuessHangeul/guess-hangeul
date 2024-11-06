@@ -8,7 +8,7 @@ import lombok.Setter;
 @Setter
 @NoArgsConstructor
 public class CheckAnswerResponse {
-	private boolean correct; // 정답 여부
-	private int score; // 현재 점수
-	private String message; // 메시지
+	private boolean correct;
+	private int score;
+	private String message;
 }

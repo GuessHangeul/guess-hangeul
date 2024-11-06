@@ -1,4 +1,3 @@
-// QuizController.java
 package com.estsoft.guesshangeul.post.controller;
 
 import com.estsoft.guesshangeul.post.dto.CheckAnswerRequest;

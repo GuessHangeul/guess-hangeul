@@ -8,8 +8,8 @@ import lombok.Setter;
 @Setter
 @NoArgsConstructor
 public class CheckAnswerRequest {
-	private Long quizPostId; // 퀴즈 포스트 ID
-	private Long userId; // 유저 ID
-	private String answer; // 제출된 답안
+	private Long quizPostId;
+	private Long userId;
+	private String answer;
 }
 
