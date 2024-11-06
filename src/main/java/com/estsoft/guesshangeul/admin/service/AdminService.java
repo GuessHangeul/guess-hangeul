@@ -5,6 +5,10 @@ import java.util.List;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import com.estsoft.guesshangeul.board.entity.GeneralBoard;
+import com.estsoft.guesshangeul.board.entity.QuizBoard;
+import com.estsoft.guesshangeul.board.repository.GeneralBoardRepository;
+import com.estsoft.guesshangeul.board.repository.QuizBoardRepository;
 import com.estsoft.guesshangeul.post.entity.GeneralPost;
 import com.estsoft.guesshangeul.post.entity.QuizPost;
 import com.estsoft.guesshangeul.post.repository.GeneralPostRepository;
@@ -17,14 +21,30 @@ public class AdminService {
 	@Autowired
 	UsersRepository usersRepository;
 	@Autowired
-	private QuizPostRepository quizPostRepository;
+	private GeneralBoardRepository generalBoardRepository;
+	@Autowired
+	private QuizBoardRepository quizBoardRepository;
 	@Autowired
 	private GeneralPostRepository generalPostRepository;
+	@Autowired
+	private QuizPostRepository quizPostRepository;
 
 	public Users resetNickname(Long userId) {
 		Users users = usersRepository.findById(userId).orElseThrow();
 		users.setNickname("hangeul_" + users.getId());
 		return usersRepository.save(users);
+	}
+
+	public GeneralBoard deleteGeneralBoard(Long boardId) {
+		GeneralBoard generalBoard = generalBoardRepository.findById(boardId).orElseThrow();
+		generalBoard.setIsDeleted(true);
+		return generalBoardRepository.save(generalBoard);
+	}
+
+	public QuizBoard deleteQuizBoard(Long boardId) {
+		QuizBoard quizBoard = quizBoardRepository.findById(boardId).orElseThrow();
+		quizBoard.setIsDeleted(true);
+		return quizBoardRepository.save(quizBoard);
 	}
 
 	public List<GeneralPost> generalPostHide(Long generalBoardId, List<Long> generalPostId) {

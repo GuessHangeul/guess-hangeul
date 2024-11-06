@@ -35,6 +35,36 @@ class AdminControllerTest {
 			.andExpect(jsonPath("$.nickname").value("hangeul_1"));
 	}
 
+	// get /api/admin/deleteBoard/generalBoard/{boardId}
+	@Test
+	public void testDeleteGeneralBoard() throws Exception {
+		// given
+		Long boardId = 3L;
+
+		// when
+		ResultActions resultActions = mockMvc.perform(get("/api/admin/deleteBoard/generalBoard/{boardId}", boardId)
+			.accept(MediaType.APPLICATION_JSON));
+
+		// then
+		resultActions.andExpect(status().isOk())
+			.andExpect(jsonPath("$.isDeleted").value(true));
+	}
+
+	// get /api/admin/deleteBoard/quizBoard/{boardId}
+	@Test
+	public void testDeleteQuizBoard() throws Exception {
+		// given
+		Long boardId = 4L;
+
+		// when
+		ResultActions resultActions = mockMvc.perform(get("/api/admin/deleteBoard/quizBoard/{boardId}", boardId)
+			.accept(MediaType.APPLICATION_JSON));
+
+		// then
+		resultActions.andExpect(status().isOk())
+			.andExpect(jsonPath("$.isDeleted").value(true));
+	}
+
 	// get /api/admin/generalBoard/{boardId}/post/changeVisibilityHide
 	@Test
 	public void testChangeVisibilityHide() throws Exception {
