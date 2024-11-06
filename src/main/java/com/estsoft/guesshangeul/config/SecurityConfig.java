@@ -10,7 +10,7 @@ import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.security.web.SecurityFilterChain;
 import org.springframework.security.web.authentication.AuthenticationFailureHandler;
 
-import com.estsoft.guesshangeul.user.controller.CustomAuthFailureHandler;
+import com.estsoft.guesshangeul.exception.CustomAuthFailureHandler;
 
 @Configuration
 @EnableWebSecurity
@@ -48,6 +48,7 @@ public class SecurityConfig {
 			)
 			.formLogin(custom -> custom
 				.loginPage("/login")
+				.loginProcessingUrl("/api/login")
 				.defaultSuccessUrl("/", true)
 				.failureHandler(customAuthFailureHandler())
 				.usernameParameter("email")
@@ -56,7 +57,7 @@ public class SecurityConfig {
 			)
 			.logout(custom -> custom
 				.logoutSuccessUrl("/login")
-				.logoutUrl("/logout")
+				.logoutUrl("/api/logout")
 				.deleteCookies("SESSION", "JSESSIONID")
 				.invalidateHttpSession(true)
 				.permitAll()
