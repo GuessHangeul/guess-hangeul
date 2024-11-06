@@ -8,6 +8,7 @@ import org.springframework.stereotype.Service;
 import com.estsoft.guesshangeul.admin.entity.BoardManagerApply;
 import com.estsoft.guesshangeul.user.entity.Users;
 import com.estsoft.guesshangeul.user.repository.UsersRepository;
+import com.estsoft.guesshangeul.userrank.dto.AddUserRankRequest;
 import com.estsoft.guesshangeul.userrank.repository.BoardManagerRepository;
 
 @Service
@@ -20,14 +21,13 @@ public class BoardManagerApplyService {//집현전 신청 받아서 DB에 입력
 		this.usersRepository = usersRepository;
 		this.boardManagerApplyRepository = boardManagerRepository;
 	}
-
-	public BoardManagerApply createBoardManagerApply(Long userId, int status) {
+	public BoardManagerApply save(AddUserRankRequest requ) {
 		// userId로 Users 객체를 조회
-		Users users = usersRepository.findById(userId)
-			.orElseThrow(() -> new IllegalArgumentException("Invalid user ID: " + userId));
+		Users users = usersRepository.findById(requ.getId())
+			.orElseThrow(() -> new IllegalArgumentException("Invalid user ID: " + requ.getId()));
 
 		// BoardManagerApply 객체 생성
-		BoardManagerApply apply = new BoardManagerApply(null, users, status, LocalDateTime.now());
+		BoardManagerApply apply = new BoardManagerApply(null, users, requ.getStatus(), LocalDateTime.now());
 		return boardManagerApplyRepository.save(apply);
 	}
 }
