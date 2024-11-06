@@ -9,6 +9,7 @@ import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 import com.estsoft.guesshangeul.user.dto.AddAuthorityRequest;
 import com.estsoft.guesshangeul.user.entity.Authorities;
@@ -25,6 +26,7 @@ public class UsersDetailsService implements UserDetailsService {
 	private final AuthoritiesRepository authoritiesRepository;
 
 	@Override
+	@Transactional
 	public UserDetails loadUserByUsername(String username) throws UsernameNotFoundException {
 		// 아이디로 DB 조회후 UserDetails에 담아 반환
 		Users users = usersRepository.findByEmail(username)
@@ -47,7 +49,7 @@ public class UsersDetailsService implements UserDetailsService {
 	}
 
 	// 권한 추가
-	public List<Authorities> saveAuthorities(List<AddAuthorityRequest> addAuthorityRequestList) {
+	public List<Authorities> saveUserAuthorities(List<AddAuthorityRequest> addAuthorityRequestList) {
 		List<Authorities> authorities = addAuthorityRequestList.stream()
 			.map(AddAuthorityRequest::toEntity)
 			.toList();

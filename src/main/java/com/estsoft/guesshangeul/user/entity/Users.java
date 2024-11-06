@@ -75,6 +75,10 @@ public class Users implements UserDetails {
 		this.email = email;
 	}
 
+	public void passwordChange(String password) {
+		this.password = password;
+	}
+
 	@Override
 	public boolean isAccountNonExpired() {
 		return UserDetails.super.isAccountNonExpired();
