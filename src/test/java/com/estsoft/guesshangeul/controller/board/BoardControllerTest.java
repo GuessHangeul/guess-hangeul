@@ -1,5 +1,6 @@
 package com.estsoft.guesshangeul.controller.board;
 
+import static org.mockito.ArgumentMatchers.*;
 import static org.mockito.Mockito.*;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.*;
 import static org.springframework.test.web.servlet.result.MockMvcResultHandlers.*;
@@ -17,35 +18,50 @@ import org.springframework.security.test.context.support.WithMockUser;
 import org.springframework.test.web.servlet.MockMvc;
 import org.springframework.test.web.servlet.ResultActions;
 
-import com.estsoft.guesshangeul.board.controller.GeneralBoardController;
+import com.estsoft.guesshangeul.board.controller.BoardController;
 import com.estsoft.guesshangeul.board.dto.GeneralBoardDto;
+import com.estsoft.guesshangeul.board.dto.QuizBoardDto;
 import com.estsoft.guesshangeul.board.entity.GeneralBoard;
+import com.estsoft.guesshangeul.board.entity.QuizBoard;
 import com.estsoft.guesshangeul.board.service.GeneralBoardService;
+import com.estsoft.guesshangeul.board.service.QuizBoardService;
+import com.estsoft.guesshangeul.user.entity.Users;
 
-@WebMvcTest(controllers = GeneralBoardController.class)
+@WebMvcTest(controllers = BoardController.class)
 @WithMockUser
-public class GeneralBoardControllerTest {
+public class BoardControllerTest {
 	@Autowired
 	private MockMvc mockMvc;
 
 	@MockBean
 	private GeneralBoardService generalBoardService;
 
+	@MockBean
+	private QuizBoardService quizBoardService;
+
 	@Test
 	void testReadAllExistingGeneralBoardSuccess() throws Exception {
 		// given
+		Users users = new Users(1L, "example@email.com");
 		GeneralBoard generalBoard = new GeneralBoard("title1", false);
-		List<GeneralBoardDto> result = List.of(new GeneralBoardDto(generalBoard));
+		QuizBoard quizBoard = new QuizBoard("title2", users, false);
+		List<GeneralBoardDto> generalBoardDtos = List.of(new GeneralBoardDto(generalBoard));
+		List<QuizBoardDto> quizBoardDtos = List.of(new QuizBoardDto(quizBoard));
+
 		when(generalBoardService.findAllGeneralBoardByIsDeleted(eq(false), any(Pageable.class)))
-			.thenReturn(result);
+			.thenReturn(generalBoardDtos);
+		when(quizBoardService.findAllQuizBoardByIsDeleted(eq(false), any(Pageable.class)))
+			.thenReturn(quizBoardDtos);
 
 		// when
-		ResultActions resultActions = mockMvc.perform(get("/api/generalBoard")
+		ResultActions resultActions = mockMvc.perform(get("/api/board")
 			.accept(MediaType.APPLICATION_JSON)).andDo(print());
 
 		// then
 		resultActions.andExpect(status().isOk())
 			.andExpect(jsonPath("$[0].title").value("title1"))
-			.andExpect(jsonPath("$[0].isDeleted").value(false));
+			.andExpect(jsonPath("$[0].isDeleted").value(false))
+			.andExpect(jsonPath("$[1].title").value("title2"))
+			.andExpect(jsonPath("$[1].isDeleted").value(false));
 	}
 }

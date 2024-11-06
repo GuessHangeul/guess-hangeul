@@ -2,11 +2,15 @@ package com.estsoft.guesshangeul.board.controller;
 
 import java.util.List;
 
+import org.springframework.data.domain.Pageable;
+import org.springframework.data.domain.Sort;
+import org.springframework.data.web.PageableDefault;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
+import com.estsoft.guesshangeul.board.dto.GeneralBoardDto;
 import com.estsoft.guesshangeul.board.dto.GeneralBoardResponse;
 import com.estsoft.guesshangeul.board.service.GeneralBoardService;
 
@@ -19,9 +23,11 @@ public class GeneralBoardController {
 	private final GeneralBoardService generalBoardService;
 
 	@GetMapping
-	public ResponseEntity<List<GeneralBoardResponse>> readAllExistingGeneralBoard() {
+	public ResponseEntity<List<GeneralBoardResponse>> readAllExistingGeneralBoard(
+		@PageableDefault(size = 6, sort = "id", direction = Sort.Direction.DESC) Pageable pageable) {
 		// 삭제되지 않은 일반 게시판 리스트를 반환
-		List<GeneralBoardResponse> response = generalBoardService.findAllGeneralBoardByIsDeleted(false);
+		List<GeneralBoardDto> result = generalBoardService.findAllGeneralBoardByIsDeleted(false, pageable);
+		List<GeneralBoardResponse> response = result.stream().map(GeneralBoardResponse::new).toList();
 		return ResponseEntity.ok(response);
 	}
 }

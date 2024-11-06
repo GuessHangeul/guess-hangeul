@@ -8,6 +8,7 @@ import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.autoconfigure.jdbc.AutoConfigureTestDatabase;
 import org.springframework.boot.test.autoconfigure.orm.jpa.DataJpaTest;
+import org.springframework.data.domain.Pageable;
 
 import com.estsoft.guesshangeul.board.entity.GeneralBoard;
 import com.estsoft.guesshangeul.board.repository.GeneralBoardRepository;
@@ -28,8 +29,10 @@ public class GeneralBoardRepositoryTest {
 		generalBoardRepository.saveAll(List.of(generalBoard1, generalBoard2, generalBoard3));
 
 		// when
-		List<GeneralBoard> existingGeneralBoardList = generalBoardRepository.findAllByIsDeleted(false);
-		List<GeneralBoard> deletedGeneralBoardList = generalBoardRepository.findAllByIsDeleted(true);
+		List<GeneralBoard> existingGeneralBoardList = generalBoardRepository.findAllByIsDeleted(false,
+			Pageable.unpaged());
+		List<GeneralBoard> deletedGeneralBoardList = generalBoardRepository.findAllByIsDeleted(true,
+			Pageable.unpaged());
 
 		// then
 		assertThat(existingGeneralBoardList).hasSize(2);
