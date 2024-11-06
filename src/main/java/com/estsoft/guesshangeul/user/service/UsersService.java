@@ -30,11 +30,6 @@ public class UsersService {
 		return usersRepository.findByEmail(email).orElseThrow(() -> new UsersNotFoundException("email", email));
 	}
 
-	// 비밀번호 변경 계정 조회
-	public boolean findByEmail(String email) {
-		return usersRepository.findByEmail(email).orElse(new Users()).getEmail() != null;
-	}
-
 	// 회원 가입
 	public Users save(AddUserRequest request) {
 		request.setPassword(bCryptPasswordEncoder.encode(request.getPassword()));

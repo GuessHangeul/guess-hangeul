@@ -6,7 +6,6 @@ import java.util.List;
 
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
-import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
@@ -61,16 +60,6 @@ public class UsersController {
 					Authority.getId(), Authority.getUserId(), Authority.getAuthority()
 				))
 				.toList());
-	}
-
-	// 이메일 중복 체크
-	@GetMapping("/idDuplicateCheck/{email}")
-	public ResponseEntity<String> idDuplicateCheck(@PathVariable String email) {
-		if (usersService.findByEmail(email)) {
-			return ResponseEntity.ok("이메일이 존재합니다.");
-		} else {
-			return ResponseEntity.ok("계정이 존재하지 않습니다.");
-		}
 	}
 
 	// 비밀번호 변경 메일
