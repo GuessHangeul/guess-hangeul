@@ -8,6 +8,7 @@ import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Service;
 
 import com.estsoft.guesshangeul.exception.InvalidEmailFormatException;
+import com.estsoft.guesshangeul.exception.InvalidNicknameFormatException;
 import com.estsoft.guesshangeul.exception.UsersEmailDuplicateException;
 import com.estsoft.guesshangeul.exception.UsersNicknameDuplicateException;
 import com.estsoft.guesshangeul.exception.UsersNotFoundException;
@@ -31,9 +32,19 @@ public class UsersService {
 		"^(?=.{1,64}@)[A-Za-z0-9_-]+(\\.[A-Za-z0-9_-]+)*@[^-][A-Za-z0-9-]+(\\.[A-Za-z0-9-]+)*(\\.[A-Za-z]{2,})$"
 	);
 
+	private static final Pattern NICKNAME_PATTERN = Pattern.compile(
+		"^[가-힣a-zA-Z0-9._-]{2,20}$"
+	);
+
 	public void checkEmailPattern(String email) {
 		if (!EMAIL_PATTERN.matcher(email).matches()) {
 			throw new InvalidEmailFormatException(email);
+		}
+	}
+
+	public void checkNicknamePattern(String nickname) {
+		if (!NICKNAME_PATTERN.matcher(nickname).matches()) {
+			throw new InvalidNicknameFormatException(nickname);
 		}
 	}
 
@@ -61,6 +72,7 @@ public class UsersService {
 	}
 
 	public Boolean checkNicknameExists(String nickname) {
+		checkNicknamePattern(nickname);
 		Optional<Users> result = usersRepository.findByNickname(nickname);
 		return result.isPresent();
 	}

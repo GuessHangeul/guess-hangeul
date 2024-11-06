@@ -11,6 +11,7 @@ import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.transaction.annotation.Transactional;
 
 import com.estsoft.guesshangeul.exception.InvalidEmailFormatException;
+import com.estsoft.guesshangeul.exception.InvalidNicknameFormatException;
 import com.estsoft.guesshangeul.exception.UsersEmailDuplicateException;
 import com.estsoft.guesshangeul.exception.UsersNicknameDuplicateException;
 import com.estsoft.guesshangeul.user.dto.AddUserRequest;
@@ -66,6 +67,39 @@ public class UsersServiceTest {
 		for (String email : invalidEmails) {
 			assertThrows(InvalidEmailFormatException.class, () -> usersService.checkEmailExists(email),
 				"Wrong on email: " + email);
+		}
+	}
+
+	@Test
+	void testCheckNicknamePatternSuccess() {
+		// given
+		List<String> validNickname = List.of(
+			"한글닉네임123",
+			"english123",
+			"20nickname1234567890", // 20 characters
+			"한글20글자닉네임_1234567890"
+		);
+
+		// when & then
+		for (String nickname : validNickname) {
+			assertDoesNotThrow(() -> usersService.checkNicknamePattern(nickname));
+		}
+	}
+
+	@Test
+	void testCheckNicknameExistsThrowsInvalidNicknameFormatException() {
+		// given
+		List<String> invalidNickname = List.of(
+			"",
+			"ㄱㄴ",
+			"123456789012345678901", // over 20 characters
+			"공 백"
+		);
+
+		// when & then
+		for (String nickname : invalidNickname) {
+			assertThrows(InvalidNicknameFormatException.class, () -> usersService.checkNicknameExists(nickname),
+				"Wrong on nickname: " + nickname);
 		}
 	}
 
