@@ -16,4 +16,5 @@ public class AddUserRankRequest {
 	private Long userId;
 	private int status;
 	private LocalDateTime createdAt;
+
 }

@@ -6,10 +6,9 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.estsoft.guesshangeul.userrank.dto.AddUserRankRequest;
-import com.estsoft.guesshangeul.userrank.entity.boardManagerApply;
+import com.estsoft.guesshangeul.admin.entity.BoardManagerApply;
 import com.estsoft.guesshangeul.userrank.service.UserRankService;
 
-import jakarta.servlet.http.HttpServletResponse;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 
@@ -17,12 +16,12 @@ import lombok.extern.slf4j.Slf4j;
 @RestController
 @RequestMapping("/api")
 @RequiredArgsConstructor
-public class UserRankController {
+public class AddUserRankController {
 	private final UserRankService userRankService;
 
 	@PostMapping("/api/boardManagerApply")
-	public void rankup(@ModelAttribute AddUserRankRequest request, HttpServletResponse response) {
-		boardManagerApply apply = userRankService.saveRequest(request);
+	public void rankup(@ModelAttribute AddUserRankRequest request) {
+		BoardManagerApply apply = userRankService.saveRequest(request);
 	}
 
 

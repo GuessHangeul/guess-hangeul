@@ -11,7 +11,7 @@ import com.estsoft.guesshangeul.user.repository.UsersRepository;
 import com.estsoft.guesshangeul.userrank.repository.BoardManagerRepository;
 
 @Service
-public class BoardManagerApplyService {
+public class BoardManagerApplyService {//집현전 신청 받아서 DB에 입력
 	private final UsersRepository usersRepository;
 	private final BoardManagerRepository boardManagerApplyRepository;
 
