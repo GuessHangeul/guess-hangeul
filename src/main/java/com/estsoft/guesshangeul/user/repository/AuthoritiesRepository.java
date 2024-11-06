@@ -8,4 +8,6 @@ import com.estsoft.guesshangeul.user.entity.Authorities;
 
 public interface AuthoritiesRepository extends JpaRepository<Authorities, Long> {
 	List<Authorities> findByUserId(Long userId);
+
+	Authorities findFirstByUserId(Long userId);
 }
