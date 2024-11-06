@@ -19,7 +19,7 @@ public class QuizBoardDto {
 	public QuizBoardDto(QuizBoard quizBoard) {
 		this.id = quizBoard.getId();
 		this.title = quizBoard.getTitle();
-		this.userId = quizBoard.getUserId();
+		this.userId = quizBoard.getUsers().getId();
 		this.createdAt = quizBoard.getCreatedAt();
 		this.isDeleted = quizBoard.getIsDeleted();
 	}

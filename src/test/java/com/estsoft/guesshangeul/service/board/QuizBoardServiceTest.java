@@ -5,10 +5,12 @@ import static org.mockito.Mockito.*;
 
 import java.util.List;
 
+import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.boot.test.mock.mockito.MockBean;
+import org.springframework.data.domain.Pageable;
 import org.springframework.security.test.context.support.WithMockUser;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -36,18 +38,26 @@ public class QuizBoardServiceTest {
 	@MockBean
 	private UsersService usersService;
 
+	@BeforeEach
+	void setup() {
+		quizBoardRepository.deleteAll();
+	}
+
 	@Test
 	void testFindAllQuizBoardByIsDeletedSuccess() {
 		// given
-		QuizBoard quizBoard1 = new QuizBoard("title1", 1L, false);
-		QuizBoard quizBoard2 = new QuizBoard("title2", 2L, false);
-		QuizBoard quizBoard3 = new QuizBoard("title3", 3L, true);
+		Users users = new Users(1L, "example@email.com");
+		QuizBoard quizBoard1 = new QuizBoard("title1", users, false);
+		QuizBoard quizBoard2 = new QuizBoard("title2", users, false);
+		QuizBoard quizBoard3 = new QuizBoard("title3", users, true);
 
 		quizBoardRepository.saveAll(List.of(quizBoard1, quizBoard2, quizBoard3));
 
 		// when
-		List<QuizBoardDto> existingQuizBoardList = quizBoardService.findAllQuizBoardByIsDeleted(false);
-		List<QuizBoardDto> deletedQuizBoardList = quizBoardService.findAllQuizBoardByIsDeleted(true);
+		List<QuizBoardDto> existingQuizBoardList = quizBoardService.findAllQuizBoardByIsDeleted(false,
+			Pageable.unpaged());
+		List<QuizBoardDto> deletedQuizBoardList = quizBoardService.findAllQuizBoardByIsDeleted(true,
+			Pageable.unpaged());
 
 		// then
 		assertThat(existingQuizBoardList).hasSize(2);
@@ -56,12 +66,12 @@ public class QuizBoardServiceTest {
 		assertThat(existingQuizBoardList.get(0).getIsDeleted()).isFalse();
 
 		assertThat(existingQuizBoardList.get(1).getTitle()).isEqualTo("title2");
-		assertThat(existingQuizBoardList.get(1).getUserId()).isEqualTo(2L);
+		assertThat(existingQuizBoardList.get(1).getUserId()).isEqualTo(1L);
 		assertThat(existingQuizBoardList.get(1).getIsDeleted()).isFalse();
 
 		assertThat(deletedQuizBoardList).hasSize(1);
 		assertThat(deletedQuizBoardList.get(0).getTitle()).isEqualTo("title3");
-		assertThat(deletedQuizBoardList.get(0).getUserId()).isEqualTo(3L);
+		assertThat(deletedQuizBoardList.get(0).getUserId()).isEqualTo(1L);
 		assertThat(deletedQuizBoardList.get(0).getIsDeleted()).isTrue();
 	}
 
@@ -73,7 +83,7 @@ public class QuizBoardServiceTest {
 		Users users = new Users(1L, "example@email.com");
 		String username = anyString();
 		when(usersDetailsService.loadUserByUsername(username)).thenReturn(users);
-		when(usersService.findUserByEmail(users.getEmail())).thenReturn(users);
+		// when(usersService.findUserByEmail(users.getEmail())).thenReturn(users);
 
 		// when
 		QuizBoardDto quizBoard = quizBoardService.addNewQuizBoard(request);

@@ -7,6 +7,9 @@ import org.springframework.data.annotation.CreatedDate;
 import org.springframework.data.annotation.LastModifiedDate;
 import org.springframework.data.jpa.domain.support.AuditingEntityListener;
 
+import com.estsoft.guesshangeul.board.entity.QuizBoard;
+import com.estsoft.guesshangeul.user.entity.Users;
+
 import com.estsoft.guesshangeul.board.entity.GeneralBoard;
 import com.estsoft.guesshangeul.user.entity.Users;
 
@@ -41,7 +44,7 @@ public class QuizPost {
 
 	@ManyToOne
 	@JoinColumn(name = "quiz_board_id")
-	private GeneralBoard generalBoard;
+	private QuizBoard quizBoard;
 
 	@Column(name = "quiz_title", nullable = false)
 	private String quizTitle;
