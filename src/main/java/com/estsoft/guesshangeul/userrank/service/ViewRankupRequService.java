@@ -19,10 +19,4 @@ public class ViewRankupRequService {
 	public List<BoardManagerApply> findAll(){//집현전 신청 받은 내용을 보여주기
 		return repo.findAll();
 	}
-	@Transactional
-	public BoardManagerApply statusupdate(Long id,RankupUpdateRequest rur) {
-		BoardManagerApply bma = repo.findById(id).orElseThrow(()->new IllegalArgumentException("not found" + id));
-
-		bma.update(rur.getId(), Users, rur.getStatus(),rur.getCreatedAt())
-	}
 }
