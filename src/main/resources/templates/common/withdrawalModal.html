@@ -1,0 +1,34 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<th:block th:fragment="withdrawalModal">
+    <div class="modal fade" id="exampleModal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+        <div class="modal-dialog">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h1 class="modal-title fs-5" id="exampleModalLabel">회원 탈퇴</h1>
+                </div>
+                <div class="modal-body">
+                    <form>
+                        <h3>정말 탈퇴하시겠습니까?</h3>
+                        <p>탈퇴를 원하시면, 아래 입력란에 "탈퇴를 원합니다"를 입력해 주세요.</p>
+                        <div class="mb-1">
+                            <label for="withdrawal-input" class="col-form-label">입력</label>
+                            <input type="text" class="form-control" id="withdrawal-input" placeholder="탈퇴를 원합니다">
+                            <div id="feedback-message" class="text-danger mt-1" style="visibility: hidden;">
+                                잘못 입력하셨습니다.
+                            </div>
+                        </div>
+                    </form>
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-secondary" data-bs-dismiss="modal" id="cancel-withdrawal-btn">
+                        취소
+                    </button>
+                    <button type="button" class="btn btn-danger" id="confirm-withdrawal-btn">탈퇴</button>
+                </div>
+            </div>
+        </div>
+    </div>
+    <script th:src="@{/js/withdrawalModal.js}"></script>
+</th:block>
+</html>

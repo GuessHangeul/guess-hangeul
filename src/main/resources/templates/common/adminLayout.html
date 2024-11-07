@@ -1,0 +1,21 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org"
+      xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout">
+
+<body>
+<!-- 헤더 navbar 추가 -->
+<header th:replace="~{/common/header :: header}"></header>
+
+<!-- 레이아웃 내부 요소 배치 -->
+<div class="container">
+    <div class="d-flex flex-row">
+        <!-- 어드민 페이지 사이드바 추가 (어드민 페이지 개발 시 sidebar.html 수정) -->
+        <th:block th:replace="~{/common/sidebar :: sidebar}"></th:block>
+        <div class="container">
+            <main layout:fragment="content"></main>
+        </div>
+    </div>
+</div>
+
+</body>
+</html>
