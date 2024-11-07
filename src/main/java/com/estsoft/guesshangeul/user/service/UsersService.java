@@ -135,11 +135,6 @@ public class UsersService {
 		return result.isPresent();
 	}
 
-	public UsersService(UsersRepository usersRepository, AuthoritiesRepository authoritiesRepository) {
-		this.usersRepository = usersRepository;
-		this.authoritiesRepository = authoritiesRepository;
-	}
-
 	public UsersResponse getUserResponse(Long userId) {
 		// userId로 Users 엔티티 조회
 		Users users = usersRepository.findById(userId)
