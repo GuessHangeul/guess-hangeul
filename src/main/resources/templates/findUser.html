@@ -13,16 +13,54 @@
     <div class="container-fluid column justify-content-center align-content-center">
         <div class="card-body p-5 text-center">
             <h2 class="md-3">ㄴㄹㅁㅆㅁ</h2>
-            <form class="text-left" action="/api/emailExists" method="post">
+            <div class="text-left">
                 <div class="mb-3">
                     <label class="form-label" for="email">이메일</label>
                     <input class="form-control" type="email" name="email" id="email"/>
-                    <button class="btn btn-outline-primary btn-sm" type="submit">계정 찾기</button>
+                    <button id="check_email" class="btn btn-primary mt-3">확인</button>
                 </div>
-            </form>
+            </div>
         </div>
     </div>
 </section>
+
+<!-- 이메일 체크 모달 -->
+<div class="modal fade" id="resultModal" tabindex="-1">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title">확인 결과</h5>
+            </div>
+            <div class="modal-body">
+                <p id="modalMessage"></p>
+            </div>
+            <div class="modal-footer" id="modalFooter">
+                <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">닫기</button>
+            </div>
+        </div>
+    </div>
+</div>
+
+<!-- 비밀번호 변경 메일 발송 모달 -->
+<div class="modal fade" id="passwordResetModal" tabindex="-1">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title">비밀번호 재설정 메일 발송</h5>
+            </div>
+            <div class="modal-body">
+                <p id="passwordResetMessage"></p>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">닫기</button>
+            </div>
+        </div>
+    </div>
+</div>
+
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
+<script src="/js/checkEmail.js"></script>
+
 </body>
 
 </html>
