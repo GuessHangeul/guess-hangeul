@@ -8,11 +8,6 @@ hr {
     align-items: center;
 }
 
-body {
-    display: flex;
-    gap: 50px;
-}
-
 /*사이드 바*/
 
 .sidebar {
@@ -73,7 +68,6 @@ table {
 
 th {
     padding: 10px;
-    text-align: center;
     background-color: lightgrey;
 }
 
