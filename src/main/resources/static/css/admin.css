@@ -3,6 +3,11 @@ a {
     color: black;
 }
 
+hr {
+    width: 100%;
+    align-items: center;
+}
+
 body {
     display: flex;
     gap: 50px;
@@ -62,7 +67,7 @@ body {
 }
 
 .button:hover {
-    background-color: #0056b3; /* 버튼 호버 효과 */
+    background-color: darkgrey; /* 버튼 호버 효과 */
 }
 
 /* 테이블 설정 */
