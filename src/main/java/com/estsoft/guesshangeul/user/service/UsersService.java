@@ -1,10 +1,15 @@
 package com.estsoft.guesshangeul.user.service;
 
+import java.util.ArrayList;
+import java.util.List;
 import java.util.Optional;
 import java.util.UUID;
 import java.util.regex.Pattern;
+import java.util.stream.Collectors;
 
 import org.springframework.beans.factory.annotation.Value;
+import org.springframework.security.core.GrantedAuthority;
+import org.springframework.security.core.authority.SimpleGrantedAuthority;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -15,8 +20,11 @@ import com.estsoft.guesshangeul.exception.UsersEmailDuplicateException;
 import com.estsoft.guesshangeul.exception.UsersNicknameDuplicateException;
 import com.estsoft.guesshangeul.exception.UsersNotFoundException;
 import com.estsoft.guesshangeul.user.dto.AddUserRequest;
+import com.estsoft.guesshangeul.user.dto.UsersResponse;
+import com.estsoft.guesshangeul.user.entity.Authorities;
 import com.estsoft.guesshangeul.user.entity.PasswordResetToken;
 import com.estsoft.guesshangeul.user.entity.Users;
+import com.estsoft.guesshangeul.user.repository.AuthoritiesRepository;
 import com.estsoft.guesshangeul.user.repository.PasswordResetTokenRepository;
 import com.estsoft.guesshangeul.user.repository.UsersRepository;
 
@@ -26,6 +34,7 @@ import lombok.RequiredArgsConstructor;
 @RequiredArgsConstructor
 public class UsersService {
 	private final UsersRepository usersRepository;
+	private final AuthoritiesRepository authoritiesRepository;
 	private final BCryptPasswordEncoder bCryptPasswordEncoder;
 	private final EmailService emailService;
 	private final PasswordResetTokenRepository tokenRepository;
@@ -126,5 +135,38 @@ public class UsersService {
 		return result.isPresent();
 	}
 
+	public UsersService(UsersRepository usersRepository, AuthoritiesRepository authoritiesRepository) {
+		this.usersRepository = usersRepository;
+		this.authoritiesRepository = authoritiesRepository;
+	}
+
+	public UsersResponse getUserResponse(Long userId) {
+		// userId로 Users 엔티티 조회
+		Users users = usersRepository.findById(userId)
+			.orElseThrow(() -> new IllegalArgumentException("User not found"));
+
+		// userId로 권한 목록 조회
+		List<GrantedAuthority> grantedAuthorities = loadUserAuthorities(userId);
+
+		// GrantedAuthority 리스트를 콤마로 구분된 문자열로 변환
+		String authorityString = grantedAuthorities.stream()
+			.map(GrantedAuthority::getAuthority)
+			.collect(Collectors.joining(", "));
+
+		// UsersResponse 객체 생성 후 반환
+		return new UsersResponse(users, authorityString);
+	}
+
+	// userId로 권한 조회 메서드 (사용자 권한 목록을 GrantedAuthority로 변환)
+	public ArrayList<GrantedAuthority> loadUserAuthorities(Long userId) {
+		List<Authorities> authorities = authoritiesRepository.findByUserId(userId);
+		ArrayList<GrantedAuthority> grantedAuthorities = new ArrayList<>();
+
+		for (Authorities auth : authorities) {
+			grantedAuthorities.add(new SimpleGrantedAuthority(auth.getAuthority()));
+		}
+
+		return grantedAuthorities;
+	}
 }
 
