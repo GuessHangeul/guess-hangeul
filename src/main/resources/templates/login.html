@@ -25,10 +25,15 @@
                 <div class="text-center" th:if="${not #strings.isEmpty(message)}">
                     <span style="color: red;" th:text="${message}"></span>
                 </div>
-                <a href="/findUser">계정 찾기</a>
-                <button class="btn btn-outline-primary btn-sm" type="submit">로그인</button>
-                <p>아직 회원이 아니신가요?</p>
-                <a href="/signup">회원 가입</a>
+                <div class="text-right">
+                    <a href="/findUser">계정 찾기</a>
+                </div>
+                <div class="text-center">
+                    <button class="w-100 btn btn-primary mt-3" type="submit">로그인</button>
+                    <p class="d-inline">아직 회원이 아니신가요?</p>
+                    <a href="/signup">회원 가입</a>
+                </div>
+
             </form>
         </div>
     </div>

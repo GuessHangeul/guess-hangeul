@@ -60,7 +60,7 @@ function showModal(message, showResetButton = false) {
         const resetButton = document.createElement('button');
         resetButton.id = 'resetPasswordButton';
         resetButton.className = 'btn btn-primary';
-        resetButton.textContent = '비밀번호 재설정';
+        resetButton.textContent = '비밀번호 변경';
         resetButton.onclick = sendPasswordResetEmail;
         modalFooter.insertBefore(resetButton, modalFooter.firstChild);
     }
@@ -86,7 +86,7 @@ function sendPasswordResetEmail() {
 
             // passwordResetModal 모달 표시
             document.getElementById('passwordResetMessage').textContent =
-                `${Email}로 비밀번호 재설정 링크가 발송되었습니다. 이메일을 확인해주세요.`;
+                `${Email}으로 비밀번호를 변경할 메일을 전송했습니다.`;
             const resetModal = new bootstrap.Modal(document.getElementById('passwordResetModal'));
             resetModal.show();
         })
