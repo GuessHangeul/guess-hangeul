@@ -11,7 +11,6 @@ import lombok.NoArgsConstructor;
 @NoArgsConstructor
 public class UsersResponse {
 	private Long userId;
-	private String email;
 	private String nickname;
 	private int score;
 	private LocalDateTime createdAt;
@@ -22,7 +21,6 @@ public class UsersResponse {
 
 	public UsersResponse(Users users) {
 		this.userId = users.getId();
-		this.email = users.getEmail();
 		this.nickname = users.getNickname();
 		this.score = users.getScore();
 		this.createdAt = users.getCreatedAt();
