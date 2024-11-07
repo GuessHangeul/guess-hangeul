@@ -1,0 +1,37 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org"
+      xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout">
+
+<body>
+
+<div class="container d-flex flex-column vh-100">
+    <!-- 헤더 navbar 추가 -->
+    <header th:replace="~{/common/header :: header}"></header>
+    <div class="row flex-grow-1">
+        <!-- 좌측 광고 또는 랭킹 섹션 -->
+        <aside class="d-flex flex-column col-md-2">
+            <div class="border p-2">
+                <h5 class="text-center">랭킹</h5>
+                <ul class="list-unstyled">
+                    <!-- Thymeleaf를 사용해 서버에서 전달된 랭킹 데이터를 렌더링 -->
+                    <!-- 추후 랭킹 기능 개발 후 적용 -->
+                    <li th:each="user : ${rankingData}">
+                        <span th:text="${user}"></span>
+                    </li>
+                </ul>
+            </div>
+            <div class="container border p-2 pb-5">
+                <h5>광고</h5>
+                <p>광고 콘텐츠</p>
+            </div>
+        </aside>
+
+        <!-- 중앙 메인 콘텐츠 -->
+        <main class="col d-flex flex-column h-100">
+            <th:block layout:fragment="content"></th:block>
+        </main>
+    </div>
+</div>
+
+</body>
+</html>
