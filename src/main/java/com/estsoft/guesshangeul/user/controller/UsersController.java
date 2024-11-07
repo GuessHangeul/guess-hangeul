@@ -6,12 +6,12 @@ import java.util.List;
 
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
-import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.ModelAttribute;
+import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.estsoft.guesshangeul.user.dto.AddAuthorityRequest;
@@ -21,6 +21,7 @@ import com.estsoft.guesshangeul.user.dto.CheckEmailExistsRequest;
 import com.estsoft.guesshangeul.user.dto.CheckEmailExistsResponse;
 import com.estsoft.guesshangeul.user.dto.CheckNicknameExistsRequest;
 import com.estsoft.guesshangeul.user.dto.CheckNicknameExistsResponse;
+import com.estsoft.guesshangeul.user.dto.ModifyPwdRequest;
 import com.estsoft.guesshangeul.user.entity.Authorities;
 import com.estsoft.guesshangeul.user.entity.Users;
 import com.estsoft.guesshangeul.user.service.UsersDetailsService;
@@ -53,10 +54,10 @@ public class UsersController {
 	}
 
 	// 권한 추가
-	@PostMapping("/authority")
+	@PostMapping("/user/authority")
 	public ResponseEntity<List<AddAuthorityResponse>> addAuthority(
 		@RequestBody List<AddAuthorityRequest> addAuthorityRequestList) {
-		List<Authorities> authorities = usersDetailsService.saveAuthorities(addAuthorityRequestList);
+		List<Authorities> authorities = usersDetailsService.saveUserAuthorities(addAuthorityRequestList);
 		return ResponseEntity.status(HttpStatus.CREATED)
 			.body(authorities.stream()
 				.map(Authority -> new AddAuthorityResponse(
@@ -83,4 +84,26 @@ public class UsersController {
 		CheckNicknameExistsResponse response = new CheckNicknameExistsResponse(nickname, result, message);
 		return ResponseEntity.ok(response);
 	}
+
+	// 비밀번호 변경 메일
+	@PostMapping("/resetPasswordRequest/{email}")
+	public ResponseEntity<String> createTokenSendEmail(@PathVariable String email) {
+		Users user = usersService.findUserByEmail(email);
+
+		usersService.createTokenSendEmail(user);
+		return ResponseEntity.ok("비밀번호 재설정 링크가 이메일로 발송되었습니다.");
+	}
+
+	// 비밀번호 변경
+	@PutMapping("/resetPassword")
+	public ResponseEntity<String> resetPassword(@RequestBody ModifyPwdRequest request) {
+		String result = usersService.validatePasswordResetToken(request.getToken());
+		if (!result.equals("valid")) {
+			return ResponseEntity.badRequest().body("토큰이 유효하지 않습니다.");
+		}
+
+		usersService.changePassword(request.getToken(), request.getPassword());
+		return ResponseEntity.ok("비밀번호가 성공적으로 변경되었습니다.");
+	}
+
 }

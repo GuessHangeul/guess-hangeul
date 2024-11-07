@@ -1,5 +1,6 @@
 package com.estsoft.guesshangeul.controller.admin;
 
+import static org.junit.jupiter.api.Assertions.*;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.*;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.*;
 
@@ -14,11 +15,16 @@ import org.springframework.http.MediaType;
 import org.springframework.test.web.servlet.MockMvc;
 import org.springframework.test.web.servlet.ResultActions;
 
+import com.estsoft.guesshangeul.user.entity.Authorities;
+import com.estsoft.guesshangeul.user.repository.AuthoritiesRepository;
+
 @SpringBootTest
 @AutoConfigureMockMvc
 class AdminControllerTest {
 	@Autowired
 	private MockMvc mockMvc;
+	@Autowired
+	private AuthoritiesRepository authoritiesRepository;
 
 	// get /api/admin/initializeNickname/{user_id}
 	@Test
@@ -139,6 +145,42 @@ class AdminControllerTest {
 		resultActions.andExpect(status().isOk())
 			.andExpect(jsonPath("$[0].hidden").value(false))
 			.andExpect(jsonPath("$[1].hidden").value(false));
+	}
+
+	// get /api/admin/acceptBoardManager
+	@Test
+	public void testAcceptBoardManager() throws Exception {
+		// given
+		Long boardManagerId = 1L;
+		Long userId = 3L;
+
+		// when
+		ResultActions resultActions = mockMvc.perform(get("/api/admin/acceptBoardManager")
+			.queryParam("boardManagerId", String.valueOf(boardManagerId))
+			.accept(MediaType.APPLICATION_JSON));
+
+		// then
+		resultActions.andExpect(status().isOk())
+			.andExpect(jsonPath("$.status").value(1));
+
+		Authorities updatedAuthorities = authoritiesRepository.findFirstByUserId(userId);
+		assertEquals("ROLE_JIPHYEONJEON", updatedAuthorities.getAuthority());
+	}
+
+	// get /api/admin/rejectBoardManager
+	@Test
+	public void testRejectBoardManager() throws Exception {
+		// given
+		Long boardManagerId = 2L;
+
+		// when
+		ResultActions resultActions = mockMvc.perform(get("/api/admin/rejectBoardManager")
+			.queryParam("boardManagerId", String.valueOf(boardManagerId))
+			.accept(MediaType.APPLICATION_JSON));
+
+		// then
+		resultActions.andExpect(status().isOk())
+			.andExpect(jsonPath("$.status").value(2));
 	}
 
 }
