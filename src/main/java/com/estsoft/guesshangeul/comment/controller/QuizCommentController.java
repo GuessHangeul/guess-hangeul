@@ -22,19 +22,19 @@ public class QuizCommentController {
 	}
 
 	@PostMapping
-	public ResponseEntity<QuizComment> AddComment(@RequestBody QuizCommentRequest request) {
+	public ResponseEntity<QuizComment> addComment(@RequestBody QuizCommentRequest request) {
 		QuizComment comment = commentService.addComment(request);
 		return ResponseEntity.ok(comment);
 	}
 
 	@PutMapping("/{comment_id}")
-	public ResponseEntity<QuizComment> ModifyComment(@PathVariable Long comment_id, @RequestBody String content) {
+	public ResponseEntity<QuizComment> modifyComment(@PathVariable Long comment_id, @RequestBody String content) {
 		QuizComment comment = commentService.modifyComment(comment_id, content);
 		return ResponseEntity.ok(comment);
 	}
 
 	@DeleteMapping("/{comment_id}")
-	public ResponseEntity<Void> DeleteComment(@PathVariable Long comment_id) {
+	public ResponseEntity<Void> deleteComment(@PathVariable Long comment_id) {
 		commentService.deleteComment(comment_id);
 		return ResponseEntity.noContent().build();
 	}

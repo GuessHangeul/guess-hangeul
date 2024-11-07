@@ -22,19 +22,19 @@ public class GeneralCommentController {
 	}
 
 	@PostMapping
-	public ResponseEntity<GeneralComment> AddComment(@RequestBody GeneralCommentRequest request) {
+	public ResponseEntity<GeneralComment> addComment(@RequestBody GeneralCommentRequest request) {
 		GeneralComment comment = commentService.addComment(request);
 		return ResponseEntity.ok(comment);
 	}
 
 	@PutMapping("/{comment_id}")
-	public ResponseEntity<GeneralComment> ModifyComment(@PathVariable Long comment_id, @RequestBody String content) {
+	public ResponseEntity<GeneralComment> modifyComment(@PathVariable Long comment_id, @RequestBody String content) {
 		GeneralComment comment = commentService.modifyComment(comment_id, content);
 		return ResponseEntity.ok(comment);
 	}
 
 	@DeleteMapping("/{comment_id}")
-	public ResponseEntity<Void> DeleteComment(@PathVariable Long comment_id) {
+	public ResponseEntity<Void> deleteComment(@PathVariable Long comment_id) {
 		commentService.deleteComment(comment_id);
 		return ResponseEntity.noContent().build();
 	}
