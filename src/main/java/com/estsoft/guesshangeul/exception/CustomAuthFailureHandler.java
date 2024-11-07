@@ -1,4 +1,4 @@
-package com.estsoft.guesshangeul.user.controller;
+package com.estsoft.guesshangeul.exception;
 
 import java.io.IOException;
 import java.net.URLEncoder;
