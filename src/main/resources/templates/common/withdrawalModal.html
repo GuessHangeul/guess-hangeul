@@ -9,6 +9,7 @@
                 </div>
                 <div class="modal-body">
                     <form>
+                        <span th:text="${#authentication.principal.id}" id="user-id" style="visibility: hidden"></span>
                         <h3>정말 탈퇴하시겠습니까?</h3>
                         <p>탈퇴를 원하시면, 아래 입력란에 "탈퇴를 원합니다"를 입력해 주세요.</p>
                         <div class="mb-1">

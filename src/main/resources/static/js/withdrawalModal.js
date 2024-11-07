@@ -4,9 +4,11 @@ function checkWithdrawalConfirmInput() {
     return value === "탈퇴를 원합니다";
 }
 
+
 var withdrawalConfirmBtn = document.getElementById("confirm-withdrawal-btn");
 if (withdrawalConfirmBtn) {
     withdrawalConfirmBtn.addEventListener('click', function () {
+        var userId = document.getElementById("user-id").textContent;
         if (!checkWithdrawalConfirmInput()) {
             var feedbackMessage = document.getElementById("feedback-message");
             feedbackMessage.style.visibility = "visible";
@@ -18,7 +20,7 @@ if (withdrawalConfirmBtn) {
             isHidden: true
         };
 
-        fetch('http://localhost:8080/api/withDrawal/1', {
+        fetch('/api/withDrawal/' + userId, {
             method: 'PUT',
             headers: {
                 'Content-Type': 'application/json'
