@@ -33,15 +33,15 @@
 
     <!--Content-->
     <div class="container">
-        <table class="table table-bordered table-hover dt-responsive">
+        <table class="table table-bordered table-hover dt-responsive" id="userTable">
             <thead>
             <tr>
-                <th>유저 ID</th>
-                <th>닉네임</th>
-                <th>등급</th>
-                <th>가입 일자</th>
-                <th>접속 시간</th>
-                <th>접속 횟수</th>
+                <th onclick="sortTable(0)">유저 ID</th>
+                <th onclick="sortTable(1)">닉네임</th>
+                <th onclick="sortTable(2)">등급</th>
+                <th onclick="sortTable(3)">가입 일자</th>
+                <th onclick="sortTable(4)">접속 시간</th>
+                <th onclick="sortTable(5)">접속 횟수</th>
                 <th>닉네임 초기화</th>
                 <th>유저 삭제</th>
             </tr>

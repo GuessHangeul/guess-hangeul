@@ -1,3 +1,5 @@
+// 유저 삭제
+// 유저 삭제 api 없는 것으로 보여서 추가 필요
 // const deleteButton = document.getElementById('delete-btn');
 //
 // if (deleteButton) {
@@ -12,6 +14,7 @@
 //     });
 // }
 
+// 닉네임 초기화
 const resetButtons = document.querySelectorAll('.reset-btn');
 
 resetButtons.forEach((button, index) => {
@@ -35,4 +38,38 @@ resetButtons.forEach((button, index) => {
             });
     });
 });
+
+// 정렬
+function sortTable(columnIndex) {
+    const table = document.getElementById("userTable");
+    const tbody = table.querySelector("tbody");
+    const rows = Array.from(tbody.querySelectorAll("tr"));
+    let ascending = true;
+
+    // 기존 정렬 방향 확인
+    if (table.getAttribute("data-sorted-column") == columnIndex) {
+        ascending = table.getAttribute("data-sort-direction") !== "asc";
+    }
+
+    // 정렬 기준 열의 데이터를 기준으로 정렬
+    rows.sort((rowA, rowB) => {
+        const cellA = rowA.cells[columnIndex].textContent.trim();
+        const cellB = rowB.cells[columnIndex].textContent.trim();
+
+        if (!isNaN(cellA) && !isNaN(cellB)) {
+            return ascending ? cellA - cellB : cellB - cellA;
+        }
+        return ascending
+            ? cellA.localeCompare(cellB)
+            : cellB.localeCompare(cellA);
+    });
+
+    // 정렬된 행을 테이블에 다시 추가
+    tbody.innerHTML = "";
+    rows.forEach(row => tbody.appendChild(row));
+
+    // 정렬 방향 및 정렬된 열 인덱스 저장
+    table.setAttribute("data-sorted-column", columnIndex);
+    table.setAttribute("data-sort-direction", ascending ? "asc" : "desc");
+}
 
