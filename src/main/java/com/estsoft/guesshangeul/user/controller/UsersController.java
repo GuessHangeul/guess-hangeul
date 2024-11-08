@@ -44,16 +44,11 @@ public class UsersController {
 
 	// 회원 가입
 	@PostMapping("/signup")
-	public void signup(@ModelAttribute AddUserRequest request, HttpServletResponse response) {
+	public void signup(@RequestBody AddUserRequest request) {
 		Users users = usersService.save(request);
 		List<AddAuthorityRequest> addAuthorityRequestList = new ArrayList<>();
 		addAuthorityRequestList.add(new AddAuthorityRequest(users.getId(), "ROLE_NOBI"));
 		addAuthority(addAuthorityRequestList);
-		try {
-			response.sendRedirect("/login");
-		} catch (IOException e) {
-			log.error(e.getMessage());
-		}
 	}
 
 	// 권한 추가
