@@ -13,6 +13,7 @@ import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
@@ -24,6 +25,7 @@ import com.estsoft.guesshangeul.user.dto.CheckEmailExistsRequest;
 import com.estsoft.guesshangeul.user.dto.CheckEmailExistsResponse;
 import com.estsoft.guesshangeul.user.dto.CheckNicknameExistsRequest;
 import com.estsoft.guesshangeul.user.dto.CheckNicknameExistsResponse;
+import com.estsoft.guesshangeul.user.dto.DeleteUsersRequest;
 import com.estsoft.guesshangeul.user.dto.ModifyPwdRequest;
 import com.estsoft.guesshangeul.user.entity.Authorities;
 import com.estsoft.guesshangeul.user.entity.Users;
@@ -34,6 +36,7 @@ import jakarta.servlet.http.HttpServletResponse;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 
+@SuppressWarnings("ALL")
 @Slf4j
 @RestController
 @RequestMapping("/api")
@@ -127,5 +130,9 @@ public class UsersController {
 			log.error(e.getMessage());
 		}
 	}
-
+	@PutMapping("/api/users/{id}")
+	public ResponseEntity<Users> deleteUsers(@PathVariable Long id, @RequestBody DeleteUsersRequest request) {//유저 삭제는 소프트 삭제인 관계로 update처리
+		Users deleteUser = usersService.deleteUser(id, request);
+		return ResponseEntity.ok(deleteUser);
+	}
 }

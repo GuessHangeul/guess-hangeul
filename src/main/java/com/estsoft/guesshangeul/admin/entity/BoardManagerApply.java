@@ -57,8 +57,7 @@ public class BoardManagerApply {
 		this.createdAt = createdAt;
 	}
 
-	public void update(Long id, Users users, int status, LocalDateTime createdAt){
-		this.id = id;
+	public void update(Users users, int status, LocalDateTime createdAt){
 		this.users = users;
 		this.status = status;
 		this.createdAt = createdAt;
