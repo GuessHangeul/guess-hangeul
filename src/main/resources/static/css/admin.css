@@ -1,0 +1,85 @@
+a {
+    text-decoration-line: none;
+    color: black;
+}
+
+hr {
+    width: 100%;
+    align-items: center;
+}
+
+/*사이드 바*/
+
+.sidebar {
+    display: flex;
+    flex-direction: column;
+    list-style-type: none;
+}
+
+.sidebar-user {
+    background-color: lightgrey;
+}
+
+/* 검색바 */
+
+.navbar {
+    display: flex;
+    justify-content: center;
+    margin-bottom: 20px; /* 검색창과 테이블 사이 간격 */
+}
+
+.search {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+}
+
+.input-nickname {
+    display: flex;
+    gap: 10px; /* 검색창과 버튼 간격 */
+}
+
+.searchText {
+    padding: 8px 12px;
+    font-size: 14px;
+    border: 1px solid #ccc;
+    border-radius: 4px;
+}
+
+.button {
+    padding: 8px 16px;
+    font-size: 14px;
+    background-color: lightgrey; /* 버튼 색상 */
+    border: none;
+    border-radius: 4px;
+    cursor: pointer;
+}
+
+.button:hover {
+    background-color: darkgrey; /* 버튼 호버 효과 */
+}
+
+/* 테이블 설정 */
+
+table {
+    width: 100%;
+    border-collapse: collapse;
+}
+
+th {
+    padding: 10px;
+    background-color: lightgrey;
+}
+
+td {
+    padding: 10px;
+    text-align: center;
+}
+
+.reset-btn {
+    border-radius: 20px;
+}
+
+.delete-btn {
+    border-radius: 20px;
+}

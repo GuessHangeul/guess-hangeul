@@ -17,47 +17,15 @@
             <span class="fs-4">Sidebar</span>
         </a>
         <hr>
-        <ul class="nav nav-pills flex-column mb-auto">
-            <li class="nav-item">
-                <a href="#" class="nav-link active" aria-current="page">
-                    <svg class="bi pe-none me-2" width="16" height="16">
-                        <use xlink:href="#home"></use>
-                    </svg>
-                    Home
-                </a>
-            </li>
-            <li>
-                <a href="#" class="nav-link link-body-emphasis">
-                    <svg class="bi pe-none me-2" width="16" height="16">
-                        <use xlink:href="#speedometer2"></use>
-                    </svg>
-                    Dashboard
-                </a>
-            </li>
-            <li>
-                <a href="#" class="nav-link link-body-emphasis">
-                    <svg class="bi pe-none me-2" width="16" height="16">
-                        <use xlink:href="#table"></use>
-                    </svg>
-                    Orders
-                </a>
-            </li>
-            <li>
-                <a href="#" class="nav-link link-body-emphasis">
-                    <svg class="bi pe-none me-2" width="16" height="16">
-                        <use xlink:href="#grid"></use>
-                    </svg>
-                    Products
-                </a>
-            </li>
-            <li>
-                <a href="#" class="nav-link link-body-emphasis">
-                    <svg class="bi pe-none me-2" width="16" height="16">
-                        <use xlink:href="#people-circle"></use>
-                    </svg>
-                    Customers
-                </a>
-            </li>
+        <ul class="sidebar">
+            <li class="sidebar-user"><a class="nav-link-user" href="admin"><span>유저 관리</span></a></li>
+            <hr class="sidebar-divider">
+            <div class="sidebar-board">게시판 관리</div>
+            <li class="sidebar-general-board"><a class="nav-link-general-board" href=""><span>일반 게시판 관리</span></a></li>
+            <li class="sidebar-quiz-board"><a class="nav-link-quiz-board" href=""><span>퀴즈 게시판 관리</span></a></li>
+            <hr class="sidebar-divider">
+            <li class="sidebar-boardManager"><a class="nav-link-board-manager" href=""><span>집현전 신청 관리</span></a></li>
         </ul>
+        <!--End of Sidebar-->
     </div>
 </th:block>
