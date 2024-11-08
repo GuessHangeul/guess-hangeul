@@ -15,12 +15,12 @@ public class EmailService {
 	@Value("${spring.mail.username}")
 	private String fromEmail;
 
-	public void sendPasswordResetEmail(String toEmail, String resetLink) {
+	public void sendPasswordResetEmail(String toEmail, String resetUrl) {
 		SimpleMailMessage message = new SimpleMailMessage();
 		message.setFrom(fromEmail);
 		message.setTo(toEmail);
 		message.setSubject("[ㄴㄹㅁㅆㅁ] 비밀번호 재설정 링크를 확인해 주세요.");
-		message.setText("비밀번호를 재설정하려면 다음 링크를 클릭하세요: \n" + resetLink);
+		message.setText("비밀번호를 재설정하려면 다음 링크를 클릭하세요:\n\n" + resetUrl + "\n\n이 링크는 24시간 동안 유효합니다.");
 
 		mailSender.send(message);
 	}

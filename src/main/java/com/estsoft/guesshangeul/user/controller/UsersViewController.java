@@ -6,6 +6,7 @@ import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestParam;
 
+import com.estsoft.guesshangeul.user.dto.ModifyPwdRequest;
 import com.estsoft.guesshangeul.user.service.UsersService;
 
 import lombok.RequiredArgsConstructor;
@@ -36,7 +37,7 @@ public class UsersViewController {
 	public String validateResetToken(@PathVariable String token, Model model) {
 		String result = usersService.validatePasswordResetToken(token);
 		if (result.equals("valid")) {
-			model.addAttribute("token", token);
+			model.addAttribute("form", new ModifyPwdRequest(token));
 			return "passwordChange";
 		} else {
 			return "failedVerifyToken";

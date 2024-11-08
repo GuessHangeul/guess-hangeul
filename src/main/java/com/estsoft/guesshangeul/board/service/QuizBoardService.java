@@ -36,7 +36,12 @@ public class QuizBoardService {
 
 	public QuizBoardDto addNewQuizBoard(QuizBoardCreateRequest request) {
 		Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
-		String username = ((UserDetails)authentication.getPrincipal()).getUsername();
+		String username;
+		if (authentication.getPrincipal() instanceof UserDetails userDetails) {
+			username = userDetails.getUsername();
+		} else {
+			username = (String)authentication.getPrincipal();
+		}
 
 		Users users = (Users)usersDetailsService.loadUserByUsername(username);
 		String title = request.getTitle();

@@ -2,7 +2,8 @@
 <html xmlns:th="http://www.thymeleaf.org" xmlns:sec="http://www.thymeleaf.org/extras/spring-security" lang="kr">
 <th:block th:fragment="header">
     <header class="p-3 mb-3 border-bottom">
-        <th:block th:replace="~{/common/withdrawalModal :: withdrawalModal}"></th:block>
+        <th:block th:replace="~{/common/withdrawalModal :: withdrawalModal}"
+                  sec:authorize="isAuthenticated()"></th:block>
         <div class="container">
             <div class="d-flex justify-content-between align-items-center w-100">
                 <div>

@@ -2,22 +2,24 @@ package com.estsoft.guesshangeul.user.controller;
 
 import java.io.IOException;
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
-import org.springframework.web.bind.annotation.DeleteMapping;
+import org.springframework.security.core.GrantedAuthority;
+import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.estsoft.guesshangeul.user.dto.AddAuthorityRequest;
-import com.estsoft.guesshangeul.user.dto.AddAuthorityResponse;
 import com.estsoft.guesshangeul.user.dto.AddUserRequest;
+import com.estsoft.guesshangeul.user.dto.AuthorityResponse;
 import com.estsoft.guesshangeul.user.dto.CheckEmailExistsRequest;
 import com.estsoft.guesshangeul.user.dto.CheckEmailExistsResponse;
 import com.estsoft.guesshangeul.user.dto.CheckNicknameExistsRequest;
@@ -56,15 +58,26 @@ public class UsersController {
 
 	// 권한 추가
 	@PostMapping("/user/authority")
-	public ResponseEntity<List<AddAuthorityResponse>> addAuthority(
+	public ResponseEntity<List<AuthorityResponse>> addAuthority(
 		@RequestBody List<AddAuthorityRequest> addAuthorityRequestList) {
 		List<Authorities> authorities = usersDetailsService.saveUserAuthorities(addAuthorityRequestList);
 		return ResponseEntity.status(HttpStatus.CREATED)
 			.body(authorities.stream()
-				.map(Authority -> new AddAuthorityResponse(
-					Authority.getId(), Authority.getUserId(), Authority.getAuthority()
-				))
+				.map(Authority -> new AuthorityResponse(Authority.getId(), Authority.getUserId(),
+					Authority.getAuthority()))
 				.toList());
+	}
+
+	//권한 조회
+	@GetMapping("/user/findAuthority/{userId}")
+	public ResponseEntity<List<AuthorityResponse>> findAuthority(@PathVariable Long userId) {
+		List<GrantedAuthority> grantedAuthorityList = usersDetailsService.loadUserAuthorities(userId);
+		List<AuthorityResponse> authorityResponseList = new ArrayList<>();
+
+		grantedAuthorityList.forEach(
+			grantedAuthority -> authorityResponseList.add(new AuthorityResponse(grantedAuthority.getAuthority()))
+		);
+		return ResponseEntity.ok(authorityResponseList);
 	}
 
 	@PostMapping("/checkEmailDuplicate")
@@ -88,31 +101,31 @@ public class UsersController {
 
 	// 비밀번호 변경 메일
 	@PostMapping("/resetPasswordRequest/{email}")
-	public ResponseEntity<String> createTokenSendEmail(@PathVariable String email) {
-		Users user = usersService.findUserByEmail(email);
+	public ResponseEntity<Map<String, String>> createTokenSendEmail(@PathVariable String email) {
+		Map<String, String> response = new HashMap<>();
 
-		usersService.createTokenSendEmail(user);
-		return ResponseEntity.ok("비밀번호 재설정 링크가 이메일로 발송되었습니다.");
+		try {
+			Users user = usersService.findUserByEmail(email);
+			usersService.createTokenSendEmail(user);
+			response.put("status", "success");
+			response.put("message", "비밀번호 재설정 이메일이 발송되었습니다.");
+		} catch (Exception e) {
+			response.put("status", "error");
+			response.put("message", "이메일 발송 중 오류가 발생했습니다.");
+		}
+
+		return ResponseEntity.ok(response);
 	}
 
 	// 비밀번호 변경
-	@PutMapping("/resetPassword")
-	public ResponseEntity<String> resetPassword(@RequestBody ModifyPwdRequest request) {
-		String result = usersService.validatePasswordResetToken(request.getToken());
-		if (!result.equals("valid")) {
-			return ResponseEntity.badRequest().body("토큰이 유효하지 않습니다.");
-		}
-
+	@PostMapping("/resetPassword")
+	public void resetPassword(@ModelAttribute("token") ModifyPwdRequest request, HttpServletResponse response) {
 		usersService.changePassword(request.getToken(), request.getPassword());
-		return ResponseEntity.ok("비밀번호가 성공적으로 변경되었습니다.");
-	}
-
-	//사용자 삭제 컨트롤러
-	@DeleteMapping("/api/users/{id}")
-	public ResponseEntity<Void> deleteUser(@PathVariable Long id) {
-		usersService.deleteUser(id);
-
-		return ResponseEntity.ok().build();
+		try {
+			response.sendRedirect("/");
+		} catch (IOException e) {
+			log.error(e.getMessage());
+		}
 	}
 
 }
