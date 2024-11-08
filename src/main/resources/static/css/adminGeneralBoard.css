@@ -18,13 +18,23 @@ button:hover {
 
 .generalBoardList {
     display: flex;
-    gap: 20px;
+    gap: 30px;
 }
 
 .nav-bar {
     display: flex;
     gap: 30px;
     align-items: center;
+}
+
+.board {
+    display: flex;
+    justify-content: flex-start;
+    margin-bottom: 30px;
+}
+
+.title {
+    margin-right: auto;
 }
 
 .post-hide {

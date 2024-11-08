@@ -14,15 +14,21 @@
     <!--일반 게시판 목록-->
     <div class="generalBoardList">
         <div class="boardList" th:each="board : ${generalBoard}">
-            <input type="hidden" id="article-id" th:value="${board.id}">
-            <button class="board-btn" type="button" th:text="${board.title}"></button>
+            <input type="hidden" id="boardId" th:value="${board.id}">
+            <button class="board-btn" type="button" th:text="${board.title}"
+                    th:attr="data-boardId=${board.id}, data-title=${board.title}"
+                    onclick="redirectToBoard(this)"></button>
         </div>
     </div>
     <hr>
     <div class="content">
-        <h1>게시판 제목</h1>
-        <!--    <input type="hidden" id="board-id" th:value="${boardId}">-->
-        <button class="board-delete-btn" type="button">삭제</button>
+        <div class="board">
+            <h1 class="title" th:text="${board.title}"></h1>
+            <button class="board-delete-btn" th:attr="data-boardId=${board.id}" type="button"
+                    onclick="deleteBoard(this)">
+                삭제
+            </button>
+        </div>
         <nav class="nav-bar">
             <div class="post-hide">
                 <button class="hide-btn" type="button">게시글 숨기기</button>
@@ -40,6 +46,7 @@
             <label for="general-post">게시글 내용(작성자/등급, 제목, 생성, 업데이트, 조회수/댓글수</label>
         </div>
     </div>
+    <script th:src="@{/js/adminBoard.js}"></script>
 </div>
 </body>
 </html>
