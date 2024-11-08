@@ -1,58 +1,57 @@
 package com.estsoft.guesshangeul.post.controller;
 
+import com.estsoft.guesshangeul.post.dto.AddGeneralPostRequest;
 import com.estsoft.guesshangeul.post.dto.GeneralPostResponse;
-import com.estsoft.guesshangeul.post.entity.GeneralPost;
+import com.estsoft.guesshangeul.post.dto.UpdateGeneralPostRequest;
 import com.estsoft.guesshangeul.post.service.GeneralPostService;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
-import java.util.stream.Collectors;
 
 @RestController
-@RequestMapping("/api/generalBoard/{board_id}/generalPost")
+@RequestMapping("/api/generalBoard/{general_board_id}/generalPost")
 public class GeneralPostController {
     private final GeneralPostService generalPostService;
 
     public GeneralPostController(GeneralPostService generalPostService) {
         this.generalPostService = generalPostService;
     }
-
-    // 게시글 전체 조회
-    @GetMapping("/")
-    public ResponseEntity<List<GeneralPostResponse>> getAllGeneralPosts(@PathVariable String board_id) {
-        List<GeneralPostResponse> getAllGeneralPosts = generalPostService.getAllGeneralPosts()
-                .stream().map(GeneralPostResponse::new)
-                .toList();
-        return ResponseEntity.status(HttpStatus.OK).body(getAllGeneralPosts);
+    // 모든 게시글 조회
+    @GetMapping
+    public ResponseEntity<List<GeneralPostResponse>> getAllGeneralPosts() {
+        List<GeneralPostResponse> posts = generalPostService.getAllGeneralPosts();
+        return ResponseEntity.status(HttpStatus.OK).body(posts);
     }
-
-    // 게시글 ID로 조회
-    @GetMapping("/{post_id}")
-    public ResponseEntity<GeneralPostResponse> getGeneralPostById(@PathVariable Long post_id, @PathVariable String board_id) {
-        GeneralPostResponse getGeneralPostById = generalPostService.getGeneralPostById(post_id);
-        return ResponseEntity.ok(getGeneralPostById);
+    // ID로 게시글 조회 (없으면 예외 발생)
+    @GetMapping("/{general_post_id}")
+    public ResponseEntity<GeneralPostResponse> getGeneralPostById(@PathVariable Long general_post_id) {
+        GeneralPostResponse post = generalPostService.getGeneralPostById(general_post_id);
+        return ResponseEntity.status(HttpStatus.OK).body(post);
     }
-
+    // 제목으로 게시글 조회
+    @GetMapping("/{title}")
+    public ResponseEntity<GeneralPostResponse> getGeneralPostByTitle(@PathVariable String title) {
+        GeneralPostResponse post = generalPostService.getGeneralPostByTitle(title);
+        return ResponseEntity.status(HttpStatus.OK).body(post);
+    }
     // 게시글 생성
-    @PostMapping("/")
-    public ResponseEntity<GeneralPostResponse> createGeneralPost(@RequestBody GeneralPost post, @PathVariable String board_id) {
-        GeneralPostResponse createGeneralPost = generalPostService.createGeneralPost(post);
-        return ResponseEntity.ok(createGeneralPost);
+    @PostMapping
+    public ResponseEntity<GeneralPostResponse> createGeneralPost(@RequestBody AddGeneralPostRequest request) {
+        GeneralPostResponse post = generalPostService.createGeneralPost(request);
+        return ResponseEntity.status(HttpStatus.CREATED).body(post);
     }
-
-    // 게시글 업데이트
-    @PutMapping("/{post_id}")
-    public ResponseEntity<GeneralPostResponse> updateGeneralPost(@PathVariable Long post_id, @RequestBody GeneralPost postDetails, @PathVariable String board_id) {
-        GeneralPostResponse updateGeneralPost = generalPostService.updateGeneralPost(post_id, postDetails);
-        return ResponseEntity.ok(updateGeneralPost);
+    // 게시글 수정
+    @PutMapping("/{general_post_id}")
+    public ResponseEntity<GeneralPostResponse> updateGeneralPost(@PathVariable Long general_post_id, @RequestBody UpdateGeneralPostRequest request) {
+        GeneralPostResponse post = generalPostService.updateGeneralPost(general_post_id, request);
+        return ResponseEntity.status(HttpStatus.OK).body(post);
     }
-
     // 게시글 삭제
-    @DeleteMapping("/{post_id}")
-    public ResponseEntity<Void> deleteGeneralPost(@PathVariable Long post_id, @PathVariable String board_id) {
-        generalPostService.deleteGeneralPost(post_id);
-        return ResponseEntity.noContent().build();
+    @DeleteMapping("/{general_post_id}")
+    public ResponseEntity<Void> deleteGeneralPost(@PathVariable Long general_post_id) {
+        generalPostService.deleteGeneralPost(general_post_id);
+        return ResponseEntity.status(HttpStatus.NO_CONTENT).build();
     }
 }
