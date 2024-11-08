@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html lang="ko">
+<html lang="ko" xmlns:th="http://www.thymeleaf.org">
 <head>
     <meta charset="utf-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
@@ -13,7 +13,7 @@
     <div class="container-fluid column justify-content-center align-content-center">
         <div class="card-body p-5 text-center">
             <h2 class="md-3">ㄴㄹㅁㅆㅁ</h2>
-            <form class="text-left" action="/login" method="post">
+            <form class="text-left" action="/api/login" method="post">
                 <div class="mb-3">
                     <label class="form-label" for="email">이메일</label>
                     <input class="form-control" type="email" name="email" id="email"/>
@@ -25,10 +25,15 @@
                 <div class="text-center" th:if="${not #strings.isEmpty(message)}">
                     <span style="color: red;" th:text="${message}"></span>
                 </div>
-                <a href="/findUser">계정 찾기</a>
-                <button class="btn btn-outline-primary btn-sm" type="submit">로그인</button>
-                <p>아직 회원이 아니신가요?</p>
-                <a href="/signup">회원 가입</a>
+                <div class="text-right">
+                    <a href="/findUser">계정 찾기</a>
+                </div>
+                <div class="text-center">
+                    <button class="w-100 btn btn-primary mt-3" type="submit">로그인</button>
+                    <p class="d-inline">아직 회원이 아니신가요?</p>
+                    <a href="/signup">회원 가입</a>
+                </div>
+
             </form>
         </div>
     </div>

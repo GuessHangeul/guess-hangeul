@@ -13,7 +13,7 @@
     <div class="container-fluid column justify-content-center align-content-center">
         <div class="card-body p-5 text-center">
             <h2 class="md-3">ㄴㄹㅁㅆㅁ</h2>
-            <form class="text-left" action="/api/signup" method="post">
+            <form class="text-left" id="signup_form" action="/api/signup" method="post">
                 <div class="mb-3">
                     <label class="form-label" for="email">이메일</label>
                     <input class="form-control" type="email" name="email" id="email"/>
@@ -21,20 +21,23 @@
                 <div class="mb-3">
                     <label class="form-label" for="password">비밀번호</label>
                     <input class="form-control" type="password" name="password" id="password"/>
+                    <span id="validation_message"></span>
                 </div>
                 <div class="mb-3">
                     <label class="form-label" for="verify_pwd">비밀번호 확인</label>
                     <input class="form-control" type="password" name="verify_pwd" id="verify_pwd"/>
+                    <span id="message"></span>
                 </div>
                 <div class="mb-3">
                     <label class="form-label" for="nickname">닉네임</label>
                     <input class="form-control" type="text" name="nickname" id="nickname"/>
                 </div>
-                <button class="btn btn-outline-primary btn-sm" type="submit">회원 가입</button>
+                <button class="w-100 btn btn-primary mt-3" id="submit" type="submit">회원 가입</button>
             </form>
         </div>
     </div>
 </section>
+<script src="/js/validatePassword.js"></script>
 </body>
 
 </html>

@@ -16,10 +16,17 @@ public class GeneralBoardResponse {
 	private LocalDateTime createdAt;
 	private Boolean isDeleted;
 
-	public GeneralBoardResponse(GeneralBoard quizBoard) {
-		this.id = quizBoard.getId();
-		this.title = quizBoard.getTitle();
-		this.createdAt = quizBoard.getCreatedAt();
-		this.isDeleted = quizBoard.getIsDeleted();
+	public GeneralBoardResponse(GeneralBoard generalBoard) {
+		this.id = generalBoard.getId();
+		this.title = generalBoard.getTitle();
+		this.createdAt = generalBoard.getCreatedAt();
+		this.isDeleted = generalBoard.getIsDeleted();
+	}
+
+	public GeneralBoardResponse(GeneralBoardDto generalBoard) {
+		this.id = generalBoard.getId();
+		this.title = generalBoard.getTitle();
+		this.createdAt = generalBoard.getCreatedAt();
+		this.isDeleted = generalBoard.getIsDeleted();
 	}
 }
