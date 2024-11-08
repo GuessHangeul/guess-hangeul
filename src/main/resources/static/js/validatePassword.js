@@ -1,7 +1,9 @@
+// DOM 요소들을 조건부로 가져오기
 const password = document.getElementById('password');
 const verifyPwd = document.getElementById('verify_pwd');
 const message = document.getElementById('message');
 const signupForm = document.getElementById('signup_form');
+const passwordChangeForm = document.getElementById('password_change_form');
 const ValidationMessage = document.getElementById('validation_message');
 
 let PasswordMatch = false;
@@ -22,7 +24,6 @@ function validatePasswordMatch() {
 
 // 비밀번호 유효성 검사 함수
 function validatePasswordRule(pwd) {
-
     const rules = {
         length: pwd.length >= 6 && pwd.length <= 20,
         lowercase: /[a-z]/.test(pwd),
@@ -49,27 +50,50 @@ function validatePasswordRule(pwd) {
     return PasswordRule;
 }
 
-password.addEventListener('input', function () {
-    validatePasswordRule(password.value);
-    validatePasswordMatch();
-});
+// 비밀번호 & 비밀번호 확인 입력 시 이벤트
+if (password && verifyPwd) {
+    password.addEventListener('input', function () {
+        validatePasswordRule(password.value);
+        validatePasswordMatch();
+    });
 
-verifyPwd.addEventListener('input', validatePasswordMatch);
+    verifyPwd.addEventListener('input', validatePasswordMatch);
+}
 
-// 회원가입 버튼 클릭 시 유호성 검사 함수
-signupForm.addEventListener('submit', function (event) {
+// 회원가입 submit 이벤트
+if (signupForm) {
+    signupForm.addEventListener('submit', function (event) {
+        if (!PasswordRule) {
+            alert('비밀번호가 규칙에 맞지 않습니다.');
+            event.preventDefault();
+            return;
+        }
 
-    if (!PasswordRule) {
-        alert('비밀번호가 규칙에 맞지 않습니다.');
-        event.preventDefault();
-        return;
-    }
+        if (!PasswordMatch) {
+            alert('비밀번호가 일치하지 않습니다. 다시 확인해주세요.');
+            event.preventDefault();
+            return;
+        }
 
-    if (!PasswordMatch) {
-        alert('비밀번호가 일치하지 않습니다. 다시 확인해주세요.');
-        event.preventDefault();
-        return;
-    }
-    
-    alert('회원가입이 완료되었습니다!');
-});
+        alert('회원가입이 완료되었습니다!');
+    });
+}
+
+// 비밀번호 변경 submit 이벤트
+if (passwordChangeForm) {
+    passwordChangeForm.addEventListener('submit', function (event) {
+        if (!PasswordRule) {
+            alert('비밀번호가 규칙에 맞지 않습니다.');
+            event.preventDefault();
+            return;
+        }
+
+        if (!PasswordMatch) {
+            alert('비밀번호가 일치하지 않습니다. 다시 확인해주세요.');
+            event.preventDefault();
+            return;
+        }
+
+        alert('비밀번호가 변경 되었습니다!');
+    });
+}
