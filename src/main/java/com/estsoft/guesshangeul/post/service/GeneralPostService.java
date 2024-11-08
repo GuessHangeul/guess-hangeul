@@ -37,6 +37,7 @@ public class GeneralPostService {
                 .orElseThrow(() -> new RuntimeException("해당 제목의 게시글은 존재하지 않습니다."));
         return new GeneralPostResponse(post);
     }
+
     // 게시글 생성
     public GeneralPostResponse createGeneralPost(AddGeneralPostRequest request) {
         GeneralPost post = request.toEntity();

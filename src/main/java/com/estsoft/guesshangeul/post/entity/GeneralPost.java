@@ -7,6 +7,9 @@ import jakarta.persistence.*;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
+import org.hibernate.annotations.ColumnDefault;
+import org.springframework.data.annotation.CreatedDate;
+import org.springframework.data.annotation.LastModifiedDate;
 import org.springframework.data.jpa.domain.support.AuditingEntityListener;
 
 
@@ -25,17 +28,31 @@ public class GeneralPost {
 	private Long id;
 
 	@ManyToOne
-	@JoinColumn(name = "user_id", nullable = false)
+	@JoinColumn(name = "user_id")
 	private Users users;
 
 	@ManyToOne
-	@JoinColumn(name = "board_id", nullable = false)
+	@JoinColumn(name = "general_board_id")
 	private GeneralBoard generalBoard;
 
+	@Column(nullable = false)
 	private String title;
+
+	@Column(nullable = false)
 	private String content;
+
+	@Column(name = "is_hidden", nullable = false)
+	@ColumnDefault("false")
 	private boolean isHidden;
+
+	@Column(nullable = false)
 	private Long view;
+
+	@CreatedDate
+	@Column(name = "created_at")
 	private LocalDateTime createdAt;
+
+	@LastModifiedDate
+	@Column(name = "updated_at")
 	private LocalDateTime updatedAt;
 }

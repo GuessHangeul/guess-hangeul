@@ -18,20 +18,20 @@ public class GeneralPostController {
     public GeneralPostController(GeneralPostService generalPostService) {
         this.generalPostService = generalPostService;
     }
-    // 모든 게시글 조회
+    // 전체 게시글 조회
     @GetMapping
     public ResponseEntity<List<GeneralPostResponse>> getAllGeneralPosts() {
         List<GeneralPostResponse> posts = generalPostService.getAllGeneralPosts();
         return ResponseEntity.status(HttpStatus.OK).body(posts);
     }
-    // ID로 게시글 조회 (없으면 예외 발생)
+    // 게시글 id로 조회
     @GetMapping("/{general_post_id}")
     public ResponseEntity<GeneralPostResponse> getGeneralPostById(@PathVariable Long general_post_id) {
         GeneralPostResponse post = generalPostService.getGeneralPostById(general_post_id);
         return ResponseEntity.status(HttpStatus.OK).body(post);
     }
-    // 제목으로 게시글 조회
-    @GetMapping("/{title}")
+    // 게시글 제목으로 조회
+    @GetMapping("?search={title}")
     public ResponseEntity<GeneralPostResponse> getGeneralPostByTitle(@PathVariable String title) {
         GeneralPostResponse post = generalPostService.getGeneralPostByTitle(title);
         return ResponseEntity.status(HttpStatus.OK).body(post);
