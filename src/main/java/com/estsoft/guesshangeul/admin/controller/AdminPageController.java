@@ -88,4 +88,9 @@ public class AdminPageController {
 
 		return "adminQuizBoard";
 	}
+
+	@GetMapping("/admin/boardManagerApply")
+	public String showBoardManagerApply(Model model) {
+		return "adminBoardManager";
+	}
 }
