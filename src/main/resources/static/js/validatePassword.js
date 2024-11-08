@@ -1,8 +1,10 @@
 // DOM 요소들을 조건부로 가져오기
 const password = document.getElementById('password');
 const verifyPwd = document.getElementById('verify_pwd');
+const email = document.getElementById('email');
+const nickname = document.getElementById('nickname');
 const message = document.getElementById('message');
-const signupForm = document.getElementById('signup_form');
+const joinButton = document.getElementById('join_button');
 const passwordChangeForm = document.getElementById('password_change_form');
 const ValidationMessage = document.getElementById('validation_message');
 
@@ -60,9 +62,9 @@ if (password && verifyPwd) {
     verifyPwd.addEventListener('input', validatePasswordMatch);
 }
 
-// 회원가입 submit 이벤트
-if (signupForm) {
-    signupForm.addEventListener('submit', function (event) {
+// 회원가입 button 이벤트
+if (joinButton) {
+    joinButton.addEventListener('click', function (event) {
         if (!PasswordRule) {
             alert('비밀번호가 규칙에 맞지 않습니다.');
             event.preventDefault();
@@ -75,7 +77,33 @@ if (signupForm) {
             return;
         }
 
-        alert('회원가입이 완료되었습니다!');
+        const param = {
+            'email': email.value,
+            'password': password.value,
+            'nickname': nickname.value
+        }
+
+        fetch(`/api/signup`, {
+            method: 'POST',
+            headers: {
+                "Content-Type": "application/json",
+            },
+            body: JSON.stringify(param)
+        })
+            .then(response => {
+                if (!response.ok) {
+                    return response.text().then(text => {
+                        throw new Error(text);
+                    });
+                }
+                alert('회원가입이 완료되었습니다!');
+                window.location.href = '/login';
+                // return response.json;
+            })
+            .catch(error => {
+                alert(error.message);
+                console.error('Error:', error);
+            });
     });
 }
 

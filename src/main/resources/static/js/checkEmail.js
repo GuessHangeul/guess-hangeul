@@ -15,11 +15,9 @@ check_email.addEventListener('click', function () {
     };
 
     fetch('/api/checkEmailDuplicate', {
-        method: 'POST',
-        headers: {
+        method: 'POST', headers: {
             "Content-Type": "application/json",
-        },
-        body: JSON.stringify(param)
+        }, body: JSON.stringify(param)
     })
         .then(response => {
             if (!response.ok) {
@@ -61,37 +59,48 @@ function showModal(message, showResetButton = false) {
         resetButton.id = 'resetPasswordButton';
         resetButton.className = 'btn btn-primary';
         resetButton.textContent = '비밀번호 변경';
-        resetButton.onclick = sendPasswordResetEmail;
+        resetButton.onclick = PasswordReset;
         modalFooter.insertBefore(resetButton, modalFooter.firstChild);
     }
 
     modal.show();
 }
 
-// 비밀번호 변경 버튼 이벤트
-function sendPasswordResetEmail() {
-    fetch(`api/resetPasswordRequest/${Email}`, {
-        method: 'POST'
-    })
-        .then(response => {
-            if (!response.ok) {
-                throw new Error('서버 응답 오류');
-            }
-            return response.json();
-        })
-        .then(data => {
-            // resultModal 모달 닫기
-            const resultModal = bootstrap.Modal.getInstance(document.getElementById('resultModal'));
-            resultModal.hide();
+// 비밀번호 변경 함수
+function PasswordReset() {
+    // resultModal 닫기
+    const resultModal = bootstrap.Modal.getInstance(document.getElementById('resultModal'));
+    resultModal.hide();
 
-            // passwordResetModal 모달 표시
-            document.getElementById('passwordResetMessage').textContent =
-                `${Email}으로 비밀번호를 변경할 메일을 전송했습니다.`;
-            const resetModal = new bootstrap.Modal(document.getElementById('passwordResetModal'));
-            resetModal.show();
-        })
-        .catch(error => {
-            showModal('비밀번호 재설정 메일 발송 중 오류가 발생했습니다.', false);
-            console.error('Error:', error);
+    // resetModal 모달 표시
+    document.getElementById('passwordResetMessage').textContent = '비밀번호 변경 이메일을 전송하는 중입니다...';
+    const resetModal = new bootstrap.Modal(document.getElementById('passwordResetModal'));
+    resetModal.show();
+
+    // 함수 비동기 처리
+    sendPasswordResetEmail();
+}
+
+// 비밀번호 변경 메일 전송 함수
+async function sendPasswordResetEmail() {
+    try {
+        const response = await fetch(`api/resetPasswordRequest/${Email}`, {
+            method: 'POST'
         });
+
+        if (!response.ok) {
+            throw new Error('서버 응답 오류');
+        }
+
+        const data = await response.json();
+
+        if (data.status === 'success') {
+            document.getElementById('passwordResetMessage').textContent = `${Email}으로 비밀번호를 변경할 메일을 전송했습니다.`;
+        } else {
+            document.getElementById('passwordResetMessage').textContent = '비밀번호 재설정 메일 발송 중 오류가 발생했습니다.';
+        }
+    } catch (error) {
+        document.getElementById('passwordResetMessage').textContent = '비밀번호 재설정 메일 발송 중 오류가 발생했습니다.';
+        console.error('Error:', error);
+    }
 }

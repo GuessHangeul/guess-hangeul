@@ -9,11 +9,14 @@
 </head>
 
 <body>
-<section class="d-flex vh-100">
-    <div class="container-fluid column justify-content-center align-content-center">
-        <div class="card-body p-5 text-center">
-            <h2 class="md-3">ㄴㄹㅁㅆㅁ</h2>
-            <form class="text-left" id="signup_form" action="/api/signup" method="post">
+<section class="d-flex vh-100 align-items-center justify-content-center">
+    <div class="d-flex container-fluid justify-content-center align-content-center">
+        <div class="card-body p-5 text-center" style="max-width: 700px;">
+            <h2 class="d-lg-none md-3">회원가입 페이지</h2>
+            <a th:href="@{/}">
+                <img src="/logo.png" class="img-fluid" style="max-width: 70px;">
+            </a>
+            <div class="text-left" id="signup_form">
                 <div class="mb-3">
                     <label class="form-label" for="email">이메일</label>
                     <input class="form-control" type="email" name="email" id="email"/>
@@ -32,8 +35,8 @@
                     <label class="form-label" for="nickname">닉네임</label>
                     <input class="form-control" type="text" name="nickname" id="nickname"/>
                 </div>
-                <button class="w-100 btn btn-primary mt-3" id="submit" type="submit">회원 가입</button>
-            </form>
+                <button class="w-100 btn btn-primary mt-3" id="join_button" type="button">회원 가입</button>
+            </div>
         </div>
     </div>
 </section>
