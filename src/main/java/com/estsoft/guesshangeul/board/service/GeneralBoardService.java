@@ -20,4 +20,8 @@ public class GeneralBoardService {
 		List<GeneralBoard> generalBoardList = generalBoardRepository.findAllByIsDeleted(isDeleted, pageable);
 		return generalBoardList.stream().map(GeneralBoardDto::new).toList();
 	}
+
+	public GeneralBoardDto findByBoardId(Long boardId) {
+		return new GeneralBoardDto(generalBoardRepository.findById(boardId).orElseThrow());
+	}
 }

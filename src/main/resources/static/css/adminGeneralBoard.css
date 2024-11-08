@@ -1,0 +1,52 @@
+button {
+    padding: 8px 16px;
+    font-size: 14px;
+    background-color: lightgrey; /* 버튼 색상 */
+    border: none;
+    border-radius: 30%;
+    cursor: pointer;
+}
+
+button:hover {
+    background-color: darkgrey; /* 버튼 호버 효과 */
+}
+
+.generalBoard {
+    display: flex;
+    flex-direction: column;
+}
+
+.generalBoardList {
+    display: flex;
+    gap: 30px;
+}
+
+.nav-bar {
+    display: flex;
+    gap: 30px;
+    align-items: center;
+}
+
+.board {
+    display: flex;
+    justify-content: flex-start;
+    margin-bottom: 30px;
+}
+
+.title {
+    margin-right: auto;
+}
+
+.post-hide {
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+}
+
+.nav-link-general-board {
+    background-color: lightgrey;
+}
+
+.post {
+    margin-top: 20px;
+}

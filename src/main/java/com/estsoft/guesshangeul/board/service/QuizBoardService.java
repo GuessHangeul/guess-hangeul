@@ -29,6 +29,10 @@ public class QuizBoardService {
 		return quizBoardList.stream().map(QuizBoardDto::new).toList();
 	}
 
+	public QuizBoardDto findByBoardId(Long boardId) {
+		return quizBoardRepository.findById(boardId).map(QuizBoardDto::new).orElse(null);
+	}
+
 	public boolean quizBoardTitleExists(String title) {
 		Optional<QuizBoard> quizBoard = quizBoardRepository.findByTitle(title);
 		return quizBoard.isPresent();
