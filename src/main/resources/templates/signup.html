@@ -13,7 +13,7 @@
     <div class="container-fluid column justify-content-center align-content-center">
         <div class="card-body p-5 text-center">
             <h2 class="md-3">ㄴㄹㅁㅆㅁ</h2>
-            <form class="text-left" id="signup_form" action="/api/signup" method="post">
+            <div class="text-left" id="signup_form">
                 <div class="mb-3">
                     <label class="form-label" for="email">이메일</label>
                     <input class="form-control" type="email" name="email" id="email"/>
@@ -32,8 +32,8 @@
                     <label class="form-label" for="nickname">닉네임</label>
                     <input class="form-control" type="text" name="nickname" id="nickname"/>
                 </div>
-                <button class="w-100 btn btn-primary mt-3" id="submit" type="submit">회원 가입</button>
-            </form>
+                <button class="w-100 btn btn-primary mt-3" id="join_button" type="button">회원 가입</button>
+            </div>
         </div>
     </div>
 </section>
