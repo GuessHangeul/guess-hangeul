@@ -2,13 +2,20 @@ package com.estsoft.guesshangeul.user.service;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Optional;
+import java.util.stream.Collectors;
 
+import org.springframework.security.core.GrantedAuthority;
+import org.springframework.security.core.authority.SimpleGrantedAuthority;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 import com.estsoft.guesshangeul.user.dto.AddAuthorityRequest;
 import com.estsoft.guesshangeul.user.dto.AddUserRequest;
+import com.estsoft.guesshangeul.user.dto.UsersResponse;
 import com.estsoft.guesshangeul.user.entity.Authorities;
+import com.estsoft.guesshangeul.user.entity.PasswordResetToken;
 import com.estsoft.guesshangeul.user.entity.Users;
 import com.estsoft.guesshangeul.user.repository.AuthoritiesRepository;
 import com.estsoft.guesshangeul.user.repository.UsersRepository;
@@ -147,6 +154,10 @@ public class UsersService {
 		}
 
 		return grantedAuthorities;
+	}
+	//유저 삭제 메서드
+	public void deleteUser(Long id){
+		usersRepository.deleteById(id);
 	}
 }
 

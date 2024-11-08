@@ -6,6 +6,7 @@ import java.util.List;
 
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
@@ -104,6 +105,14 @@ public class UsersController {
 
 		usersService.changePassword(request.getToken(), request.getPassword());
 		return ResponseEntity.ok("비밀번호가 성공적으로 변경되었습니다.");
+	}
+
+	//사용자 삭제 컨트롤러
+	@DeleteMapping("/api/users/{id}")
+	public ResponseEntity<Void> deleteUser(@PathVariable Long id) {
+		usersService.deleteUser(id);
+
+		return ResponseEntity.ok().build();
 	}
 
 }
