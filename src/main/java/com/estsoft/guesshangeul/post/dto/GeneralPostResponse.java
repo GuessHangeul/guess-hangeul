@@ -5,11 +5,15 @@ import com.estsoft.guesshangeul.post.entity.GeneralPost;
 import com.estsoft.guesshangeul.user.entity.Users;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
+import lombok.NoArgsConstructor;
+import lombok.Setter;
 
 import java.time.LocalDateTime;
 
 @AllArgsConstructor
+@NoArgsConstructor
 @Getter
+@Setter
 public class GeneralPostResponse {
     private Long id;
     private Users users;
@@ -21,7 +25,6 @@ public class GeneralPostResponse {
     private LocalDateTime createdAt;
     private LocalDateTime updatedAt;
 
-
     public GeneralPostResponse(GeneralPost generalPost) {
         this.id = generalPost.getId();
         this.users = generalPost.getUsers();
@@ -32,9 +35,5 @@ public class GeneralPostResponse {
         this.view = generalPost.getView();
         this.createdAt = generalPost.getCreatedAt();
         this.updatedAt = generalPost.getUpdatedAt();
-    }
-
-    public GeneralPostResponse(GeneralPostResponse generalPostResponse) {
-
     }
 }
