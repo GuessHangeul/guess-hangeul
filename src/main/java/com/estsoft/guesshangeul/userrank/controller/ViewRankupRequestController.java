@@ -6,7 +6,7 @@ import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RestController;
 
-import com.estsoft.guesshangeul.userrank.dto.ViewRankupRequestResponse;
+import com.estsoft.guesshangeul.user.dto.UsersResponse;
 import com.estsoft.guesshangeul.userrank.repository.BoardManagerRepository;
 import com.estsoft.guesshangeul.userrank.service.ViewRankupRequService;
 
@@ -20,7 +20,7 @@ public class ViewRankupRequestController {//신청 받은 내용을 조회하기
 
 	@GetMapping("/api/boardManagerApply")//최초 정렬
 	public String getRankupRequs(Model model){
-		List<ViewRankupRequestResponse> list = service.findAll().stream().map(ViewRankupRequestResponse::new).toList();
+		List<UsersResponse> list = service.findAll().stream().map(users -> new UsersResponse(users.getUsers(), "authorityString")).toList();
 		model.addAttribute("list", list);
 		return "RankupRequestList";
 	}
