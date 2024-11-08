@@ -22,10 +22,13 @@ public class AdminPageController {
 
 	private final AdminBoardService adminBoardService;
 	private final GeneralBoardService generalBoardService;
+	private final QuizBoardService quizBoardService;
 
-	public AdminPageController(AdminBoardService adminBoardService, GeneralBoardService generalBoardService,) {
+	public AdminPageController(AdminBoardService adminBoardService, GeneralBoardService generalBoardService,
+		QuizBoardService quizBoardService) {
 		this.adminBoardService = adminBoardService;
 		this.generalBoardService = generalBoardService;
+		this.quizBoardService = quizBoardService;
 	}
 
 	@GetMapping("/admin")
@@ -53,6 +56,7 @@ public class AdminPageController {
 
 	@GetMapping("/admin/quizBoard/{boardId}")
 	public String showQuizBoard(@PathVariable String boardId, Model model, Pageable pageable) {
+		model.addAttribute("board", quizBoardService.findByBoardId(Long.parseLong(boardId)));
 		// quizBoard 목록 조회
 		List<QuizBoardDto> result = quizBoardService.findAllQuizBoardByIsDeleted(false, pageable);
 		List<QuizBoardResponse> response = result.stream().map(QuizBoardResponse::new).toList();
