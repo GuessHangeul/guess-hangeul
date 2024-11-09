@@ -1,25 +1,34 @@
 <!DOCTYPE html>
-<html xmlns:th="http://www.thymeleaf.org" lang="kr">
-
-<th:block th:fragment="postItem">
-    <link rel="stylesheet" th:href="@{/css/postItem.css}">
-    <div class="list-group-item list-group-item d-flex flex-column py-3">
+<html xmlns:th="http://www.thymeleaf.org">
+<head></head>
+<body>
+<th:block th:fragment="postItem(item, boardId, boardType)">
+    <div class="list-group-item list-group-item-action d-flex flex-column py-3" aria-current="true">
         <div class="row w-100">
             <div class="col d-flex flex-row">
                 <div class="d-flex flex-row flex-grow-1">
-                    <p class="text-1rem px-1 my-0">작성자 / 등급</p>
-                    <small class="opacity-50 text-nowrap px-1">2024.11.08</small>
+                    <p class="text-1rem px-1 my-0" th:text="${item.users.nickname}">작성자</p>
+                    <small class="opacity-50 text-nowrap px-1" th:text="${item.createdAt}">2024.11.08</small>
                 </div>
-                <small class="text-nowrap">조회수 / 댓글수</small>
+                <small class="text-nowrap" th:text="${item.view} + ' / ' + ${item.commentCount}">조회수 / 댓글수</small>
             </div>
         </div>
         <div class="row w-100 d-flex flex-row">
             <div class="col d-flex flex-row">
-                <div class="d-flex flex-grow-1"><p class="text-start fw-bold">게시글 제목</p></div>
-                <div><a id="edit-btn"><small>수정</small></a> <a id="delete-btn"><small>삭제</small></a>
+                <div class="d-flex flex-grow-1">
+                    <a th:if="${boardType == 1}"
+                       th:href="@{/generalBoard/{boardId}/generalPost/{postId}(boardId=${boardId}, postId=${item.id})}"
+                       th:text="${item.title}">게시글 제목</a>
+                    <a th:if="${boardType == 2}"
+                       th:href="@{/quizBoard/{boardId}/quizPost/{postId}(boardId=${boardId}, postId=${item.id})}"
+                       th:text="${item.title}">게시글 제목</a>
+                    <!--                    <p class="text-start fw-bold" th:text="${item.title}">게시글 제목</p></div>-->
+                    <!--                추후 댓글에 활용 가능성-->
+                    <!--                <div th:if=""><a th:href="@{|/board/board_id/${post.id}|}">수정</a> <a th:href="@{|/delete/${post.id}|}">삭제</a>-->
                 </div>
             </div>
         </div>
     </div>
 </th:block>
+</body>
 </html>

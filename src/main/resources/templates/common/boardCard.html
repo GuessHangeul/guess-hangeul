@@ -1,13 +1,14 @@
 <!DOCTYPE html>
 <html xmlns:th="http://www.thymeleaf.org" lang="kr">
-<th:block th:fragment="boardCard">
+<th:block th:fragment="boardCard(board)">
     <div class="list-group">
-        <div class="list-group-item list-group-item-primary text-start"><h4>게시판 제목</h4></div>
-        <th:block th:replace="~{/common/postItem :: postItem}"></th:block>
-        <th:block th:replace="~{/common/postItem :: postItem}"></th:block>
-        <th:block th:replace="~{/common/postItem :: postItem}"></th:block>
-        <th:block th:replace="~{/common/postItem :: postItem}"></th:block>
-        <th:block th:replace="~{/common/postItem :: postItem}"></th:block>
+        <a th:switch="${board.boardType}"
+           th:href="${board.boardType == '1' ? '/generalBoard/' + ${board.id} : '/quizBoard/' + ${board.id}}">
+            <h4>게시판 제목</h4></a>
+        <th:block th:each="post : ${board.posts}">
+            <th:block
+                    th:replace="~{/common/postItem :: postItem(post, boardId=${board.id}, boardType=${board.boardType})}"></th:block>
+        </th:block>
     </div>
 </th:block>
 </html>
