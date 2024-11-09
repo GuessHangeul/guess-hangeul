@@ -16,6 +16,7 @@ import lombok.Setter;
 public class GeneralPostResponse {
 	private Long id;
 	private Long userId;
+	private String nickname;
 	private Long generalBoardId;
 	private String title;
 	private String content;
@@ -27,6 +28,7 @@ public class GeneralPostResponse {
 	public GeneralPostResponse(GeneralPost generalPost) {
 		this.id = generalPost.getId();
 		this.userId = generalPost.getUsers().getId();
+		this.nickname = generalPost.getUsers().getNickname();
 		this.generalBoardId = generalPost.getGeneralBoard().getId();
 		this.title = generalPost.getTitle();
 		this.content = generalPost.getContent();
