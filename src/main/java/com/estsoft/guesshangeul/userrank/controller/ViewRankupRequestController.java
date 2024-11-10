@@ -19,7 +19,7 @@ public class ViewRankupRequestController {//신청 받은 내용을 조회하기
 	private final BoardManagerRepository repository;
 
 	@GetMapping("/api/boardManagerApply")//최초 정렬
-	public String getRankupRequs(Model model){
+	public String getRankRequest(Model model){
 		List<UsersResponse> list = service.findAll().stream().map(users -> new UsersResponse(users.getUsers(), "authorityString")).toList();
 		model.addAttribute("list", list);
 		return "RankupRequestList";

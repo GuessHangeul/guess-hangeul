@@ -125,7 +125,7 @@ public class UsersController {
 			log.error(e.getMessage());
 		}
 	}
-	@PutMapping("/api/users/{id}")
+	@PutMapping("/users/{id}")
 	public ResponseEntity<Users> deleteUsers(@PathVariable Long id, @RequestBody DeleteUsersRequest request) {//유저 삭제는 소프트 삭제인 관계로 update처리
 		Users deleteUser = usersService.deleteUser(id, request);
 		return ResponseEntity.ok(deleteUser);
