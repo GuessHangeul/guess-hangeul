@@ -2,6 +2,7 @@ package com.estsoft.guesshangeul.post.service;
 
 import com.estsoft.guesshangeul.post.dto.AddGeneralPostRequest;
 import com.estsoft.guesshangeul.post.dto.GeneralPostResponse;
+import com.estsoft.guesshangeul.post.dto.GetHiddenPostResponse;
 import com.estsoft.guesshangeul.post.dto.UpdateGeneralPostRequest;
 import com.estsoft.guesshangeul.post.entity.GeneralPost;
 import com.estsoft.guesshangeul.post.repository.GeneralPostRepository;
@@ -37,7 +38,13 @@ public class GeneralPostService {
                 .orElseThrow(() -> new RuntimeException("해당 제목의 게시글은 존재하지 않습니다."));
         return new GeneralPostResponse(post);
     }
-
+    // 일반 게시글 숨김 여부 조회
+    public List<GetHiddenPostResponse> getGeneralPostsByHidden(Boolean isHidden) {
+        List<GeneralPost> posts = generalPostRepository.findByIsHidden(isHidden);
+        return posts.stream()
+                .map(post -> new GetHiddenPostResponse(post.isHidden()))
+                .collect(Collectors.toList());
+    }
     // 게시글 생성
     public GeneralPostResponse createGeneralPost(AddGeneralPostRequest request) {
         GeneralPost post = request.toEntity();

@@ -2,6 +2,7 @@ package com.estsoft.guesshangeul.post.controller;
 
 import com.estsoft.guesshangeul.post.dto.AddGeneralPostRequest;
 import com.estsoft.guesshangeul.post.dto.GeneralPostResponse;
+import com.estsoft.guesshangeul.post.dto.GetHiddenPostResponse;
 import com.estsoft.guesshangeul.post.dto.UpdateGeneralPostRequest;
 import com.estsoft.guesshangeul.post.service.GeneralPostService;
 import org.springframework.http.HttpStatus;
@@ -35,6 +36,11 @@ public class GeneralPostController {
     public ResponseEntity<GeneralPostResponse> getGeneralPostByTitle(@PathVariable String title) {
         GeneralPostResponse post = generalPostService.getGeneralPostByTitle(title);
         return ResponseEntity.status(HttpStatus.OK).body(post);
+    }
+    @GetMapping("?isHidden={isHidden}")
+    public ResponseEntity<List<GetHiddenPostResponse>> getGeneralPostsByHidden(@RequestParam boolean isHidden) {
+        List<GetHiddenPostResponse> response = generalPostService.getGeneralPostsByHidden(isHidden);
+        return ResponseEntity.status(HttpStatus.OK).body(response);
     }
     // 게시글 생성
     @PostMapping
