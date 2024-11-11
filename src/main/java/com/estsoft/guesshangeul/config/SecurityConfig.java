@@ -8,8 +8,6 @@ import org.springframework.security.config.annotation.web.configuration.WebSecur
 import org.springframework.security.config.annotation.web.configurers.AbstractHttpConfigurer;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.security.web.SecurityFilterChain;
-import org.springframework.security.web.authentication.AuthenticationFailureHandler;
-import org.springframework.security.web.authentication.AuthenticationSuccessHandler;
 
 import com.estsoft.guesshangeul.exception.CustomAuthFailureHandler;
 import com.estsoft.guesshangeul.exception.CustomAuthSuccessHandler;
@@ -35,12 +33,12 @@ public class SecurityConfig {
 	}
 
 	@Bean
-	public AuthenticationSuccessHandler customAuthSuccessHandler() {
+	public CustomAuthSuccessHandler customAuthSuccessHandler() {
 		return new CustomAuthSuccessHandler(userRepository);
 	}
 
 	@Bean
-	public AuthenticationFailureHandler customAuthFailureHandler() {
+	public CustomAuthFailureHandler customAuthFailureHandler() {
 		return new CustomAuthFailureHandler();
 	}
 

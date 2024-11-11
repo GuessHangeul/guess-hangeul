@@ -9,6 +9,7 @@ import java.util.Map;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.core.GrantedAuthority;
+import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PathVariable;
@@ -68,6 +69,12 @@ public class UsersController {
 				.map(Authority -> new AuthorityResponse(Authority.getId(), Authority.getUserId(),
 					Authority.getAuthority()))
 				.toList());
+	}
+
+	// 권한 삭제
+	@DeleteMapping("/user/authority")
+	public void deleteAuthority(@RequestBody List<AddAuthorityRequest> addAuthorityRequestList) {
+		usersDetailsService.deleteUserAuthorities(addAuthorityRequestList);
 	}
 
 	//권한 조회
