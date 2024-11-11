@@ -16,7 +16,9 @@ import com.estsoft.guesshangeul.board.dto.QuizBoardResponse;
 import com.estsoft.guesshangeul.board.service.GeneralBoardService;
 import com.estsoft.guesshangeul.board.service.QuizBoardService;
 import com.estsoft.guesshangeul.post.dto.GeneralPostResponse;
+import com.estsoft.guesshangeul.post.dto.QuizPostResponse;
 import com.estsoft.guesshangeul.post.service.GeneralPostService;
+import com.estsoft.guesshangeul.post.service.QuizPostService;
 import com.estsoft.guesshangeul.user.dto.UsersResponse;
 
 @Controller
@@ -26,13 +28,15 @@ public class AdminPageController {
 	private final GeneralBoardService generalBoardService;
 	private final QuizBoardService quizBoardService;
 	private final GeneralPostService generalPostService;
+	private final QuizPostService quizPostService;
 
 	public AdminPageController(AdminBoardService adminBoardService, GeneralBoardService generalBoardService,
-		QuizBoardService quizBoardService, GeneralPostService generalPostService) {
+		QuizBoardService quizBoardService, GeneralPostService generalPostService, QuizPostService quizPostService) {
 		this.adminBoardService = adminBoardService;
 		this.generalBoardService = generalBoardService;
 		this.quizBoardService = quizBoardService;
 		this.generalPostService = generalPostService;
+		this.quizPostService = quizPostService;
 	}
 
 	@GetMapping("/admin")
@@ -61,14 +65,16 @@ public class AdminPageController {
 	}
 
 	@GetMapping("/admin/quizBoard/{boardId}")
-	public String showQuizBoard(@PathVariable String boardId, Model model, Pageable pageable) {
-		model.addAttribute("board", quizBoardService.findByBoardId(Long.parseLong(boardId)));
+	public String showQuizBoard(@PathVariable Long boardId, Model model, Pageable pageable) {
+		model.addAttribute("board", quizBoardService.findByBoardId(boardId));
 		// quizBoard 목록 조회
 		List<QuizBoardDto> result = quizBoardService.findAllQuizBoardByIsDeleted(false, pageable);
 		List<QuizBoardResponse> response = result.stream().map(QuizBoardResponse::new).toList();
 		model.addAttribute("quizBoard", response);
 
 		// quizPost 조회
+		List<QuizPostResponse> posts = quizPostService.getAllQuizPosts(boardId);
+		model.addAttribute("posts", posts);
 
 		return "adminQuizBoard";
 	}

@@ -50,3 +50,17 @@ button:hover {
 .post {
     margin-top: 20px;
 }
+
+.top, .bottom {
+    display: flex;
+    justify-content: flex-start;
+
+}
+
+.user {
+    margin-right: auto;
+}
+
+.title {
+    margin-right: auto;
+}

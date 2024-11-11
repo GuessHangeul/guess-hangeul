@@ -17,6 +17,7 @@ public class QuizPostResponse {
 	private Long id;
 	private Long usersId;
 	private Long quizBoardId;
+	private String nickname;
 	private String quizTitle;
 	private String hintContent;
 	private String answer;
@@ -29,6 +30,7 @@ public class QuizPostResponse {
 		this.id = quizPost.getId();
 		this.usersId = quizPost.getUser().getId();
 		this.quizBoardId = quizPost.getQuizBoard().getId();
+		this.nickname = quizPost.getUser().getNickname();
 		this.quizTitle = quizPost.getQuizTitle();
 		this.hintContent = quizPost.getHintContent();
 		this.answer = quizPost.getAnswer();
