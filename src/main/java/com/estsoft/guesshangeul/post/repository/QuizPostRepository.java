@@ -10,4 +10,6 @@ import com.estsoft.guesshangeul.post.entity.QuizPost;
 @Repository
 public interface QuizPostRepository extends JpaRepository<QuizPost, Long> {
 	List<QuizPost> findByQuizBoardIdAndIdIn(Long quizBoardId, List<Long> id);
+
+	List<QuizPost> findTop5ByQuizBoardIdOrderByCreatedAtDesc(Long quizBoardId);
 }

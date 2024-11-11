@@ -1,10 +1,13 @@
 package com.estsoft.guesshangeul.comment.repository;
 
-import com.estsoft.guesshangeul.comment.entity.GeneralComment;
+import java.util.List;
+
 import org.springframework.data.jpa.repository.JpaRepository;
 
-import java.util.List;
+import com.estsoft.guesshangeul.comment.entity.GeneralComment;
 
 public interface GeneralCommentRepository extends JpaRepository<GeneralComment, Long> {
 	List<GeneralComment> findByPostId(Long postId);
+
+	Long countByPostId(Long postId);
 }
