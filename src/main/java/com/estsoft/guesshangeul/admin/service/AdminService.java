@@ -85,7 +85,7 @@ public class AdminService {
 		List<QuizPost> quizPosts = quizPostRepository.findByQuizBoardIdAndIdIn(quizBoardId,
 			quizPostId);
 		for (QuizPost quizPost : quizPosts) {
-			quizPost.setIsHidden(true);
+			quizPost.setHidden(true);
 			quizPostRepository.save(quizPost);
 		}
 		return quizPosts;
@@ -96,7 +96,7 @@ public class AdminService {
 		List<QuizPost> quizPosts = quizPostRepository.findByQuizBoardIdAndIdIn(quizBoardId,
 			quizPostId);
 		for (QuizPost quizPost : quizPosts) {
-			quizPost.setIsHidden(false);
+			quizPost.setHidden(false);
 			quizPostRepository.save(quizPost);
 		}
 		return quizPosts;
