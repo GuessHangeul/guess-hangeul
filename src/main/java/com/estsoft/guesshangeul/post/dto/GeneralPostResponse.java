@@ -9,13 +9,14 @@ import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
 
-@Getter
-@Setter
 @AllArgsConstructor
 @NoArgsConstructor
+@Getter
+@Setter
 public class GeneralPostResponse {
 	private Long id;
-	private Long usersId;
+	private Long userId;
+	private String nickname;
 	private Long generalBoardId;
 	private String title;
 	private String content;
@@ -26,7 +27,8 @@ public class GeneralPostResponse {
 
 	public GeneralPostResponse(GeneralPost generalPost) {
 		this.id = generalPost.getId();
-		this.usersId = generalPost.getUsers().getId();
+		this.userId = generalPost.getUsers().getId();
+		this.nickname = generalPost.getUsers().getNickname();
 		this.generalBoardId = generalPost.getGeneralBoard().getId();
 		this.title = generalPost.getTitle();
 		this.content = generalPost.getContent();

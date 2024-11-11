@@ -1,16 +1,29 @@
-<!DOCTYPE html>
-<html lang="ko">
+<!doctype html>
+<html xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
+      layout:decorate="~{/common/sideContentLayout}">
 <head>
-    <meta charset="utf-8">
-    <meta http-equiv="X-UA-Compatible" content="IE=edge">
-    <meta name="viewport" content="width=device-width, initial-scale=1">
-    <title>홈페이지</title>
-    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@4.6.1/dist/css/bootstrap.min.css">
+    <title>홈 페이지</title>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1"/>
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha1/dist/css/bootstrap.min.css">
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha1/dist/js/bootstrap.bundle.min.js"></script>
 </head>
 
 <body>
-<h2>INDEX</h2>
-<button type="button" class="btn btn-secondary" onclick="location.href='/api/logout'">로그아웃</button>
+<div layout:fragment="content">
+    <div class="container">
+        <div th:each="i : ${#numbers.sequence(0, boards.size() - 1, 2)}" class="row">
+            <div class="col">
+                <th:block th:replace="~{/common/boardCard :: boardCard(board=${boards[i]})}"></th:block>
+            </div>
+            <div class="col">
+                <th:block th:if="${i + 1 < boards.size()}"
+                          th:replace="~{/common/boardCard :: boardCard(board=${boards[i+1]})}"></th:block>
+            </div>
+
+        </div>
+    </div>
+</div>
 </body>
 
 </html>

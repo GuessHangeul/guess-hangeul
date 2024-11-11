@@ -1,0 +1,7 @@
+.text-1rem {
+    font-size: 1rem;
+}
+
+#edit-btn, #delete-btn {
+    color: blue;
+}
