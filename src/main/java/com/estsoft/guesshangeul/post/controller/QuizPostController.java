@@ -21,7 +21,7 @@ import com.estsoft.guesshangeul.post.dto.UpdateQuizPostRequest;
 import com.estsoft.guesshangeul.post.service.QuizPostService;
 
 @RestController
-@RequestMapping("/api/quizBoard/{quiz_board_id}/quizPost")
+@RequestMapping("/api/quizBoard/{quizBoardId}/quizPost")
 public class QuizPostController {
 	private final QuizPostService quizPostService;
 
@@ -31,51 +31,50 @@ public class QuizPostController {
 
 	// 전체 퀴즈 게시글 조회
 	@GetMapping
-	public ResponseEntity<List<QuizPostResponse>> getAllQuizPosts() {
-		List<QuizPostResponse> posts = quizPostService.getAllQuizPosts();
+	public ResponseEntity<List<QuizPostResponse>> getAllQuizPosts(@PathVariable Long quizBoardId) {
+		List<QuizPostResponse> posts = quizPostService.getAllQuizPosts(quizBoardId);
 		return ResponseEntity.status(HttpStatus.OK).body(posts);
 	}
 
 	// 퀴즈 게시글 id로 조회
-	@GetMapping("/{quiz_post_id}")
-	public ResponseEntity<QuizPostResponse> getQuizPostById(@PathVariable Long quiz_post_id) {
-		QuizPostResponse post = quizPostService.getQuizPostById(quiz_post_id);
+	@GetMapping("/{id}")
+	public ResponseEntity<QuizPostResponse> getQuizPostById(@PathVariable Long quizBoardId, @PathVariable Long id) {
+		QuizPostResponse post = quizPostService.getQuizPostById(quizBoardId, id);
 		return ResponseEntity.status(HttpStatus.OK).body(post);
 	}
 
 	// 퀴즈 게시글 제목으로 조회
 	@GetMapping("?search={quiz_title}")
-	public ResponseEntity<QuizPostResponse> getQuizPostByTitle(@PathVariable String quiz_title) {
-		QuizPostResponse post = quizPostService.getQuizPostByTitle(quiz_title);
+	public ResponseEntity<QuizPostResponse> getQuizPostByTitle(@PathVariable Long quizBoardId, @PathVariable String quiz_title) {
+		QuizPostResponse post = quizPostService.getQuizPostByTitle(quizBoardId, quiz_title);
 		return ResponseEntity.status(HttpStatus.OK).body(post);
 	}
 
 	// 퀴즈 게시글 숨김 여부 조회
 	@GetMapping("?isHidden={isHidden}")
-	public ResponseEntity<List<GetHiddenPostResponse>> getQuizPostByIsHidden(@RequestParam boolean isHidden) {
-		List<GetHiddenPostResponse> posts = quizPostService.getQuizPostByIsHidden(isHidden);
+	public ResponseEntity<List<GetHiddenPostResponse>> getQuizPostByIsHidden(@PathVariable Long quizBoardId, @RequestParam boolean isHidden) {
+		List<GetHiddenPostResponse> posts = quizPostService.getQuizPostByIsHidden(quizBoardId, isHidden);
 		return ResponseEntity.status(HttpStatus.OK).body(posts);
 	}
 
 	// 퀴즈 게시글 생성
 	@PostMapping
-	public ResponseEntity<QuizPostResponse> createQuizPost(@RequestBody AddQuizPostRequest request) {
-		QuizPostResponse post = quizPostService.createQuizPost(request);
+	public ResponseEntity<QuizPostResponse> createQuizPost(@RequestBody AddQuizPostRequest request, @PathVariable Long quizBoardId) {
+		QuizPostResponse post = quizPostService.createQuizPost(request, quizBoardId);
 		return ResponseEntity.status(HttpStatus.CREATED).body(post);
 	}
 
 	// 퀴즈 게시글 수정
-	@PutMapping("/{quiz_post_id}")
-	public ResponseEntity<QuizPostResponse> updateQuizPost(@PathVariable Long quiz_post_id,
-		@RequestBody UpdateQuizPostRequest request) {
-		QuizPostResponse post = quizPostService.updateQuizPost(quiz_post_id, request);
+	@PutMapping("/{id}")
+	public ResponseEntity<QuizPostResponse> updateQuizPost(@PathVariable Long quizBoardId, @PathVariable Long id, @RequestBody UpdateQuizPostRequest request) {
+		QuizPostResponse post = quizPostService.updateQuizPost(quizBoardId, id, request);
 		return ResponseEntity.status(HttpStatus.OK).body(post);
 	}
 
 	// 퀴즈 게시글 삭제
-	@DeleteMapping("/{quiz_post_id}")
-	public ResponseEntity<Void> deleteQuizPost(@PathVariable Long quiz_post_id) {
-		quizPostService.deleteQuizPost(quiz_post_id);
+	@DeleteMapping("/{id}")
+	public ResponseEntity<Void> deleteQuizPost(@PathVariable Long quizBoardId, @PathVariable Long id) {
+		quizPostService.deleteQuizPost(quizBoardId, id);
 		return ResponseEntity.status(HttpStatus.NO_CONTENT).build();
 	}
 }

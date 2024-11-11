@@ -2,6 +2,8 @@ package com.estsoft.guesshangeul.post.controller;
 
 import java.util.List;
 
+import groovyjarjarpicocli.CommandLine;
+import org.hibernate.annotations.Parameter;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.DeleteMapping;
@@ -36,16 +38,16 @@ public class GeneralPostController {
 	}
 
 	// 게시글 id로 조회
-	@GetMapping("/{general_post_id}")
-	public ResponseEntity<GeneralPostResponse> getGeneralPostById(@PathVariable Long general_post_id) {
-		GeneralPostResponse post = generalPostService.getGeneralPostById(general_post_id);
+	@GetMapping("/{id}")
+	public ResponseEntity<GeneralPostResponse> getGeneralPostById(@PathVariable Long generalBoardId, @PathVariable Long id) {
+		GeneralPostResponse post = generalPostService.getGeneralPostById(generalBoardId, id);
 		return ResponseEntity.status(HttpStatus.OK).body(post);
 	}
 
 	// 게시글 제목으로 조회
 	@GetMapping("?search={title}")
-	public ResponseEntity<GeneralPostResponse> getGeneralPostByTitle(@PathVariable String title) {
-		GeneralPostResponse post = generalPostService.getGeneralPostByTitle(title);
+	public ResponseEntity<GeneralPostResponse> getGeneralPostByTitle(@PathVariable Long generalBoardId, @PathVariable String title) {
+		GeneralPostResponse post = generalPostService.getGeneralPostByTitle(generalBoardId, title);
 		return ResponseEntity.status(HttpStatus.OK).body(post);
 	}
 
@@ -58,17 +60,17 @@ public class GeneralPostController {
 	}
 
 	// 게시글 수정
-	@PutMapping("/{general_post_id}")
-	public ResponseEntity<GeneralPostResponse> updateGeneralPost(@PathVariable Long general_post_id,
+	@PutMapping("/{id}")
+	public ResponseEntity<GeneralPostResponse> updateGeneralPost(@PathVariable Long generalBoardId,@PathVariable Long id,
 		@RequestBody UpdateGeneralPostRequest request) {
-		GeneralPostResponse post = generalPostService.updateGeneralPost(general_post_id, request);
+		GeneralPostResponse post = generalPostService.updateGeneralPost(generalBoardId, id, request);
 		return ResponseEntity.status(HttpStatus.OK).body(post);
 	}
 
 	// 게시글 삭제
-	@DeleteMapping("/{general_post_id}")
-	public ResponseEntity<Void> deleteGeneralPost(@PathVariable Long general_post_id) {
-		generalPostService.deleteGeneralPost(general_post_id);
+	@DeleteMapping("/{id}")
+	public ResponseEntity<Void> deleteGeneralPost(@PathVariable Long generalBoardId, @PathVariable Long id) {
+		generalPostService.deleteGeneralPost(generalBoardId, id);
 		return ResponseEntity.status(HttpStatus.NO_CONTENT).build();
 	}
 }

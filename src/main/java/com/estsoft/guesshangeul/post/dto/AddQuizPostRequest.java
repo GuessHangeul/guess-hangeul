@@ -14,7 +14,7 @@ import org.apache.catalina.User;
 @NoArgsConstructor
 public class AddQuizPostRequest {
     private Users users;
-    private QuizBoard quizBoard;
+    private QuizBoard quizBoardId;
     private String quizTitle;
     private String hintContent;
     private boolean isHidden;
@@ -23,7 +23,7 @@ public class AddQuizPostRequest {
     public QuizPost toEntity() {
         QuizPost quizPost = new QuizPost();
         quizPost.setUser(this.users);
-        quizPost.setQuizBoard(this.quizBoard);
+        quizPost.setQuizBoard(this.quizBoardId);
         quizPost.setQuizTitle(this.quizTitle);
         quizPost.setHintContent(this.hintContent);
         quizPost.setHidden(this.isHidden);
