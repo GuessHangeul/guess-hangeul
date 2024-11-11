@@ -57,7 +57,7 @@ public class QuizPost {
 
 	@Column(name = "is_hidden", nullable = false)
 	@ColumnDefault("false")
-	private Boolean isHidden;
+	private boolean isHidden;
 
 	@Column(nullable = false)
 	private Long view;

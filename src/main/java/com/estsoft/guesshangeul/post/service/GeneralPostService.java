@@ -16,6 +16,7 @@ import com.estsoft.guesshangeul.board.repository.GeneralBoardRepository;
 import com.estsoft.guesshangeul.exception.EntityNotFoundException;
 import com.estsoft.guesshangeul.post.dto.AddGeneralPostRequest;
 import com.estsoft.guesshangeul.post.dto.GeneralPostResponse;
+import com.estsoft.guesshangeul.post.dto.GetHiddenPostResponse;
 import com.estsoft.guesshangeul.post.dto.UpdateGeneralPostRequest;
 import com.estsoft.guesshangeul.post.entity.GeneralPost;
 import com.estsoft.guesshangeul.post.repository.GeneralPostRepository;

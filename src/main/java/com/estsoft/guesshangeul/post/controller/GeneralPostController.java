@@ -15,12 +15,14 @@ import org.springframework.web.bind.annotation.RestController;
 
 import com.estsoft.guesshangeul.post.dto.AddGeneralPostRequest;
 import com.estsoft.guesshangeul.post.dto.GeneralPostResponse;
+import com.estsoft.guesshangeul.post.dto.GetHiddenPostResponse;
 import com.estsoft.guesshangeul.post.dto.UpdateGeneralPostRequest;
 import com.estsoft.guesshangeul.post.service.GeneralPostService;
 
 @RestController
 @RequestMapping("/api/generalBoard/{generalBoardId}/generalPost")
 public class GeneralPostController {
+
 	private final GeneralPostService generalPostService;
 
 	public GeneralPostController(GeneralPostService generalPostService) {
