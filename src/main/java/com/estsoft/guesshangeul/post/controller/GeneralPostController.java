@@ -15,7 +15,6 @@ import org.springframework.web.bind.annotation.RestController;
 
 import com.estsoft.guesshangeul.post.dto.AddGeneralPostRequest;
 import com.estsoft.guesshangeul.post.dto.GeneralPostResponse;
-import com.estsoft.guesshangeul.post.dto.GetHiddenPostResponse;
 import com.estsoft.guesshangeul.post.dto.UpdateGeneralPostRequest;
 import com.estsoft.guesshangeul.post.service.GeneralPostService;
 
@@ -55,8 +54,8 @@ public class GeneralPostController {
 	public ResponseEntity<GeneralPostResponse> createGeneralPost(@RequestBody AddGeneralPostRequest request,
 		@PathVariable Long generalBoardId) {
 		GeneralPostResponse post = generalPostService.createGeneralPost(request, generalBoardId);
-		return ResponseEntity.status(HttpStatus.CREATED).body(post);}
-
+		return ResponseEntity.status(HttpStatus.CREATED).body(post);
+	}
 
 	// 게시글 수정
 	@PutMapping("/{general_post_id}")

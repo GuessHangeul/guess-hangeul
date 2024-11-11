@@ -11,7 +11,9 @@ import com.estsoft.guesshangeul.post.entity.QuizPost;
 @Repository
 public interface QuizPostRepository extends JpaRepository<QuizPost, Long> {
 	List<QuizPost> findByQuizBoardIdAndIdIn(Long quizBoardId, List<Long> id);
+
 	Optional<QuizPost> findByQuizTitle(String quizTitle);
+
 	List<QuizPost> findByIsHidden(boolean isHidden);
 
 	List<QuizPost> findTop5ByQuizBoardIdOrderByCreatedAtDesc(Long quizBoardId);
