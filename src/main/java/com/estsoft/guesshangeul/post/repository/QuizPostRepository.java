@@ -14,7 +14,9 @@ public interface QuizPostRepository extends JpaRepository<QuizPost, Long> {
 
 	Optional<QuizPost> findByQuizTitle(String quizTitle);
 
-	List<QuizPost> findByIsHidden(boolean isHidden);
+	List<QuizPost> findByHidden(boolean isHidden);
 
 	List<QuizPost> findTop5ByQuizBoardIdOrderByCreatedAtDesc(Long quizBoardId);
+
+	List<QuizPost> findByQuizBoardId(Long quizBoardId);
 }
