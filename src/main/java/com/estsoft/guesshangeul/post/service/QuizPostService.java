@@ -13,10 +13,10 @@ import org.springframework.transaction.annotation.Transactional;
 import com.estsoft.guesshangeul.board.entity.QuizBoard;
 import com.estsoft.guesshangeul.board.repository.QuizBoardRepository;
 
-import com.estsoft.guesshangeul.post.dto.AddQuizPostRequest;
-import com.estsoft.guesshangeul.post.dto.GetHiddenPostResponse;
 import com.estsoft.guesshangeul.post.dto.QuizPostResponse;
+import com.estsoft.guesshangeul.post.dto.AddQuizPostRequest;
 import com.estsoft.guesshangeul.post.dto.UpdateQuizPostRequest;
+import com.estsoft.guesshangeul.post.dto.GetHiddenPostResponse;
 import com.estsoft.guesshangeul.post.entity.QuizPost;
 import com.estsoft.guesshangeul.post.repository.QuizPostRepository;
 

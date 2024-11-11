@@ -13,8 +13,8 @@ import org.springframework.transaction.annotation.Transactional;
 import com.estsoft.guesshangeul.board.entity.GeneralBoard;
 import com.estsoft.guesshangeul.board.repository.GeneralBoardRepository;
 
-import com.estsoft.guesshangeul.post.dto.AddGeneralPostRequest;
 import com.estsoft.guesshangeul.post.dto.GeneralPostResponse;
+import com.estsoft.guesshangeul.post.dto.AddGeneralPostRequest;
 import com.estsoft.guesshangeul.post.dto.UpdateGeneralPostRequest;
 import com.estsoft.guesshangeul.post.entity.GeneralPost;
 import com.estsoft.guesshangeul.post.repository.GeneralPostRepository;
@@ -84,6 +84,7 @@ public class GeneralPostService {
 	}
 
 	// 게시글 수정
+	@Transactional
 	public GeneralPostResponse updateGeneralPost(Long generalBoardId, Long id, UpdateGeneralPostRequest request) {
 		GeneralPost post = generalPostRepository.findByGeneralBoardIdAndId(generalBoardId, id)
 			.orElseThrow(() -> new RuntimeException("해당 게시글은 존재하지 않습니다."));
@@ -96,6 +97,7 @@ public class GeneralPostService {
 	}
 
 	// 게시글 삭제
+	@Transactional
 	public void deleteGeneralPost(Long generalBoardId, Long id) {
 		GeneralPost post = generalPostRepository.findByGeneralBoardIdAndId(generalBoardId, id)
 			.orElseThrow(() -> new RuntimeException("해당 게시글은 존재하지 않습니다."));
