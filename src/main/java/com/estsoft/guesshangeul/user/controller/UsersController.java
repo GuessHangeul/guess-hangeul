@@ -53,13 +53,13 @@ public class UsersController {
 		addAuthority(addAuthorityRequestList);
 	}
 
-	// 회원 탈퇴
+	// 회원 탈퇴 (admin)
 	@PutMapping("/withDrawal/{userId}")
 	public ResponseEntity<Boolean> withdrawal(@PathVariable Long userId) {
 		return ResponseEntity.ok(usersService.withdrawal(userId));
 	}
 
-	// 본인 회원 탈퇴
+	// 셀프 회원 탈퇴
 	@PutMapping("/selfWithdrawal")
 	public ResponseEntity<Boolean> selfWithdrawal() {
 		return ResponseEntity.ok(usersService.selfWithdrawal());

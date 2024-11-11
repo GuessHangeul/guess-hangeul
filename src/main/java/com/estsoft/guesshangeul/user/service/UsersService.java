@@ -80,24 +80,24 @@ public class UsersService {
 		return usersRepository.save(request.toEntity());
 	}
 
-	// 회원 탈퇴
+	// 회원 탈퇴 (admin)
 	@Transactional
 	public boolean withdrawal(Long userId) {
 		Users user = usersRepository.findById(userId).orElse(new Users());
-		if (user.getId() <= 1) {
+		if (user.getId() >= 1) {
 			user.withdrawal(true);
 			return true;
 		}
 		return false;
 	}
 
-	// 회원 탈퇴
+	// 셀프 회원 탈퇴
 	@Transactional
 	public boolean selfWithdrawal() {
 		Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
 		Users user = (Users)authentication.getPrincipal();
 		Users managedUser = usersRepository.findById(user.getId()).orElse(new Users());
-		if (managedUser.getId() <= 1) {
+		if (managedUser.getId() >= 1) {
 			managedUser.withdrawal(true);
 			return true;
 		}
