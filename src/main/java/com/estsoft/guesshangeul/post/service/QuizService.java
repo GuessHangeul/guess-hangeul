@@ -44,6 +44,7 @@ public class QuizService {
 			int previousScore = user.getScore();
 			user.setScore(previousScore + 10);
 
+			// 평민 등급을 가지고 있는지 체크
 			boolean hasRole = false;
 			for (GrantedAuthority grantedAuthority : grantedAuthorityList) {
 				hasRole = grantedAuthority.getAuthority().contains("ROLE_PYEONGMIN");
@@ -52,8 +53,7 @@ public class QuizService {
 			// 점수가 100점 이상이 되는 순간에 권한 승급
 			if (previousScore < 100 && user.getScore() >= 100 && !hasRole) {
 				authoritiesRepository.save(new Authorities(user.getId(), "ROLE_PYEONGMIN"));
-				response.setMessage("정답입니다! 10점을 획득하셨습니다. " +
-					"축하합니다! 100점을 달성하여 평민등급으로 승급하셨습니다!");
+				response.setMessage("정답입니다! 10점을 획득하셨습니다. " + "축하합니다! 100점을 달성하여 평민등급으로 승급하셨습니다!");
 			} else {
 				response.setMessage("정답입니다! 10점을 획득하셨습니다.");
 			}

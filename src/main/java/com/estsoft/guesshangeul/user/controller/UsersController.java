@@ -59,6 +59,12 @@ public class UsersController {
 		return ResponseEntity.ok(usersService.withdrawal(userId));
 	}
 
+	// 본인 회원 탈퇴
+	@PutMapping("/selfWithdrawal")
+	public ResponseEntity<Boolean> selfWithdrawal() {
+		return ResponseEntity.ok(usersService.selfWithdrawal());
+	}
+
 	// 권한 추가
 	@PostMapping("/user/authority")
 	public ResponseEntity<List<AuthorityResponse>> addAuthority(

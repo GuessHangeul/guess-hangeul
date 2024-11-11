@@ -8,8 +8,10 @@ import java.util.regex.Pattern;
 import java.util.stream.Collectors;
 
 import org.springframework.beans.factory.annotation.Value;
+import org.springframework.security.core.Authentication;
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.authority.SimpleGrantedAuthority;
+import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -81,9 +83,22 @@ public class UsersService {
 	// 회원 탈퇴
 	@Transactional
 	public boolean withdrawal(Long userId) {
-		Users users = usersRepository.findById(userId).orElse(new Users());
-		if (users.getId() <= 1) {
-			users.withdrawal(true);
+		Users user = usersRepository.findById(userId).orElse(new Users());
+		if (user.getId() <= 1) {
+			user.withdrawal(true);
+			return true;
+		}
+		return false;
+	}
+
+	// 회원 탈퇴
+	@Transactional
+	public boolean selfWithdrawal() {
+		Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
+		Users user = (Users)authentication.getPrincipal();
+		Users managedUser = usersRepository.findById(user.getId()).orElse(new Users());
+		if (managedUser.getId() <= 1) {
+			managedUser.withdrawal(true);
 			return true;
 		}
 		return false;
