@@ -44,6 +44,7 @@ public class GeneralPostController {
 			posts = generalPostService.getAllGeneralPostsWithCommentCount(
 				generalBoardId, pageable);
 		} else {
+			// 제목 검색으로 조회
 			posts = generalPostService.getAllGeneralPostsByTitleWithCommentCount(
 				generalBoardId, title, pageable);
 		}
@@ -53,7 +54,8 @@ public class GeneralPostController {
 
 	// 게시글 id로 조회
 	@GetMapping("/{id}")
-	public ResponseEntity<GeneralPostResponse> getGeneralPostById(@PathVariable Long generalBoardId, @PathVariable Long id) {
+	public ResponseEntity<GeneralPostResponse> getGeneralPostById(@PathVariable Long generalBoardId,
+		@PathVariable Long id) {
 		GeneralPostResponse post = generalPostService.getGeneralPostById(generalBoardId, id);
 		return ResponseEntity.status(HttpStatus.OK).body(post);
 	}
@@ -68,7 +70,8 @@ public class GeneralPostController {
 
 	// 게시글 수정
 	@PutMapping("/{id}")
-	public ResponseEntity<GeneralPostResponse> updateGeneralPost(@PathVariable Long generalBoardId,@PathVariable Long id,
+	public ResponseEntity<GeneralPostResponse> updateGeneralPost(@PathVariable Long generalBoardId,
+		@PathVariable Long id,
 		@RequestBody UpdateGeneralPostRequest request) {
 		GeneralPostResponse post = generalPostService.updateGeneralPost(generalBoardId, id, request);
 		return ResponseEntity.status(HttpStatus.OK).body(post);

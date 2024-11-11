@@ -16,7 +16,7 @@ public interface GeneralPostRepository extends JpaRepository<GeneralPost, Long> 
 	List<GeneralPost> findByGeneralBoardIdAndIdIn(Long generalBoardId, List<Long> id);
 
 	List<GeneralPost> findTop5ByGeneralBoardIdOrderByCreatedAtDesc(Long generalBoardId);
-
+ 
 	@Query("SELECT p.id AS id," +
 		" p.users AS users, " +
 		"p.generalBoard AS generalBoard, " +
