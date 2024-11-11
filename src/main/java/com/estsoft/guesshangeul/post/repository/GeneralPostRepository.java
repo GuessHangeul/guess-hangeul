@@ -12,5 +12,7 @@ public interface GeneralPostRepository extends JpaRepository<GeneralPost, Long> 
 
 	Optional<GeneralPost> findByTitle(String title);
 
+	List<GeneralPost> findByGeneralBoardId(Long generalBoardId);
+
 	List<GeneralPost> findTop5ByGeneralBoardIdOrderByCreatedAtDesc(Long generalBoardId);
 }

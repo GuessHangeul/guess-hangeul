@@ -29,8 +29,8 @@ public class GeneralPostController {
 
 	// 전체 게시글 조회
 	@GetMapping
-	public ResponseEntity<List<GeneralPostResponse>> getAllGeneralPosts() {
-		List<GeneralPostResponse> posts = generalPostService.getAllGeneralPosts();
+	public ResponseEntity<List<GeneralPostResponse>> getAllGeneralPosts(@PathVariable Long generalBoardId) {
+		List<GeneralPostResponse> posts = generalPostService.getAllGeneralPosts(generalBoardId);
 		return ResponseEntity.status(HttpStatus.OK).body(posts);
 	}
 
@@ -53,8 +53,8 @@ public class GeneralPostController {
 	public ResponseEntity<GeneralPostResponse> createGeneralPost(@RequestBody AddGeneralPostRequest request,
 		@PathVariable Long generalBoardId) {
 		GeneralPostResponse post = generalPostService.createGeneralPost(request, generalBoardId);
-		return ResponseEntity.status(HttpStatus.CREATED).body(post);
-	}
+		return ResponseEntity.status(HttpStatus.CREATED).body(post);}
+
 
 	// 게시글 수정
 	@PutMapping("/{general_post_id}")

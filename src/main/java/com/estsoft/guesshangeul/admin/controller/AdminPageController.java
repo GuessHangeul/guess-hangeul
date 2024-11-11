@@ -15,6 +15,8 @@ import com.estsoft.guesshangeul.board.dto.QuizBoardDto;
 import com.estsoft.guesshangeul.board.dto.QuizBoardResponse;
 import com.estsoft.guesshangeul.board.service.GeneralBoardService;
 import com.estsoft.guesshangeul.board.service.QuizBoardService;
+import com.estsoft.guesshangeul.post.dto.GeneralPostResponse;
+import com.estsoft.guesshangeul.post.service.GeneralPostService;
 import com.estsoft.guesshangeul.user.dto.UsersResponse;
 
 @Controller
@@ -23,12 +25,14 @@ public class AdminPageController {
 	private final AdminBoardService adminBoardService;
 	private final GeneralBoardService generalBoardService;
 	private final QuizBoardService quizBoardService;
+	private final GeneralPostService generalPostService;
 
 	public AdminPageController(AdminBoardService adminBoardService, GeneralBoardService generalBoardService,
-		QuizBoardService quizBoardService) {
+		QuizBoardService quizBoardService, GeneralPostService generalPostService) {
 		this.adminBoardService = adminBoardService;
 		this.generalBoardService = generalBoardService;
 		this.quizBoardService = quizBoardService;
+		this.generalPostService = generalPostService;
 	}
 
 	@GetMapping("/admin")
@@ -41,8 +45,8 @@ public class AdminPageController {
 	}
 
 	@GetMapping("/admin/generalBoard/{boardId}")
-	public String showGeneralBoard(@PathVariable String boardId, Model model, Pageable pageable) {
-		model.addAttribute("board", generalBoardService.findByBoardId(Long.parseLong(boardId)));
+	public String showGeneralBoard(@PathVariable Long boardId, Model model, Pageable pageable) {
+		model.addAttribute("board", generalBoardService.findByBoardId(boardId));
 
 		// generalBoard 목록 조회
 		List<GeneralBoardDto> result = generalBoardService.findAllGeneralBoardByIsDeleted(false, pageable);
@@ -50,6 +54,8 @@ public class AdminPageController {
 		model.addAttribute("generalBoard", boardResponses);
 
 		// generalPost 조회
+		List<GeneralPostResponse> posts = generalPostService.getAllGeneralPosts(boardId);
+		model.addAttribute("posts", posts);
 
 		return "adminGeneralBoard";
 	}

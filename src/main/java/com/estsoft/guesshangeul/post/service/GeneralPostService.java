@@ -1,13 +1,14 @@
 package com.estsoft.guesshangeul.post.service;
 
 import java.util.List;
+
+import org.springframework.stereotype.Service;
+
 import java.util.Optional;
-import java.util.stream.Collectors;
 
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.core.userdetails.UserDetails;
-import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import com.estsoft.guesshangeul.board.entity.GeneralBoard;
@@ -35,11 +36,11 @@ public class GeneralPostService {
 	}
 
 	// 모든 게시글 조회
-	public List<GeneralPostResponse> getAllGeneralPosts() {
-		List<GeneralPost> posts = generalPostRepository.findAll();
+	public List<GeneralPostResponse> getAllGeneralPosts(Long generalBoardId) {
+		List<GeneralPost> posts = generalPostRepository.findByGeneralBoardId(generalBoardId);
 		return posts.stream()
 			.map(GeneralPostResponse::new)
-			.collect(Collectors.toList());
+			.toList();
 	}
 
 	// ID로 게시글 조회 (없으면 예외 발생) + 제목 게시글 구현해야함
