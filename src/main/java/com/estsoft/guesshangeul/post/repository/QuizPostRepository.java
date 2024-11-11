@@ -29,4 +29,19 @@ public interface QuizPostRepository extends JpaRepository<QuizPost, Long> {
 		"WHERE p.quizBoard.id = :quizBoardId " +
 		"GROUP BY p.id, u.id, gb.id")
 	List<QuizPostWithCommentCountInterface> findAllWithCommentCount(Long quizBoardId, Pageable pageable);
+
+	@Query("SELECT p.id AS id," +
+		" p.user AS users, " +
+		"p.quizBoard AS quizBoard, " +
+		"p.quizTitle AS title, p.hintContent AS content, p.isHidden AS isHidden, " +
+		"p.view AS view, p.createdAt AS createdAt, p.updatedAt AS updatedAt, " +
+		"COALESCE(COUNT(c.id), 0) AS commentCount " +
+		"FROM QuizPost p " +
+		"LEFT JOIN p.user u " +
+		"LEFT JOIN p.quizBoard gb " +
+		"LEFT JOIN QuizComment c ON p.id = c.post.id " +
+		"WHERE p.quizBoard.id = :quizBoardId AND p.quizTitle LIKE CONCAT('%', :title, '%') " +
+		"GROUP BY p.id, u.id, gb.id")
+	List<QuizPostWithCommentCountInterface> findAllQuizPostByTitleWithCommentCount(Long quizBoardId, String title,
+		Pageable pageable);
 }

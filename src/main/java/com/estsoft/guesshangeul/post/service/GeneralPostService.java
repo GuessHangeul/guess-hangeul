@@ -37,18 +37,25 @@ public class GeneralPostService {
 	}
 
 	// 모든 게시글 조회
-	public List<GeneralPostResponse> getAllGeneralPosts(Long generalBoardId) {
-		List<GeneralPost> posts = generalPostRepository.findByGeneralBoardId(generalBoardId);
-		return posts.stream()
-			.map(GeneralPostResponse::new)
-			.toList();
-	}
-
 	@Transactional
 	public List<GeneralPostWithCommentCountResponse> getAllGeneralPostsWithCommentCount(Long generalBoardId,
 		Pageable pageable) {
 		List<GeneralPostWithCommentCountInterface> posts = generalPostRepository.findAllWithCommentCount(generalBoardId,
 			pageable);
+		List<GeneralPostWithCommentCountResponse> result = posts.stream()
+			.map(GeneralPostWithCommentCountResponse::new)
+			.toList();
+
+		return result;
+	}
+
+	// 검색어를 적용한 모든 게시글 조회
+	@Transactional
+	public List<GeneralPostWithCommentCountResponse> getAllGeneralPostsByTitleWithCommentCount(Long generalBoardId,
+		String title,
+		Pageable pageable) {
+		List<GeneralPostWithCommentCountInterface> posts = generalPostRepository.findAllByTitleWithCommentCount(
+			generalBoardId, title, pageable);
 		List<GeneralPostWithCommentCountResponse> result = posts.stream()
 			.map(GeneralPostWithCommentCountResponse::new)
 			.toList();

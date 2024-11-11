@@ -14,6 +14,7 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.estsoft.guesshangeul.post.dto.AddGeneralPostRequest;
@@ -35,9 +36,17 @@ public class GeneralPostController {
 	@GetMapping
 	public ResponseEntity<List<GeneralPostWithCommentCountResponse>> getAllGeneralPostsWithCommentCount(
 		@PathVariable Long generalBoardId,
+		@RequestParam(value = "search", required = false) String title,
 		@PageableDefault(size = 20, sort = "createdAt", direction = Sort.Direction.DESC) Pageable pageable) {
-		List<GeneralPostWithCommentCountResponse> posts = generalPostService.getAllGeneralPostsWithCommentCount(
-			generalBoardId, pageable);
+		List<GeneralPostWithCommentCountResponse> posts;
+		if (title == null) {
+			posts = generalPostService.getAllGeneralPostsWithCommentCount(
+				generalBoardId, pageable);
+		} else {
+			posts = generalPostService.getAllGeneralPostsByTitleWithCommentCount(
+				generalBoardId, title, pageable);
+		}
+
 		return ResponseEntity.status(HttpStatus.OK).body(posts);
 	}
 
@@ -45,13 +54,6 @@ public class GeneralPostController {
 	@GetMapping("/{general_post_id}")
 	public ResponseEntity<GeneralPostResponse> getGeneralPostById(@PathVariable Long general_post_id) {
 		GeneralPostResponse post = generalPostService.getGeneralPostById(general_post_id);
-		return ResponseEntity.status(HttpStatus.OK).body(post);
-	}
-
-	// 게시글 제목으로 조회
-	@GetMapping("?search={title}")
-	public ResponseEntity<GeneralPostResponse> getGeneralPostByTitle(@PathVariable String title) {
-		GeneralPostResponse post = generalPostService.getGeneralPostByTitle(title);
 		return ResponseEntity.status(HttpStatus.OK).body(post);
 	}
 

@@ -10,6 +10,7 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.estsoft.guesshangeul.post.dto.QuizPostWithCommentCountResponse;
@@ -26,11 +27,19 @@ public class QuizPostController {
 
 	// 전체 게시글 조회
 	@GetMapping
-	public ResponseEntity<List<QuizPostWithCommentCountResponse>> getAllGeneralPostsWithCommentCount(
+	public ResponseEntity<List<QuizPostWithCommentCountResponse>> getAllQuizPostsWithCommentCount(
 		@PathVariable Long quizBoardId,
+		@RequestParam(value = "search", required = false) String title,
 		@PageableDefault(size = 20, sort = "createdAt", direction = Sort.Direction.DESC) Pageable pageable) {
-		List<QuizPostWithCommentCountResponse> posts = quizPostService.getAllQuizPostsWithCommentCount(
-			quizBoardId, pageable);
+		List<QuizPostWithCommentCountResponse> posts;
+		if (title == null) {
+			posts = quizPostService.getAllQuizPostsWithCommentCount(
+				quizBoardId, pageable);
+		} else {
+			posts = quizPostService.getAllQuizPostsByTitleWithCommentCount(
+				quizBoardId, title, pageable);
+		}
+
 		return ResponseEntity.status(HttpStatus.OK).body(posts);
 	}
 }

@@ -18,11 +18,26 @@ public class QuizPostService {
 		this.quizPostRepository = quizPostRepository;
 	}
 
+	// 모든 게시글 조회
 	@Transactional
 	public List<QuizPostWithCommentCountResponse> getAllQuizPostsWithCommentCount(Long quizBoardId,
 		Pageable pageable) {
 		List<QuizPostWithCommentCountInterface> posts = quizPostRepository.findAllWithCommentCount(quizBoardId,
 			pageable);
+		List<QuizPostWithCommentCountResponse> result = posts.stream()
+			.map(QuizPostWithCommentCountResponse::new)
+			.toList();
+
+		return result;
+	}
+
+	// 검색어를 적용한 모든 게시글 조회
+	@Transactional
+	public List<QuizPostWithCommentCountResponse> getAllQuizPostsByTitleWithCommentCount(Long generalBoardId,
+		String title,
+		Pageable pageable) {
+		List<QuizPostWithCommentCountInterface> posts = quizPostRepository.findAllQuizPostByTitleWithCommentCount(
+			generalBoardId, title, pageable);
 		List<QuizPostWithCommentCountResponse> result = posts.stream()
 			.map(QuizPostWithCommentCountResponse::new)
 			.toList();
