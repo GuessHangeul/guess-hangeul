@@ -1,5 +1,6 @@
 package com.estsoft.guesshangeul.admin.controller;
 
+import java.util.ArrayList;
 import java.util.List;
 
 import org.springframework.data.domain.Pageable;
@@ -18,6 +19,7 @@ import com.estsoft.guesshangeul.board.service.QuizBoardService;
 import com.estsoft.guesshangeul.post.dto.GeneralPostResponse;
 import com.estsoft.guesshangeul.post.service.GeneralPostService;
 import com.estsoft.guesshangeul.user.dto.UsersResponse;
+import com.estsoft.guesshangeul.user.service.UsersService;
 
 @Controller
 public class AdminPageController {
@@ -26,19 +28,24 @@ public class AdminPageController {
 	private final GeneralBoardService generalBoardService;
 	private final QuizBoardService quizBoardService;
 	private final GeneralPostService generalPostService;
+	private final UsersService usersService;
 
 	public AdminPageController(AdminBoardService adminBoardService, GeneralBoardService generalBoardService,
-		QuizBoardService quizBoardService, GeneralPostService generalPostService) {
+		QuizBoardService quizBoardService, GeneralPostService generalPostService, UsersService usersService) {
 		this.adminBoardService = adminBoardService;
 		this.generalBoardService = generalBoardService;
 		this.quizBoardService = quizBoardService;
 		this.generalPostService = generalPostService;
+		this.usersService = usersService;
 	}
 
 	@GetMapping("/admin")
 	public String showUser(Model model) {
-		List<UsersResponse> usersResponses = adminBoardService.findAllUsersbyIsDeleted(false);
-
+		List<UsersResponse> response = adminBoardService.findAllUsersbyIsDeleted(false);
+		List<UsersResponse> usersResponses = new ArrayList<>();
+		for (UsersResponse user : response) {
+			usersResponses.add(usersService.getUserResponse(user.getUserId()));
+		}
 		model.addAttribute("users", usersResponses);
 
 		return "admin";
