@@ -21,7 +21,7 @@ import com.estsoft.guesshangeul.post.dto.UpdateQuizPostRequest;
 import com.estsoft.guesshangeul.post.service.QuizPostService;
 
 @RestController
-@RequestMapping("/api/quizBoard/{quiz_board_id}/quizPost")
+@RequestMapping("/api/quizBoard/{quizBoardId}/quizPost")
 public class QuizPostController {
 	private final QuizPostService quizPostService;
 
@@ -31,15 +31,15 @@ public class QuizPostController {
 
 	// 전체 퀴즈 게시글 조회
 	@GetMapping
-	public ResponseEntity<List<QuizPostResponse>> getAllQuizPosts() {
-		List<QuizPostResponse> posts = quizPostService.getAllQuizPosts();
+	public ResponseEntity<List<QuizPostResponse>> getAllQuizPosts(@PathVariable Long quizBoardId) {
+		List<QuizPostResponse> posts = quizPostService.getAllQuizPosts(quizBoardId);
 		return ResponseEntity.status(HttpStatus.OK).body(posts);
 	}
 
 	// 퀴즈 게시글 id로 조회
-	@GetMapping("/{quiz_post_id}")
-	public ResponseEntity<QuizPostResponse> getQuizPostById(@PathVariable Long quiz_post_id) {
-		QuizPostResponse post = quizPostService.getQuizPostById(quiz_post_id);
+	@GetMapping("/{id}")
+	public ResponseEntity<QuizPostResponse> getQuizPostById(@PathVariable Long id) {
+		QuizPostResponse post = quizPostService.getQuizPostById(id);
 		return ResponseEntity.status(HttpStatus.OK).body(post);
 	}
 
@@ -65,17 +65,17 @@ public class QuizPostController {
 	}
 
 	// 퀴즈 게시글 수정
-	@PutMapping("/{quiz_post_id}")
-	public ResponseEntity<QuizPostResponse> updateQuizPost(@PathVariable Long quiz_post_id,
+	@PutMapping("/{id}")
+	public ResponseEntity<QuizPostResponse> updateQuizPost(@PathVariable Long id,
 		@RequestBody UpdateQuizPostRequest request) {
-		QuizPostResponse post = quizPostService.updateQuizPost(quiz_post_id, request);
+		QuizPostResponse post = quizPostService.updateQuizPost(id, request);
 		return ResponseEntity.status(HttpStatus.OK).body(post);
 	}
 
 	// 퀴즈 게시글 삭제
-	@DeleteMapping("/{quiz_post_id}")
-	public ResponseEntity<Void> deleteQuizPost(@PathVariable Long quiz_post_id) {
-		quizPostService.deleteQuizPost(quiz_post_id);
+	@DeleteMapping("/{id}")
+	public ResponseEntity<Void> deleteQuizPost(@PathVariable Long id) {
+		quizPostService.deleteQuizPost(id);
 		return ResponseEntity.status(HttpStatus.NO_CONTENT).build();
 	}
 }

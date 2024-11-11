@@ -20,11 +20,11 @@ public class QuizPostService {
         this.quizPostRepository = quizPostRepository;
     }
     // 모든 퀴즈 게시글 조회
-    public List<QuizPostResponse> getAllQuizPosts() {
-        List<QuizPost> posts = quizPostRepository.findAll();
+    public List<QuizPostResponse> getAllQuizPosts(Long quizBoardId) {
+        List<QuizPost> posts = quizPostRepository.findByQuizBoardId(quizBoardId);
         return posts.stream()
                 .map(QuizPostResponse::new)
-                .collect(Collectors.toList());
+                .toList();
     }
     // 퀴즈 게시글 ID로 조회
     public QuizPostResponse getQuizPostById(Long id) {
@@ -40,7 +40,7 @@ public class QuizPostService {
     }
     // 퀴즈 게시글 숨김 여부 조회
     public List<GetHiddenPostResponse> getQuizPostByIsHidden(Boolean isHidden) {
-        List<QuizPost> posts = quizPostRepository.findByIsHidden(isHidden);
+        List<QuizPost> posts = quizPostRepository.findByHidden(isHidden);
         return posts.stream()
                 .map(post -> new GetHiddenPostResponse(post.isHidden()))
                 .collect(Collectors.toList());

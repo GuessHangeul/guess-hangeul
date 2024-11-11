@@ -44,7 +44,7 @@ public class GeneralPostService {
 			.toList();
 	}
 
-	// ID로 게시글 조회 (없으면 예외 발생) + 제목 게시글 구현해야함
+	// ID로 게시글 조회 (없으면 예외 발생)
 	public GeneralPostResponse getGeneralPostById(Long id) {
 		GeneralPost post = generalPostRepository.findById(id)
 			.orElseThrow(() -> new RuntimeException("해당 게시글은 존재하지 않습니다."));
