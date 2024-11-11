@@ -9,12 +9,20 @@ import org.springframework.security.config.annotation.web.configurers.AbstractHt
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.security.web.SecurityFilterChain;
 import org.springframework.security.web.authentication.AuthenticationFailureHandler;
+import org.springframework.security.web.authentication.AuthenticationSuccessHandler;
 
 import com.estsoft.guesshangeul.exception.CustomAuthFailureHandler;
+import com.estsoft.guesshangeul.exception.CustomAuthSuccessHandler;
+import com.estsoft.guesshangeul.user.repository.UsersRepository;
+
+import lombok.RequiredArgsConstructor;
 
 @Configuration
 @EnableWebSecurity
+@RequiredArgsConstructor
 public class SecurityConfig {
+	private final UsersRepository userRepository;
+
 	@Bean
 	public WebSecurityCustomizer webSecurityCustomizer() {
 		return webSecurity -> webSecurity.ignoring()
@@ -24,6 +32,11 @@ public class SecurityConfig {
 	@Bean
 	public BCryptPasswordEncoder bCryptPasswordEncoder() {
 		return new BCryptPasswordEncoder();
+	}
+
+	@Bean
+	public AuthenticationSuccessHandler customAuthSuccessHandler() {
+		return new CustomAuthSuccessHandler(userRepository);
 	}
 
 	@Bean
@@ -49,8 +62,8 @@ public class SecurityConfig {
 			.formLogin(custom -> custom
 				.loginPage("/login")
 				.loginProcessingUrl("/api/login")
-				.defaultSuccessUrl("/", true)
 				.failureHandler(customAuthFailureHandler())
+				.successHandler(customAuthSuccessHandler())
 				.usernameParameter("email")
 				.passwordParameter("password")
 				.permitAll()

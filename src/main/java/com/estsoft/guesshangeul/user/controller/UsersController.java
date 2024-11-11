@@ -13,6 +13,7 @@ import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
@@ -49,6 +50,12 @@ public class UsersController {
 		List<AddAuthorityRequest> addAuthorityRequestList = new ArrayList<>();
 		addAuthorityRequestList.add(new AddAuthorityRequest(users.getId(), "ROLE_NOBI"));
 		addAuthority(addAuthorityRequestList);
+	}
+
+	// 회원 탈퇴
+	@PutMapping("/withDrawal/{userId}")
+	public ResponseEntity<Boolean> withdrawal(@PathVariable Long userId) {
+		return ResponseEntity.ok(usersService.withdrawal(userId));
 	}
 
 	// 권한 추가

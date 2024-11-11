@@ -35,17 +35,14 @@ import lombok.RequiredArgsConstructor;
 public class UsersService {
 	private final UsersRepository usersRepository;
 	private final AuthoritiesRepository authoritiesRepository;
+	private final PasswordResetTokenRepository tokenRepository;
 	private final BCryptPasswordEncoder bCryptPasswordEncoder;
 	private final EmailService emailService;
-	private final PasswordResetTokenRepository tokenRepository;
 
 	private static final Pattern EMAIL_PATTERN = Pattern.compile(
-		"^(?=.{1,64}@)[A-Za-z0-9_-]+(\\.[A-Za-z0-9_-]+)*@[^-][A-Za-z0-9-]+(\\.[A-Za-z0-9-]+)*(\\.[A-Za-z]{2,})$"
-	);
+		"^(?=.{1,64}@)[A-Za-z0-9_-]+(\\.[A-Za-z0-9_-]+)*@[^-][A-Za-z0-9-]+(\\.[A-Za-z0-9-]+)*(\\.[A-Za-z]{2,})$");
 
-	private static final Pattern NICKNAME_PATTERN = Pattern.compile(
-		"^[가-힣a-zA-Z0-9._-]{2,20}$"
-	);
+	private static final Pattern NICKNAME_PATTERN = Pattern.compile("^[가-힣a-zA-Z0-9._-]{2,20}$");
 
 	@Value("${app.url}")
 	private String appUrl;
@@ -79,6 +76,17 @@ public class UsersService {
 		}
 		request.setPassword(bCryptPasswordEncoder.encode(request.getPassword()));
 		return usersRepository.save(request.toEntity());
+	}
+
+	// 회원 탈퇴
+	@Transactional
+	public boolean withdrawal(Long userId) {
+		Users users = usersRepository.findById(userId).orElse(new Users());
+		if (users.getId() <= 1) {
+			users.withdrawal(true);
+			return true;
+		}
+		return false;
 	}
 
 	// 비밀번호 변경 메일
