@@ -94,16 +94,36 @@ document.querySelector('.unhide-btn').addEventListener('click', function () {
 });
 
 // 게시글 삭제
-function deleteBoard(deleteButton) {
-    // 삭제 요청 URL 설정
-    const boardId = deleteButton.getAttribute("data-boardId");
-    console.log(boardId);
-    const deleteUrl = `/api/admin/deleteBoard/generalBoard/${boardId}`;
+document.querySelector('.delete-btn').addEventListener('click', function () {
+    // 선택된 게시글의 ID를 수집
+    const selectedIds = Array.from(document.querySelectorAll('.post-checkbox:checked'))
+        .map(checkbox => checkbox.value);
 
-    fetch(`/api/admin/deleteBoard/generalBoard/${boardId}`, {
-        method: 'GET'
-    }).then(() => {
-        alert('삭제가 완료되었습니다');
-        location.reload();
-    });
-}
+    // 선택된 게시글이 있는지 확인
+    if (selectedIds.length === 0) {
+        alert("삭제할 게시글을 선택하세요.");
+        return;
+    }
+
+    const postElement = document.querySelector('.post');
+    const boardId = postElement.getAttribute('data-boardId');
+    const url = `/api/generalBoard/${boardId}/generalPost?` +
+        selectedIds.map(id => `postId=${id}`).join('&');
+
+    // GET 요청 전송
+    fetch(url, {
+        method: 'DELETE',
+        headers: {
+            'Content-Type': 'application/json'
+        }
+    })
+        .then(response => {
+            if (response.ok) {
+                alert("선택한 게시글이 삭제되었습니다.");
+                location.reload();  // 페이지를 새로고침하여 업데이트
+            } else {
+                alert("게시글 삭제에 실패했습니다.");
+            }
+        })
+        .catch(error => console.error('Error:', error));
+});

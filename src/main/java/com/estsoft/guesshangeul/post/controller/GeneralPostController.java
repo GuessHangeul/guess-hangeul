@@ -13,12 +13,15 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.estsoft.guesshangeul.post.dto.AddGeneralPostRequest;
 import com.estsoft.guesshangeul.post.dto.GeneralPostResponse;
 import com.estsoft.guesshangeul.post.dto.UpdateGeneralPostRequest;
 import com.estsoft.guesshangeul.post.service.GeneralPostService;
+
+import jakarta.transaction.Transactional;
 
 @RestController
 @RequestMapping("/api/generalBoard/{generalBoardId}/generalPost")
@@ -71,6 +74,15 @@ public class GeneralPostController {
 	@DeleteMapping("/{id}")
 	public ResponseEntity<Void> deleteGeneralPost(@PathVariable Long generalBoardId, @PathVariable Long id) {
 		generalPostService.deleteGeneralPost(generalBoardId, id);
+		return ResponseEntity.status(HttpStatus.NO_CONTENT).build();
+	}
+
+	// postId List로 받아서 삭제
+	@Transactional
+	@DeleteMapping
+	public ResponseEntity<Void> deleteByGeneralPostId(@PathVariable Long generalBoardId,
+		@RequestParam List<Long> postId) {
+		generalPostService.deleteByGeneralPostId(generalBoardId, postId);
 		return ResponseEntity.status(HttpStatus.NO_CONTENT).build();
 	}
 }

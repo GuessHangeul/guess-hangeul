@@ -19,4 +19,6 @@ public interface GeneralPostRepository extends JpaRepository<GeneralPost, Long> 
 	Optional<GeneralPost> findByGeneralBoardIdAndId(Long generalBoardId, Long id);
 
 	Optional<GeneralPost> findByGeneralBoardIdAndTitle(Long generalBoardId, String title);
+
+	void deleteByGeneralBoardIdAndIdIn(Long generalBoardId, List<Long> id);
 }
