@@ -1,5 +1,6 @@
 package com.estsoft.guesshangeul.post.dto;
 
+
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
@@ -7,10 +8,10 @@ import lombok.Setter;
 @Getter
 @Setter
 @NoArgsConstructor
-public class UpdateGeneralPostRequest {
-    private Long id;
-    private String title;
-    private String content;
+public class GetHiddenPostResponse {
     private boolean isHidden;
-    private Long view;
+
+    public GetHiddenPostResponse(boolean isHidden) {
+        this.isHidden = isHidden;
+    }
 }

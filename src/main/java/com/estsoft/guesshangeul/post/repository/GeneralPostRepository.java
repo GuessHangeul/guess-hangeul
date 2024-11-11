@@ -6,16 +6,14 @@ import java.util.Optional;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Query;
+import org.springframework.stereotype.Repository;
 
 import com.estsoft.guesshangeul.post.dto.GeneralPostWithCommentCountInterface;
 import com.estsoft.guesshangeul.post.entity.GeneralPost;
 
+@Repository
 public interface GeneralPostRepository extends JpaRepository<GeneralPost, Long> {
 	List<GeneralPost> findByGeneralBoardIdAndIdIn(Long generalBoardId, List<Long> id);
-
-	Optional<GeneralPost> findByTitle(String title);
-
-	List<GeneralPost> findByGeneralBoardId(Long generalBoardId);
 
 	List<GeneralPost> findTop5ByGeneralBoardIdOrderByCreatedAtDesc(Long generalBoardId);
 
@@ -47,4 +45,10 @@ public interface GeneralPostRepository extends JpaRepository<GeneralPost, Long> 
 		"GROUP BY p.id, u.id, gb.id")
 	List<GeneralPostWithCommentCountInterface> findAllByTitleWithCommentCount(Long generalBoardId, String title,
 		Pageable pageable);
+
+	List<GeneralPost> findByGeneralBoardId(Long generalBoardId);
+
+	Optional<GeneralPost> findByGeneralBoardIdAndId(Long generalBoardId, Long id);
+
+	Optional<GeneralPost> findByGeneralBoardIdAndTitle(Long generalBoardId, String title);
 }

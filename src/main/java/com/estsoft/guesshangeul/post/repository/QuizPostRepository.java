@@ -1,6 +1,7 @@
 package com.estsoft.guesshangeul.post.repository;
 
 import java.util.List;
+import java.util.Optional;
 
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.jpa.repository.JpaRepository;
@@ -13,6 +14,8 @@ import com.estsoft.guesshangeul.post.entity.QuizPost;
 @Repository
 public interface QuizPostRepository extends JpaRepository<QuizPost, Long> {
 	List<QuizPost> findByQuizBoardIdAndIdIn(Long quizBoardId, List<Long> id);
+
+	List<QuizPost> findByQuizBoardIdAndHidden(Long quizBoardId, boolean isHidden);
 
 	List<QuizPost> findTop5ByQuizBoardIdOrderByCreatedAtDesc(Long quizBoardId);
 
@@ -44,4 +47,10 @@ public interface QuizPostRepository extends JpaRepository<QuizPost, Long> {
 		"GROUP BY p.id, u.id, gb.id")
 	List<QuizPostWithCommentCountInterface> findAllQuizPostByTitleWithCommentCount(Long quizBoardId, String title,
 		Pageable pageable);
+
+	List<QuizPost> findByQuizBoardId(Long quizBoardId);
+
+	Optional<QuizPost> findByQuizBoardIdAndId(Long quizBoardId, Long id);
+
+	Optional<QuizPost> findByQuizBoardIdAndQuizTitle(Long quizBoardId, String quizTitle);
 }

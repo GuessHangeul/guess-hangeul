@@ -45,7 +45,7 @@ public class PostResponse {
 		this.boardId = post.getId();
 		this.title = post.getQuizTitle();
 		this.content = post.getHintContent();
-		this.isHidden = post.getIsHidden();
+		this.isHidden = post.isHidden();
 		this.view = post.getView();
 		this.createdAt = post.getCreatedAt();
 		this.updatedAt = post.getUpdatedAt();

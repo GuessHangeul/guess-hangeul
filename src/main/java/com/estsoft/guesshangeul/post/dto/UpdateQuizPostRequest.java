@@ -7,10 +7,10 @@ import lombok.Setter;
 @Getter
 @Setter
 @NoArgsConstructor
-public class UpdateGeneralPostRequest {
+public class UpdateQuizPostRequest {
     private Long id;
-    private String title;
-    private String content;
+    private String quizTitle;
+    private String hintContent;
     private boolean isHidden;
     private Long view;
 }

@@ -7,6 +7,7 @@ import org.springframework.data.annotation.CreatedDate;
 import org.springframework.data.jpa.domain.support.AuditingEntityListener;
 
 import com.estsoft.guesshangeul.user.entity.Users;
+import com.estsoft.guesshangeul.user.repository.UsersRepository;
 
 import com.estsoft.guesshangeul.user.entity.Users;
 
@@ -19,6 +20,7 @@ import jakarta.persistence.Id;
 import jakarta.persistence.JoinColumn;
 import jakarta.persistence.ManyToOne;
 import jakarta.persistence.Table;
+import lombok.Builder;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
@@ -46,4 +48,18 @@ public class BoardManagerApply {
 	@CreatedDate
 	@Column(name = "created_at")
 	private LocalDateTime createdAt;
+
+	@Builder
+	public BoardManagerApply(Long id, Users users,int status, LocalDateTime createdAt) {
+		this.id = id;
+		this.users = users;
+		this.status = status;
+		this.createdAt = createdAt;
+	}
+
+	public void update(Users users, int status, LocalDateTime createdAt){
+		this.users = users;
+		this.status = status;
+		this.createdAt = createdAt;
+	}
 }

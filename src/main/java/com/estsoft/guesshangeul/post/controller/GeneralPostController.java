@@ -26,6 +26,7 @@ import com.estsoft.guesshangeul.post.service.GeneralPostService;
 @RestController
 @RequestMapping("/api/generalBoard/{generalBoardId}/generalPost")
 public class GeneralPostController {
+
 	private final GeneralPostService generalPostService;
 
 	public GeneralPostController(GeneralPostService generalPostService) {
@@ -51,9 +52,9 @@ public class GeneralPostController {
 	}
 
 	// 게시글 id로 조회
-	@GetMapping("/{general_post_id}")
-	public ResponseEntity<GeneralPostResponse> getGeneralPostById(@PathVariable Long general_post_id) {
-		GeneralPostResponse post = generalPostService.getGeneralPostById(general_post_id);
+	@GetMapping("/{id}")
+	public ResponseEntity<GeneralPostResponse> getGeneralPostById(@PathVariable Long generalBoardId, @PathVariable Long id) {
+		GeneralPostResponse post = generalPostService.getGeneralPostById(generalBoardId, id);
 		return ResponseEntity.status(HttpStatus.OK).body(post);
 	}
 
@@ -66,17 +67,17 @@ public class GeneralPostController {
 	}
 
 	// 게시글 수정
-	@PutMapping("/{general_post_id}")
-	public ResponseEntity<GeneralPostResponse> updateGeneralPost(@PathVariable Long general_post_id,
+	@PutMapping("/{id}")
+	public ResponseEntity<GeneralPostResponse> updateGeneralPost(@PathVariable Long generalBoardId,@PathVariable Long id,
 		@RequestBody UpdateGeneralPostRequest request) {
-		GeneralPostResponse post = generalPostService.updateGeneralPost(general_post_id, request);
+		GeneralPostResponse post = generalPostService.updateGeneralPost(generalBoardId, id, request);
 		return ResponseEntity.status(HttpStatus.OK).body(post);
 	}
 
 	// 게시글 삭제
-	@DeleteMapping("/{general_post_id}")
-	public ResponseEntity<Void> deleteGeneralPost(@PathVariable Long general_post_id) {
-		generalPostService.deleteGeneralPost(general_post_id);
+	@DeleteMapping("/{id}")
+	public ResponseEntity<Void> deleteGeneralPost(@PathVariable Long generalBoardId, @PathVariable Long id) {
+		generalPostService.deleteGeneralPost(generalBoardId, id);
 		return ResponseEntity.status(HttpStatus.NO_CONTENT).build();
 	}
 }
