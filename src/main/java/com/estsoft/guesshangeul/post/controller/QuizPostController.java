@@ -21,7 +21,7 @@ import com.estsoft.guesshangeul.post.dto.UpdateQuizPostRequest;
 import com.estsoft.guesshangeul.post.service.QuizPostService;
 
 @RestController
-@RequestMapping("/api/quizBoard/{quiz_board_id}/quizPost")
+@RequestMapping("/api/quizBoard/{quizBoardId}/quizPost")
 public class QuizPostController {
 	private final QuizPostService quizPostService;
 
@@ -31,8 +31,8 @@ public class QuizPostController {
 
 	// 전체 퀴즈 게시글 조회
 	@GetMapping
-	public ResponseEntity<List<QuizPostResponse>> getAllQuizPosts(@PathVariable Long quiz_board_id) {
-		List<QuizPostResponse> posts = quizPostService.getAllQuizPosts(quiz_board_id);
+	public ResponseEntity<List<QuizPostResponse>> getAllQuizPosts(@PathVariable Long quizBoardId) {
+		List<QuizPostResponse> posts = quizPostService.getAllQuizPosts(quizBoardId);
 		return ResponseEntity.status(HttpStatus.OK).body(posts);
 	}
 
