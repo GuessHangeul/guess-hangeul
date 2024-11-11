@@ -19,4 +19,6 @@ public interface QuizPostRepository extends JpaRepository<QuizPost, Long> {
 	List<QuizPost> findTop5ByQuizBoardIdOrderByCreatedAtDesc(Long quizBoardId);
 
 	List<QuizPost> findByQuizBoardId(Long quizBoardId);
+
+	void deleteByQuizBoardIdAndIdIn(Long quizBoardId, List<Long> id);
 }

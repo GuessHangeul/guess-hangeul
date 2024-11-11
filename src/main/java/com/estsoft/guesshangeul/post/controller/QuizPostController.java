@@ -20,6 +20,8 @@ import com.estsoft.guesshangeul.post.dto.QuizPostResponse;
 import com.estsoft.guesshangeul.post.dto.UpdateQuizPostRequest;
 import com.estsoft.guesshangeul.post.service.QuizPostService;
 
+import jakarta.transaction.Transactional;
+
 @RestController
 @RequestMapping("/api/quizBoard/{quizBoardId}/quizPost")
 public class QuizPostController {
@@ -76,6 +78,14 @@ public class QuizPostController {
 	@DeleteMapping("/{quiz_post_id}")
 	public ResponseEntity<Void> deleteQuizPost(@PathVariable Long quiz_post_id) {
 		quizPostService.deleteQuizPost(quiz_post_id);
+		return ResponseEntity.status(HttpStatus.NO_CONTENT).build();
+	}
+
+	// 퀴즈 게시글 삭제
+	@Transactional
+	@DeleteMapping
+	public ResponseEntity<Void> deleteByPostIds(@PathVariable Long quizBoardId, @RequestParam List<Long> postId) {
+		quizPostService.deleteQuizPostByIdIn(quizBoardId, postId);
 		return ResponseEntity.status(HttpStatus.NO_CONTENT).build();
 	}
 }

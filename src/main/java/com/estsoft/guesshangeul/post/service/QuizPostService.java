@@ -12,6 +12,8 @@ import com.estsoft.guesshangeul.post.dto.UpdateQuizPostRequest;
 import com.estsoft.guesshangeul.post.entity.QuizPost;
 import com.estsoft.guesshangeul.post.repository.QuizPostRepository;
 
+import jakarta.transaction.Transactional;
+
 @Service
 public class QuizPostService {
 	private final QuizPostRepository quizPostRepository;
@@ -69,8 +71,14 @@ public class QuizPostService {
 		return new QuizPostResponse(updatedPost);
 	}
 
-	// 퀴즈 게시글 삭제
+	//퀴즈 게시글 삭제
 	public void deleteQuizPost(Long id) {
 		quizPostRepository.deleteById(id);
+	}
+
+	// 퀴즈 게시글 삭제
+	@Transactional
+	public void deleteQuizPostByIdIn(Long quizBoardId, List<Long> postId) {
+		quizPostRepository.deleteByQuizBoardIdAndIdIn(quizBoardId, postId);
 	}
 }
