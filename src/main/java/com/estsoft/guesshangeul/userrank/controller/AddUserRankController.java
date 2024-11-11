@@ -24,7 +24,7 @@ public class AddUserRankController {//신청 내용 저장을 위한 컨트롤�
 		this.service = service;
 	}
 
-	@PostMapping("/api/boardManagerApply")
+	@PostMapping("/boardManagerApply")
 	public ResponseEntity<BoardManagerApply> addUserRankupRequest(@RequestBody AddUserRankRequest request) {
 		BoardManagerApply rankuprequest = service.save(request);
 		return ResponseEntity.status(HttpStatus.CREATED).body(rankuprequest);

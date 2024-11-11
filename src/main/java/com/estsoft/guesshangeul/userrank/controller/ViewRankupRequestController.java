@@ -8,14 +8,14 @@ import org.springframework.web.bind.annotation.RestController;
 
 import com.estsoft.guesshangeul.user.dto.UsersResponse;
 import com.estsoft.guesshangeul.userrank.repository.BoardManagerRepository;
-import com.estsoft.guesshangeul.userrank.service.ViewRankupRequService;
+import com.estsoft.guesshangeul.userrank.service.ViewRankupRequestService;
 
 import lombok.RequiredArgsConstructor;
 
 @RestController
 @RequiredArgsConstructor
 public class ViewRankupRequestController {//신청 받은 내용을 조회하기 위한 컨트롤러
-	private final ViewRankupRequService service;
+	private final ViewRankupRequestService service;
 	private final BoardManagerRepository repository;
 
 	@GetMapping("/api/boardManagerApply")//최초 정렬
