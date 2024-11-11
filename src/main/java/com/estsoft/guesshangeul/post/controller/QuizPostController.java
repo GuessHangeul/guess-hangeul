@@ -31,8 +31,8 @@ public class QuizPostController {
 
 	// 전체 퀴즈 게시글 조회
 	@GetMapping
-	public ResponseEntity<List<QuizPostResponse>> getAllQuizPosts() {
-		List<QuizPostResponse> posts = quizPostService.getAllQuizPosts();
+	public ResponseEntity<List<QuizPostResponse>> getAllQuizPosts(@PathVariable Long quiz_board_id) {
+		List<QuizPostResponse> posts = quizPostService.getAllQuizPosts(quiz_board_id);
 		return ResponseEntity.status(HttpStatus.OK).body(posts);
 	}
 
