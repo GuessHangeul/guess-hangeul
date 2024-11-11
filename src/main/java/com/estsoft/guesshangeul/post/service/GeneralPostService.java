@@ -6,13 +6,15 @@ import org.springframework.stereotype.Service;
 
 import com.estsoft.guesshangeul.post.dto.AddGeneralPostRequest;
 import com.estsoft.guesshangeul.post.dto.GeneralPostResponse;
+import com.estsoft.guesshangeul.post.dto.GetHiddenPostResponse;
 import com.estsoft.guesshangeul.post.dto.UpdateGeneralPostRequest;
 import com.estsoft.guesshangeul.post.entity.GeneralPost;
 import com.estsoft.guesshangeul.post.repository.GeneralPostRepository;
 
 @Service
 public class GeneralPostService {
-	private final GeneralPostRepository generalPostRepository;
+
+  private final GeneralPostRepository generalPostRepository;
 
 	public GeneralPostService(GeneralPostRepository generalPostRepository) {
 		this.generalPostRepository = generalPostRepository;
