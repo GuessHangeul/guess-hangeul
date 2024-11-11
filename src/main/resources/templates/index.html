@@ -13,13 +13,6 @@
 <div layout:fragment="content">
     <div class="container">
         <div th:each="i : ${#numbers.sequence(0, boards.size() - 1, 2)}" class="row">
-            <!--        <div th:each="i : ${#numbers.sequence(0, 3, 2)}" class="row py-3">-->
-            <!--            <div class="col">-->
-            <!--                <th:block th:replace="~{/common/boardCard :: boardCard}"></th:block>-->
-            <!--            </div>-->
-            <!--            <div class="col">-->
-            <!--                <th:block th:replace="~{/common/boardCard :: boardCard}"></th:block>-->
-            <!--            </div>-->
             <div class="col">
                 <th:block th:replace="~{/common/boardCard :: boardCard(board=${boards[i]})}"></th:block>
             </div>
@@ -27,7 +20,7 @@
                 <th:block th:if="${i + 1 < boards.size()}"
                           th:replace="~{/common/boardCard :: boardCard(board=${boards[i+1]})}"></th:block>
             </div>
-            
+
         </div>
     </div>
 </div>
