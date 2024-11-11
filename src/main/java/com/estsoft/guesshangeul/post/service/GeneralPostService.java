@@ -1,14 +1,13 @@
 package com.estsoft.guesshangeul.post.service;
 
 import java.util.List;
-
-import org.springframework.stereotype.Service;
-
 import java.util.Optional;
 
+import org.springframework.data.domain.Pageable;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.core.userdetails.UserDetails;
+import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import com.estsoft.guesshangeul.board.entity.GeneralBoard;
@@ -16,6 +15,8 @@ import com.estsoft.guesshangeul.board.repository.GeneralBoardRepository;
 import com.estsoft.guesshangeul.exception.EntityNotFoundException;
 import com.estsoft.guesshangeul.post.dto.AddGeneralPostRequest;
 import com.estsoft.guesshangeul.post.dto.GeneralPostResponse;
+import com.estsoft.guesshangeul.post.dto.GeneralPostWithCommentCountInterface;
+import com.estsoft.guesshangeul.post.dto.GeneralPostWithCommentCountResponse;
 import com.estsoft.guesshangeul.post.dto.UpdateGeneralPostRequest;
 import com.estsoft.guesshangeul.post.entity.GeneralPost;
 import com.estsoft.guesshangeul.post.repository.GeneralPostRepository;
@@ -41,6 +42,18 @@ public class GeneralPostService {
 		return posts.stream()
 			.map(GeneralPostResponse::new)
 			.toList();
+	}
+
+	@Transactional
+	public List<GeneralPostWithCommentCountResponse> getAllGeneralPostsWithCommentCount(Long generalBoardId,
+		Pageable pageable) {
+		List<GeneralPostWithCommentCountInterface> posts = generalPostRepository.findAllWithCommentCount(generalBoardId,
+			pageable);
+		List<GeneralPostWithCommentCountResponse> result = posts.stream()
+			.map(GeneralPostWithCommentCountResponse::new)
+			.toList();
+
+		return result;
 	}
 
 	// ID로 게시글 조회 (없으면 예외 발생) + 제목 게시글 구현해야함

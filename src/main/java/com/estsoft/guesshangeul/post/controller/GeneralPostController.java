@@ -2,6 +2,9 @@ package com.estsoft.guesshangeul.post.controller;
 
 import java.util.List;
 
+import org.springframework.data.domain.Pageable;
+import org.springframework.data.domain.Sort;
+import org.springframework.data.web.PageableDefault;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.DeleteMapping;
@@ -15,6 +18,7 @@ import org.springframework.web.bind.annotation.RestController;
 
 import com.estsoft.guesshangeul.post.dto.AddGeneralPostRequest;
 import com.estsoft.guesshangeul.post.dto.GeneralPostResponse;
+import com.estsoft.guesshangeul.post.dto.GeneralPostWithCommentCountResponse;
 import com.estsoft.guesshangeul.post.dto.UpdateGeneralPostRequest;
 import com.estsoft.guesshangeul.post.service.GeneralPostService;
 
@@ -29,8 +33,11 @@ public class GeneralPostController {
 
 	// 전체 게시글 조회
 	@GetMapping
-	public ResponseEntity<List<GeneralPostResponse>> getAllGeneralPosts(@PathVariable Long generalBoardId) {
-		List<GeneralPostResponse> posts = generalPostService.getAllGeneralPosts(generalBoardId);
+	public ResponseEntity<List<GeneralPostWithCommentCountResponse>> getAllGeneralPostsWithCommentCount(
+		@PathVariable Long generalBoardId,
+		@PageableDefault(size = 20, sort = "createdAt", direction = Sort.Direction.DESC) Pageable pageable) {
+		List<GeneralPostWithCommentCountResponse> posts = generalPostService.getAllGeneralPostsWithCommentCount(
+			generalBoardId, pageable);
 		return ResponseEntity.status(HttpStatus.OK).body(posts);
 	}
 
@@ -53,8 +60,8 @@ public class GeneralPostController {
 	public ResponseEntity<GeneralPostResponse> createGeneralPost(@RequestBody AddGeneralPostRequest request,
 		@PathVariable Long generalBoardId) {
 		GeneralPostResponse post = generalPostService.createGeneralPost(request, generalBoardId);
-		return ResponseEntity.status(HttpStatus.CREATED).body(post);}
-
+		return ResponseEntity.status(HttpStatus.CREATED).body(post);
+	}
 
 	// 게시글 수정
 	@PutMapping("/{general_post_id}")
