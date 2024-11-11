@@ -9,6 +9,7 @@ import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
+import org.springframework.web.bind.annotation.RequestParam;
 
 import com.estsoft.guesshangeul.board.dto.BoardResponse;
 import com.estsoft.guesshangeul.board.dto.GeneralBoardDto;
@@ -48,6 +49,7 @@ public class BoardViewController {
 
 	@GetMapping("/generalBoard/{generalBoardId}")
 	public String generalBoardPage(Model model, @PathVariable Long generalBoardId,
+		@RequestParam(value = "search", required = false) String title,
 		@PageableDefault(size = 20, sort = "createdAt", direction = Sort.Direction.DESC) Pageable pageable) {
 		// 현재 게시판 정보 조회
 		model.addAttribute("currentBoard", generalBoardService.findByBoardId(generalBoardId));
@@ -58,8 +60,14 @@ public class BoardViewController {
 		model.addAttribute("boardList", boardResponses);
 
 		// GeneralPost 목록 조회
-		List<GeneralPostWithCommentCountResponse> postResponses = generalPostService.getAllGeneralPostsWithCommentCount(
-			generalBoardId, pageable);
+		List<GeneralPostWithCommentCountResponse> postResponses;
+		if (title == null) {
+			postResponses = generalPostService.getAllGeneralPostsWithCommentCount(
+				generalBoardId, pageable);
+		} else {
+			postResponses = generalPostService.getAllGeneralPostsByTitleWithCommentCount(
+				generalBoardId, title, pageable);
+		}
 		model.addAttribute("posts", postResponses);
 
 		// 페이지 정보
@@ -75,6 +83,7 @@ public class BoardViewController {
 
 	@GetMapping("/quizBoard/{quizBoardId}")
 	public String quizBoardPage(Model model, @PathVariable Long quizBoardId,
+		@RequestParam(value = "search", required = false) String title,
 		@PageableDefault(size = 20, sort = "createdAt", direction = Sort.Direction.DESC) Pageable pageable) {
 		// 현재 게시판 정보 조회
 		model.addAttribute("currentBoard", quizBoardService.findByBoardId(quizBoardId));
@@ -85,8 +94,14 @@ public class BoardViewController {
 		model.addAttribute("boardList", boardResponses);
 
 		// QuizPost 목록 조회
-		List<QuizPostWithCommentCountResponse> postResponses = quizPostService.getAllQuizPostsWithCommentCount(
-			quizBoardId, pageable);
+		List<QuizPostWithCommentCountResponse> postResponses;
+		if (title == null) {
+			postResponses = quizPostService.getAllQuizPostsWithCommentCount(
+				quizBoardId, pageable);
+		} else {
+			postResponses = quizPostService.getAllQuizPostsByTitleWithCommentCount(
+				quizBoardId, title, pageable);
+		}
 		model.addAttribute("posts", postResponses);
 
 		// 페이지 정보

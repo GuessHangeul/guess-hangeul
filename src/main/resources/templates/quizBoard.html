@@ -21,37 +21,40 @@
 
     <hr>
     <div class="content">
-        <div th:each="post : ${posts}">
-            <div class="list-group my-3">
-                <li class="list-group-item list-group-item-primary"
-                    th:text="${currentBoard.title}">
-                    <h4>게시판 제목</h4></li>
-                <li class="list-group-item list-group-item-secondary d-flex flex-row">
-                    <div class="container row w-100">
-                        <div class="col-3">
-                            <button class="btn btn-primary text-nowrap" type="button"
-                                    th:onclick="|location.href='/quizBoard/${currentBoard.id}/newPost'|">게시글 작성
+        <div class="list-group my-3">
+            <li class="list-group-item list-group-item-primary"
+                th:text="${currentBoard.title}">
+                <h4>게시판 제목</h4></li>
+            <li class="list-group-item list-group-item-secondary d-flex flex-row">
+                <div class="container row w-100">
+                    <div class="col-3">
+                        <button class="btn btn-primary text-nowrap" type="button"
+                                th:onclick="|location.href='/quizBoard/${currentBoard.id}/newPost'|">게시글 작성
+                        </button>
+                    </div>
+                    <div class="col-6 d-flex flex-row">
+                        <input type="text" id="search-input" class="form-control"
+                               placeholder="게시글을 검색하세요.">
+                        <button id="search-btn" class="btn btn-primary text-nowrap" type="button"
+                                th:onclick="'searchTitle(2,' + ${currentBoard.id} + ')'">검색
+                        </button>
+                    </div>
+                    <div class="col-3">
+                        <div class="dropdown text-end">
+                            <button class="btn btn-secondary dropdown-toggle" type="button"
+                                    data-bs-toggle="dropdown" aria-expanded="false">
+                                정렬 기준
                             </button>
-                        </div>
-                        <div class="col-6 d-flex flex-row">
-                            <input type="text" id="search-input" class="form-control"
-                                   placeholder="게시글을 검색하세요.">
-                            <button class="btn btn-primary text-nowrap" type="button">검색</button>
-                        </div>
-                        <div class="col-3">
-                            <div class="dropdown text-end">
-                                <button class="btn btn-secondary dropdown-toggle" type="button"
-                                        data-bs-toggle="dropdown" aria-expanded="false">
-                                    정렬 기준
-                                </button>
-                                <ul class="dropdown-menu text-small dropdown-menu-end">
-                                    <li><a class="dropdown-item">최신순</a></li>
-                                    <li><a class="dropdown-item">조회순</a></li>
-                                </ul>
-                            </div>
+                            <ul class="dropdown-menu text-small dropdown-menu-end">
+                                <li><a class="dropdown-item">최신순</a></li>
+                                <li><a class="dropdown-item">조회순</a></li>
+                            </ul>
                         </div>
                     </div>
-                </li>
+                </div>
+            </li>
+
+            <div th:each="post : ${posts}">
                 <th:block th:each="post : ${posts}">
                     <th:block
                             th:replace="~{/common/postItem :: postItem(${post}, ${currentBoard.id}, ${1})}"></th:block>
@@ -85,6 +88,7 @@
             </ul>
         </nav>
     </div>
+    <script th:src="@{/js/boardPage.js}"></script>
 </div>
 </body>
 </html>
