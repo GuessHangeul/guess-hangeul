@@ -15,7 +15,7 @@ import com.estsoft.guesshangeul.board.dto.QuizBoardDto;
 import com.estsoft.guesshangeul.board.dto.QuizBoardResponse;
 import com.estsoft.guesshangeul.board.service.GeneralBoardService;
 import com.estsoft.guesshangeul.board.service.QuizBoardService;
-import com.estsoft.guesshangeul.post.dto.GeneralPostResponse;
+import com.estsoft.guesshangeul.post.dto.GeneralPostWithCommentCountResponse;
 import com.estsoft.guesshangeul.post.service.GeneralPostService;
 import com.estsoft.guesshangeul.user.dto.UsersResponse;
 
@@ -54,7 +54,8 @@ public class AdminPageController {
 		model.addAttribute("generalBoard", boardResponses);
 
 		// generalPost 조회
-		List<GeneralPostResponse> posts = generalPostService.getAllGeneralPosts(boardId);
+		List<GeneralPostWithCommentCountResponse> posts = generalPostService.getAllGeneralPostsWithCommentCount(boardId,
+			Pageable.unpaged());
 		model.addAttribute("posts", posts);
 
 		return "adminGeneralBoard";

@@ -44,14 +44,15 @@
         <div class="post" th:attr="data-boardId=${board.id}" th:each="post : ${posts}">
             <input type="checkbox" id="general-post" class="post-checkbox" name="postIds" th:value="${post.id}"/>
             <div class="top">
-                <span class="user" th:text="${post.nickname}">작성자</span>
+                <span class="user" th:text="${post.user.nickname}">작성자</span>
                 <span th:text="${post.createdAt}">생성</span>
                 <span>/</span>
                 <span th:text="${post.updatedAt}">업데이트</span>
             </div>
             <div class="bottom">
                 <span class="title" th:text="${post.title}">제목</span>
-                <span th:text="${post.view}">조회수</span>
+                <span th:text="${'조회 '+post.view+' /'}">조회수</span>
+                <span th:text="${' 댓글 '+post.commentCount}">댓글수</span>
             </div>
         </div>
 
