@@ -41,7 +41,8 @@
             </form>
         </nav>
 
-        <div class="post" th:attr="data-boardId=${board.id}" th:each="post : ${posts}">
+        <div class="post" th:attr="data-boardId=${board.id}" th:classappend="${post.isHidden} ? 'hidden-post'"
+             th:each="post : ${posts}">
             <input type="checkbox" id="general-post" class="post-checkbox" name="postIds" th:value="${post.id}"/>
             <div class="top">
                 <span class="user" th:text="${post.nickname}">작성자</span>

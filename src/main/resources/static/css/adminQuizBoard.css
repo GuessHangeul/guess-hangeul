@@ -1,14 +1,15 @@
 button {
     padding: 8px 16px;
     font-size: 14px;
-    background-color: lightgrey; /* 버튼 색상 */
     border: none;
+    background-color: white;
     border-radius: 30%;
     cursor: pointer;
+    color: dodgerblue;
 }
 
 button:hover {
-    background-color: darkgrey; /* 버튼 호버 효과 */
+    background-color: lightcyan; /* 버튼 호버 효과 */
 }
 
 .quizBoard {
@@ -31,6 +32,10 @@ button:hover {
     display: flex;
     justify-content: flex-start;
     margin-bottom: 30px;
+}
+
+.hidden-post {
+    background-color: lightgrey;
 }
 
 .title {
