@@ -12,11 +12,13 @@ import com.estsoft.guesshangeul.post.entity.QuizPost;
 public interface QuizPostRepository extends JpaRepository<QuizPost, Long> {
 	List<QuizPost> findByQuizBoardIdAndIdIn(Long quizBoardId, List<Long> id);
 
-	Optional<QuizPost> findByQuizTitle(String quizTitle);
-
-	List<QuizPost> findByHidden(boolean isHidden);
+	List<QuizPost> findByQuizBoardIdAndHidden(Long quizBoardId, boolean isHidden);
 
 	List<QuizPost> findTop5ByQuizBoardIdOrderByCreatedAtDesc(Long quizBoardId);
 
 	List<QuizPost> findByQuizBoardId(Long quizBoardId);
+
+	Optional<QuizPost> findByQuizBoardIdAndId(Long quizBoardId, Long id);
+
+	Optional<QuizPost> findByQuizBoardIdAndQuizTitle(Long quizBoardId, String quizTitle);
 }

@@ -39,15 +39,15 @@ public class GeneralPostController {
 
 	// 게시글 id로 조회
 	@GetMapping("/{id}")
-	public ResponseEntity<GeneralPostResponse> getGeneralPostById(@PathVariable Long id) {
-		GeneralPostResponse post = generalPostService.getGeneralPostById(id);
+	public ResponseEntity<GeneralPostResponse> getGeneralPostById(@PathVariable Long generalBoardId, @PathVariable Long id) {
+		GeneralPostResponse post = generalPostService.getGeneralPostById(generalBoardId, id);
 		return ResponseEntity.status(HttpStatus.OK).body(post);
 	}
 
 	// 게시글 제목으로 조회
 	@GetMapping("?search={title}")
-	public ResponseEntity<GeneralPostResponse> getGeneralPostByTitle(@PathVariable String title) {
-		GeneralPostResponse post = generalPostService.getGeneralPostByTitle(title);
+	public ResponseEntity<GeneralPostResponse> getGeneralPostByTitle(@PathVariable Long generalBoardId, @PathVariable String title) {
+		GeneralPostResponse post = generalPostService.getGeneralPostByTitle(generalBoardId, title);
 		return ResponseEntity.status(HttpStatus.OK).body(post);
 	}
 
@@ -61,16 +61,16 @@ public class GeneralPostController {
 
 	// 게시글 수정
 	@PutMapping("/{id}")
-	public ResponseEntity<GeneralPostResponse> updateGeneralPost(@PathVariable Long generalBoardId,
+	public ResponseEntity<GeneralPostResponse> updateGeneralPost(@PathVariable Long generalBoardId,@PathVariable Long id,
 		@RequestBody UpdateGeneralPostRequest request) {
-		GeneralPostResponse post = generalPostService.updateGeneralPost(generalBoardId, request);
+		GeneralPostResponse post = generalPostService.updateGeneralPost(generalBoardId, id, request);
 		return ResponseEntity.status(HttpStatus.OK).body(post);
 	}
 
 	// 게시글 삭제
 	@DeleteMapping("/{id}")
-	public ResponseEntity<Void> deleteGeneralPost(@PathVariable Long id) {
-		generalPostService.deleteGeneralPost(id);
+	public ResponseEntity<Void> deleteGeneralPost(@PathVariable Long generalBoardId, @PathVariable Long id) {
+		generalPostService.deleteGeneralPost(generalBoardId, id);
 		return ResponseEntity.status(HttpStatus.NO_CONTENT).build();
 	}
 }

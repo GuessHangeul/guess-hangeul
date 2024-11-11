@@ -1,10 +1,9 @@
 package com.estsoft.guesshangeul.post.service;
 
 import java.util.List;
+import java.util.Optional;
 
 import org.springframework.stereotype.Service;
-
-import java.util.Optional;
 
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.context.SecurityContextHolder;
@@ -13,13 +12,15 @@ import org.springframework.transaction.annotation.Transactional;
 
 import com.estsoft.guesshangeul.board.entity.GeneralBoard;
 import com.estsoft.guesshangeul.board.repository.GeneralBoardRepository;
-import com.estsoft.guesshangeul.exception.EntityNotFoundException;
+
 import com.estsoft.guesshangeul.post.dto.AddGeneralPostRequest;
 import com.estsoft.guesshangeul.post.dto.GeneralPostResponse;
-import com.estsoft.guesshangeul.post.dto.GetHiddenPostResponse;
 import com.estsoft.guesshangeul.post.dto.UpdateGeneralPostRequest;
 import com.estsoft.guesshangeul.post.entity.GeneralPost;
 import com.estsoft.guesshangeul.post.repository.GeneralPostRepository;
+
+import com.estsoft.guesshangeul.exception.EntityNotFoundException;
+
 import com.estsoft.guesshangeul.user.entity.Users;
 import com.estsoft.guesshangeul.user.service.UsersDetailsService;
 
@@ -45,15 +46,15 @@ public class GeneralPostService {
 	}
 
 	// ID로 게시글 조회 (없으면 예외 발생)
-	public GeneralPostResponse getGeneralPostById(Long id) {
-		GeneralPost post = generalPostRepository.findById(id)
+	public GeneralPostResponse getGeneralPostById(Long generalBoardId, Long id) {
+		GeneralPost post = generalPostRepository.findByGeneralBoardIdAndId(generalBoardId, id)
 			.orElseThrow(() -> new RuntimeException("해당 게시글은 존재하지 않습니다."));
 		return new GeneralPostResponse(post);
 	}
 
 	// 제목으로 게시글 조회
-	public GeneralPostResponse getGeneralPostByTitle(String title) {
-		GeneralPost post = generalPostRepository.findByTitle(title)
+	public GeneralPostResponse getGeneralPostByTitle(Long generalBoardId, String title) {
+		GeneralPost post = generalPostRepository.findByGeneralBoardIdAndTitle(generalBoardId, title)
 			.orElseThrow(() -> new RuntimeException("해당 제목의 게시글은 존재하지 않습니다."));
 		return new GeneralPostResponse(post);
 	}
@@ -83,8 +84,8 @@ public class GeneralPostService {
 	}
 
 	// 게시글 수정
-	public GeneralPostResponse updateGeneralPost(Long id, UpdateGeneralPostRequest request) {
-		GeneralPost post = generalPostRepository.findById(id)
+	public GeneralPostResponse updateGeneralPost(Long generalBoardId, Long id, UpdateGeneralPostRequest request) {
+		GeneralPost post = generalPostRepository.findByGeneralBoardIdAndId(generalBoardId, id)
 			.orElseThrow(() -> new RuntimeException("해당 게시글은 존재하지 않습니다."));
 		post.setTitle(request.getTitle());
 		post.setContent(request.getContent());
@@ -95,7 +96,9 @@ public class GeneralPostService {
 	}
 
 	// 게시글 삭제
-	public void deleteGeneralPost(Long id) {
-		generalPostRepository.deleteById(id);
+	public void deleteGeneralPost(Long generalBoardId, Long id) {
+		GeneralPost post = generalPostRepository.findByGeneralBoardIdAndId(generalBoardId, id)
+			.orElseThrow(() -> new RuntimeException("해당 게시글은 존재하지 않습니다."));
+		generalPostRepository.delete(post);
 	}
 }
