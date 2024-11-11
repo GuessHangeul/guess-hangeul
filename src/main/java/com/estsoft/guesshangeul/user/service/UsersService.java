@@ -20,6 +20,7 @@ import com.estsoft.guesshangeul.exception.UsersEmailDuplicateException;
 import com.estsoft.guesshangeul.exception.UsersNicknameDuplicateException;
 import com.estsoft.guesshangeul.exception.UsersNotFoundException;
 import com.estsoft.guesshangeul.user.dto.AddUserRequest;
+import com.estsoft.guesshangeul.user.dto.DeleteUsersRequest;
 import com.estsoft.guesshangeul.user.dto.UsersResponse;
 import com.estsoft.guesshangeul.user.entity.Authorities;
 import com.estsoft.guesshangeul.user.entity.PasswordResetToken;
@@ -162,6 +163,12 @@ public class UsersService {
 		}
 
 		return grantedAuthorities;
+	}
+	//유저 삭제 메서드(소프트 삭제)
+	public Users deleteUser(Long id, DeleteUsersRequest request){
+		Users users = usersRepository.findById(id).orElseThrow(()->new IllegalArgumentException("User not found" + id));
+		users.DeleteUsers(request.getUserId(), true);
+		return users;
 	}
 }
 

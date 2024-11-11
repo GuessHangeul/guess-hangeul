@@ -113,4 +113,9 @@ public class Users implements UserDetails {
 	public String getPassword() {
 		return password;
 	}
+
+	public void DeleteUsers(Long userId, boolean isDeleted) {
+		this.id = userId;
+		this.isDeleted = isDeleted;
+	}
 }
