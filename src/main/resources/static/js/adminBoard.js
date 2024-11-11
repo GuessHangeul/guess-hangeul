@@ -127,3 +127,13 @@ document.querySelector('.delete-btn').addEventListener('click', function () {
         })
         .catch(error => console.error('Error:', error));
 });
+
+// 검색
+function searchPost(event) {
+    event.preventDefault(); // 폼의 기본 제출 동작을 막음
+    const generalBoardId = postElement.getAttribute('data-boardId');
+    const searchText = document.getElementById('searchText').value; // 입력된 검색어 가져오기
+
+    // 검색어를 포함한 URL로 이동 (여기서 title은 검색어)
+    window.location.href = `/api/generalBoard/${generalBoardId}/generalPost?search=${searchText}`;
+}
