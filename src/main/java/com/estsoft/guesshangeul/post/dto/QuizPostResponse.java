@@ -32,7 +32,7 @@ public class QuizPostResponse {
 		this.quizTitle = quizPost.getQuizTitle();
 		this.hintContent = quizPost.getHintContent();
 		this.answer = quizPost.getAnswer();
-		this.isHidden = quizPost.getIsHidden();
+		this.isHidden = quizPost.isHidden();
 		this.view = quizPost.getView();
 		this.createdAt = quizPost.getCreatedAt();
 		this.updatedAt = quizPost.getUpdatedAt();
