@@ -38,15 +38,14 @@ public class QuizPostController {
 	public ResponseEntity<List<QuizPostWithCommentCountResponse>> getAllQuizPostsWithCommentCount(
 		@PathVariable Long quizBoardId,
 		@RequestParam(value = "search", required = false) String title,
+		@RequestParam(value = "isHidden", required = false) Boolean isHidden,
 		@PageableDefault(size = 20, sort = "createdAt", direction = Sort.Direction.DESC) Pageable pageable) {
 		List<QuizPostWithCommentCountResponse> posts;
 		if (title == null) {
-			posts = quizPostService.getAllQuizPostsWithCommentCount(
-				quizBoardId, pageable);
+			posts = quizPostService.getAllQuizPostsWithCommentCount(quizBoardId, isHidden, pageable);
 		} else {
 			// 제목 검색으로 조회
-			posts = quizPostService.getAllQuizPostsByTitleWithCommentCount(
-				quizBoardId, title, pageable);
+			posts = quizPostService.getAllQuizPostsByTitleWithCommentCount(quizBoardId, title, isHidden, pageable);
 		}
 
 		return ResponseEntity.status(HttpStatus.OK).body(posts);

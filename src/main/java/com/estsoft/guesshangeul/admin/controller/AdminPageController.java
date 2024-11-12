@@ -62,7 +62,7 @@ public class AdminPageController {
 
 		// generalPost 조회
 		List<GeneralPostWithCommentCountResponse> posts = generalPostService.getAllGeneralPostsWithCommentCount(boardId,
-			Pageable.unpaged());
+			null, Pageable.unpaged());
 		model.addAttribute("posts", posts);
 
 		return "adminGeneralBoard";

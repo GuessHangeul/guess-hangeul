@@ -39,9 +39,15 @@ public class GeneralPostService {
 	// 모든 게시글 조회
 	@Transactional
 	public List<GeneralPostWithCommentCountResponse> getAllGeneralPostsWithCommentCount(Long generalBoardId,
+		Boolean isHidden,
 		Pageable pageable) {
-		List<GeneralPostWithCommentCountInterface> posts = generalPostRepository.findAllWithCommentCount(generalBoardId,
-			pageable);
+		List<GeneralPostWithCommentCountInterface> posts;
+		if (isHidden == null) {
+			posts = generalPostRepository.findAllWithCommentCount(generalBoardId, pageable);
+		} else {
+			posts = generalPostRepository.findAllByIsHiddenWithCommentCount(generalBoardId, isHidden, pageable);
+		}
+
 		List<GeneralPostWithCommentCountResponse> result = posts.stream()
 			.map(GeneralPostWithCommentCountResponse::new)
 			.toList();
@@ -52,10 +58,16 @@ public class GeneralPostService {
 	// 검색어를 적용한 모든 게시글 조회
 	@Transactional
 	public List<GeneralPostWithCommentCountResponse> getAllGeneralPostsByTitleWithCommentCount(Long generalBoardId,
-		String title,
-		Pageable pageable) {
-		List<GeneralPostWithCommentCountInterface> posts = generalPostRepository.findAllByTitleWithCommentCount(
-			generalBoardId, title, pageable);
+		String title, Boolean isHidden, Pageable pageable) {
+		List<GeneralPostWithCommentCountInterface> posts;
+		if (isHidden == null) {
+			posts = generalPostRepository.findAllByTitleWithCommentCount(
+				generalBoardId, title, pageable);
+		} else {
+			posts = generalPostRepository.findAllByTitleAndIsHiddenWithCommentCount(
+				generalBoardId, title, isHidden, pageable);
+		}
+
 		List<GeneralPostWithCommentCountResponse> result = posts.stream()
 			.map(GeneralPostWithCommentCountResponse::new)
 			.toList();

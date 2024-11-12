@@ -20,9 +20,6 @@ import com.estsoft.guesshangeul.post.dto.QuizPostResponse;
 import com.estsoft.guesshangeul.post.dto.QuizPostWithCommentCountInterface;
 import com.estsoft.guesshangeul.post.dto.QuizPostWithCommentCountResponse;
 import com.estsoft.guesshangeul.post.dto.UpdateQuizPostRequest;
-import com.estsoft.guesshangeul.post.dto.GetHiddenPostResponse;
-import com.estsoft.guesshangeul.post.dto.QuizPostResponse;
-import com.estsoft.guesshangeul.post.dto.UpdateQuizPostRequest;
 import com.estsoft.guesshangeul.post.entity.QuizPost;
 import com.estsoft.guesshangeul.post.repository.QuizPostRepository;
 import com.estsoft.guesshangeul.user.entity.Users;
@@ -45,10 +42,14 @@ public class QuizPostService {
 
 	// 모든 게시글 조회
 	@Transactional
-	public List<QuizPostWithCommentCountResponse> getAllQuizPostsWithCommentCount(Long quizBoardId,
+	public List<QuizPostWithCommentCountResponse> getAllQuizPostsWithCommentCount(Long quizBoardId, Boolean isHidden,
 		Pageable pageable) {
-		List<QuizPostWithCommentCountInterface> posts = quizPostRepository.findAllWithCommentCount(quizBoardId,
-			pageable);
+		List<QuizPostWithCommentCountInterface> posts;
+		if (isHidden == null) {
+			posts = quizPostRepository.findAllWithCommentCount(quizBoardId, pageable);
+		} else {
+			posts = quizPostRepository.findAllByIsHiddenWithCommentCount(quizBoardId, isHidden, pageable);
+		}
 		List<QuizPostWithCommentCountResponse> result = posts.stream()
 			.map(QuizPostWithCommentCountResponse::new)
 			.toList();
@@ -59,10 +60,15 @@ public class QuizPostService {
 	// 퀴즈 제목으로 조회
 	@Transactional
 	public List<QuizPostWithCommentCountResponse> getAllQuizPostsByTitleWithCommentCount(Long generalBoardId,
-		String title,
-		Pageable pageable) {
-		List<QuizPostWithCommentCountInterface> posts = quizPostRepository.findAllQuizPostByTitleWithCommentCount(
-			generalBoardId, title, pageable);
+		String title, Boolean isHidden, Pageable pageable) {
+		List<QuizPostWithCommentCountInterface> posts;
+		if (isHidden == null) {
+			posts = quizPostRepository.findAllByTitleWithCommentCount(generalBoardId, title, pageable);
+		} else {
+			posts = quizPostRepository.findAllByTitleAndIsHiddenWithCommentCount(generalBoardId, title, isHidden,
+				pageable);
+		}
+
 		List<QuizPostWithCommentCountResponse> result = posts.stream()
 			.map(QuizPostWithCommentCountResponse::new)
 			.toList();
