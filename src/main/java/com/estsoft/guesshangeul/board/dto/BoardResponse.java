@@ -1,6 +1,7 @@
 package com.estsoft.guesshangeul.board.dto;
 
-import java.time.LocalDateTime;
+import static com.estsoft.guesshangeul.util.DateFormatUtil.*;
+
 import java.util.List;
 
 import com.estsoft.guesshangeul.board.entity.GeneralBoard;
@@ -16,7 +17,7 @@ import lombok.Setter;
 public class BoardResponse {
 	private Long id;
 	private String title;
-	private LocalDateTime createdAt;
+	private String createdAt;
 	private Boolean isDeleted;
 	private Integer boardType;  // 일반 게시판(1) or 문제 게시판(2)
 	@Setter
@@ -25,7 +26,7 @@ public class BoardResponse {
 	public BoardResponse(GeneralBoard generalBoard) {
 		this.id = generalBoard.getId();
 		this.title = generalBoard.getTitle();
-		this.createdAt = generalBoard.getCreatedAt();
+		this.createdAt = generalBoard.getCreatedAt().format(formatter);
 		this.isDeleted = generalBoard.getIsDeleted();
 		this.boardType = BoardType.GENERAL_BOARD;
 	}
@@ -33,7 +34,7 @@ public class BoardResponse {
 	public BoardResponse(QuizBoard quizBoard) {
 		this.id = quizBoard.getId();
 		this.title = quizBoard.getTitle();
-		this.createdAt = quizBoard.getCreatedAt();
+		this.createdAt = quizBoard.getCreatedAt().format(formatter);
 		this.isDeleted = quizBoard.getIsDeleted();
 		this.boardType = BoardType.QUIZ_BOARD;
 	}
