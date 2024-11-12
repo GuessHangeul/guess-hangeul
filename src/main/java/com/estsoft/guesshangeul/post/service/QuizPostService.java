@@ -1,10 +1,6 @@
 package com.estsoft.guesshangeul.post.service;
 
 import java.util.List;
-import java.util.stream.Collectors;
-
-import org.springframework.stereotype.Service;
-
 import java.util.Optional;
 import java.util.stream.Collectors;
 
@@ -23,11 +19,6 @@ import com.estsoft.guesshangeul.post.dto.QuizPostResponse;
 import com.estsoft.guesshangeul.post.dto.UpdateQuizPostRequest;
 import com.estsoft.guesshangeul.post.entity.QuizPost;
 import com.estsoft.guesshangeul.post.repository.QuizPostRepository;
-
-import jakarta.transaction.Transactional;
-
-import com.estsoft.guesshangeul.exception.EntityNotFoundException;
-
 import com.estsoft.guesshangeul.user.entity.Users;
 import com.estsoft.guesshangeul.user.service.UsersDetailsService;
 
@@ -120,11 +111,11 @@ public class QuizPostService {
 			.orElseThrow(() -> new RuntimeException("해당 게시글은 존재하지 않습니다."));
 		quizPostRepository.delete(post);
 	}
-  
-  // 퀴즈 게시글 id List로 받아서 삭제
-   @Transactional
-   public void deleteQuizPostByIdIn(Long quizBoardId, List<Long> postId) {
-     quizPostRepository.deleteByQuizBoardIdAndIdIn(quizBoardId, postId);
-   }
-  
+
+	// 퀴즈 게시글 id List로 받아서 삭제
+	@Transactional
+	public void deleteQuizPostByIdIn(Long quizBoardId, List<Long> postId) {
+		quizPostRepository.deleteByQuizBoardIdAndIdIn(quizBoardId, postId);
+	}
+
 }
