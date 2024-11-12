@@ -9,20 +9,26 @@
     <header th:replace="~{/common/header :: header}"></header>
     <div class="row flex-grow-1">
         <!-- 좌측 광고 또는 랭킹 섹션 -->
-        <aside class="d-flex flex-column col-md-2">
-            <div class="border p-2">
-                <h5 class="text-center">랭킹</h5>
-                <ul class="list-unstyled">
+        <aside class="d-flex flex-column col-md-2 py-3 gap-3">
+            <div>
+                <ul class="list-group">
+                    <li class="list-group-item list-group-item-info">
+                        <h5 class="text-center info">랭킹</h5>
+                    </li>
                     <!-- Thymeleaf를 사용해 서버에서 전달된 랭킹 데이터를 렌더링 -->
                     <!-- 추후 랭킹 기능 개발 후 적용 -->
-                    <li th:each="user : ${rankingData}">
+                    <li class="list-group-item"
+                        th:each="user, stat : ${rankingData}">
+                        <span class="text-secondary mr-1"
+                              th:text="${stat.index + 1} + '위'"></span>
                         <span th:text="${user}"></span>
+                        <!--                        <span th:text="${user.score}"></span>-->
                     </li>
                 </ul>
             </div>
-            <div class="container border p-2 pb-5">
+            <div class="container border p-2 pb-5 text-center">
                 <h5>광고</h5>
-                <p>광고 콘텐츠</p>
+                <p>초성퀴즈 커뮤니티<br/><b>ㄴㄹㅁㅆㅁ</b> 입니다.<br/>광고 문의 주세요.</p>
             </div>
         </aside>
 
