@@ -58,7 +58,9 @@ public class AdminPageController {
 	}
 
 	@GetMapping("/admin/generalBoard/{boardId}")
-	public String showGeneralBoard(@PathVariable Long boardId, Model model, Pageable pageable) {
+	public String showGeneralBoard(@PathVariable Long boardId, Model model, Pageable pageable,
+		@RequestParam(value = "search", required = false) String title,
+		@RequestParam(value = "isHidden", required = false) Boolean isHidden) {
 		model.addAttribute("board", generalBoardService.findByBoardId(boardId));
 
 		// generalBoard 목록 조회
@@ -67,8 +69,15 @@ public class AdminPageController {
 		model.addAttribute("generalBoard", boardResponses);
 
 		// generalPost 조회
-		List<GeneralPostWithCommentCountResponse> posts = generalPostService.getAllGeneralPostsWithCommentCount(boardId,
-			null, Pageable.unpaged());
+		List<GeneralPostWithCommentCountResponse> posts;
+		if (title == null) {
+			posts = generalPostService.getAllGeneralPostsWithCommentCount(
+				boardId, isHidden, pageable);
+		} else {
+			// 제목 검색으로 조회
+			posts = generalPostService.getAllGeneralPostsByTitleWithCommentCount(
+				boardId, title, isHidden, pageable);
+		}
 		model.addAttribute("posts", posts);
 
 		return "adminGeneralBoard";
