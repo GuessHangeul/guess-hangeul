@@ -50,6 +50,7 @@ public class BoardViewController {
 	@GetMapping("/generalBoard/{generalBoardId}")
 	public String generalBoardPage(Model model, @PathVariable Long generalBoardId,
 		@RequestParam(value = "search", required = false) String title,
+		@RequestParam(value = "isHidden", required = false) Boolean isHidden,
 		@PageableDefault(size = 20, sort = "createdAt", direction = Sort.Direction.DESC) Pageable pageable) {
 		// 현재 게시판 정보 조회
 		model.addAttribute("currentBoard", generalBoardService.findByBoardId(generalBoardId));
@@ -63,10 +64,10 @@ public class BoardViewController {
 		List<GeneralPostWithCommentCountResponse> postResponses;
 		if (title == null) {
 			postResponses = generalPostService.getAllGeneralPostsWithCommentCount(
-				generalBoardId, pageable);
+				generalBoardId, isHidden, pageable);
 		} else {
 			postResponses = generalPostService.getAllGeneralPostsByTitleWithCommentCount(
-				generalBoardId, title, pageable);
+				generalBoardId, title, isHidden, pageable);
 		}
 		model.addAttribute("posts", postResponses);
 
@@ -84,6 +85,7 @@ public class BoardViewController {
 	@GetMapping("/quizBoard/{quizBoardId}")
 	public String quizBoardPage(Model model, @PathVariable Long quizBoardId,
 		@RequestParam(value = "search", required = false) String title,
+		@RequestParam(value = "isHidden", required = false) Boolean isHidden,
 		@PageableDefault(size = 20, sort = "createdAt", direction = Sort.Direction.DESC) Pageable pageable) {
 		// 현재 게시판 정보 조회
 		model.addAttribute("currentBoard", quizBoardService.findByBoardId(quizBoardId));
@@ -97,10 +99,10 @@ public class BoardViewController {
 		List<QuizPostWithCommentCountResponse> postResponses;
 		if (title == null) {
 			postResponses = quizPostService.getAllQuizPostsWithCommentCount(
-				quizBoardId, pageable);
+				quizBoardId, isHidden, pageable);
 		} else {
 			postResponses = quizPostService.getAllQuizPostsByTitleWithCommentCount(
-				quizBoardId, title, pageable);
+				quizBoardId, title, isHidden, pageable);
 		}
 		model.addAttribute("posts", postResponses);
 

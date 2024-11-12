@@ -38,15 +38,16 @@ public class GeneralPostController {
 	public ResponseEntity<List<GeneralPostWithCommentCountResponse>> getAllGeneralPostsWithCommentCount(
 		@PathVariable Long generalBoardId,
 		@RequestParam(value = "search", required = false) String title,
+		@RequestParam(value = "isHidden", required = false) Boolean isHidden,
 		@PageableDefault(size = 20, sort = "createdAt", direction = Sort.Direction.DESC) Pageable pageable) {
 		List<GeneralPostWithCommentCountResponse> posts;
 		if (title == null) {
 			posts = generalPostService.getAllGeneralPostsWithCommentCount(
-				generalBoardId, pageable);
+				generalBoardId, isHidden, pageable);
 		} else {
 			// 제목 검색으로 조회
 			posts = generalPostService.getAllGeneralPostsByTitleWithCommentCount(
-				generalBoardId, title, pageable);
+				generalBoardId, title, isHidden, pageable);
 		}
 
 		return ResponseEntity.status(HttpStatus.OK).body(posts);
