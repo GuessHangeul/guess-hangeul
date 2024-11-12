@@ -20,6 +20,9 @@ import com.estsoft.guesshangeul.post.dto.QuizPostResponse;
 import com.estsoft.guesshangeul.post.dto.QuizPostWithCommentCountInterface;
 import com.estsoft.guesshangeul.post.dto.QuizPostWithCommentCountResponse;
 import com.estsoft.guesshangeul.post.dto.UpdateQuizPostRequest;
+import com.estsoft.guesshangeul.post.dto.GetHiddenPostResponse;
+import com.estsoft.guesshangeul.post.dto.QuizPostResponse;
+import com.estsoft.guesshangeul.post.dto.UpdateQuizPostRequest;
 import com.estsoft.guesshangeul.post.entity.QuizPost;
 import com.estsoft.guesshangeul.post.repository.QuizPostRepository;
 import com.estsoft.guesshangeul.user.entity.Users;
@@ -76,7 +79,7 @@ public class QuizPostService {
 
 	// 퀴즈 게시글 숨김 여부 조회
 	public List<GetHiddenPostResponse> getQuizPostByIsHidden(Long quizBoardId, boolean isHidden) {
-		List<QuizPost> posts = quizPostRepository.findByQuizBoardIdAndHidden(quizBoardId, isHidden);
+		List<QuizPost> posts = quizPostRepository.findByQuizBoardIdAndIsHidden(quizBoardId, isHidden);
 		return posts.stream()
 			.map(post -> new GetHiddenPostResponse(post.isHidden()))
 			.collect(Collectors.toList());
