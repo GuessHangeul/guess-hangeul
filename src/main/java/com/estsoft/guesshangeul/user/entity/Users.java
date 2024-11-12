@@ -79,6 +79,18 @@ public class Users implements UserDetails {
 		this.password = password;
 	}
 
+	public void withdrawal(boolean isDeleted) {
+		this.isDeleted = isDeleted;
+	}
+
+	public void updateConnectedAt() {
+		this.connectedAt = LocalDateTime.now();
+	}
+
+	public void incrementConnectCount() {
+		this.connectCount += 1;
+	}
+
 	@Override
 	public boolean isAccountNonExpired() {
 		return UserDetails.super.isAccountNonExpired();
@@ -96,7 +108,7 @@ public class Users implements UserDetails {
 
 	@Override
 	public boolean isEnabled() {
-		return UserDetails.super.isEnabled();
+		return !isDeleted;
 	}
 
 	@Override
