@@ -7,8 +7,7 @@ function deleteBoard(deleteButton) {
     const deleteUrl = `/api/admin/deleteBoard/quizBoard/${boardId}`;
 
     fetch(`/api/admin/deleteBoard/quizBoard/${boardId}`, {
-        method: '' +
-            'PUT'
+        method: 'PUT'
     }).then(() => {
         alert('삭제가 완료되었습니다');
         location.reload();
@@ -43,11 +42,16 @@ document.querySelector('.hide-btn').addEventListener('click', function () {
     const boardId = postElement.getAttribute('data-boardId');
 
     // API 요청 URL 생성 (GET 요청에 선택된 postId 포함)
-    const url = `/api/admin/quizBoard/${boardId}/post/changeVisibilityHide?` +
-        selectedIds.map(id => `postId=${id}`).join('&');
+    const url = `/api/admin/quizBoard/${boardId}/post/changeVisibilityHide`;
 
     // GET 요청 전송
-    fetch(url)
+    fetch(url, {
+        method: 'PUT', // PUT 방식 설정
+        headers: {
+            'Content-Type': 'application/json' // JSON 형식으로 전송
+        },
+        body: JSON.stringify(selectedIds) // 선택된 ID 리스트를 JSON으로 변환하여 RequestBody로 전송
+    })
         .then(response => response.json())
         .then(data => {
             if (data.length > 0) {
@@ -77,11 +81,16 @@ document.querySelector('.unhide-btn').addEventListener('click', function () {
     const boardId = postElement.getAttribute('data-boardId');
 
     // API 요청 URL 생성 (GET 요청에 선택된 postId 포함)
-    const url = `/api/admin/quizBoard/${boardId}/post/changeVisibilityUnhidden?` +
-        selectedIds.map(id => `postId=${id}`).join('&');
+    const url = `/api/admin/quizBoard/${boardId}/post/changeVisibilityUnhidden`;
 
     // GET 요청 전송
-    fetch(url)
+    fetch(url, {
+        method: 'PUT', // PUT 방식 설정
+        headers: {
+            'Content-Type': 'application/json' // JSON 형식으로 전송
+        },
+        body: JSON.stringify(selectedIds) // 선택된 ID 리스트를 JSON으로 변환하여 RequestBody로 전송
+    })
         .then(response => response.json())
         .then(data => {
             if (data.length > 0) {
