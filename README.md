@@ -180,13 +180,13 @@ Spring Demo Project가 어떤 서비스인지 요약 한 줄
 
 | 🏷NAME                       | ⚙METHOD | 📎URL                                                         | 📖DESCRIPTION |
 |------------------------------|---------|---------------------------------------------------------------|---------------|
-| resetNickname                | GET     | /api/admin/initializeNickname/{user_id}                       | 닉네임 초기화       |
+| resetNickname                | PUT     | /api/admin/initializeNickname/{user_id}                       | 닉네임 초기화       |
 | quizChangeVisibilityHide     | PUT     | /api/admin/quizBoard/{boardId}/post/changeVisibilityHide      | 문제 게시글 숨기기    |
 | changeVisibilityHide         | PUT     | /api/admin/generalBoard/{boardId}/post/changeVisibilityHide   | 일반 게시글 숨기기    |
 | quizChangeVisibilityUnhidden | PUT     | /api/admin/quizBoard/{boardId}/post/changeVisibilityUnhide    | 문제 게시글 숨기기 해제 |
 | changeVisibilityUnhidden     | PUT     | /api/admin/generalBoard/{boardId}/post/changeVisibilityUnhide | 일반 게시글 숨기기 해제 |
-| deleteQuizBoard              | GET     | /api/admin/deleteBoard/quizBoard/{board_id}                   | 문제 게시판 삭제     |
-| deleteGeneralBoard           | GET     | /api/admin/deleteBoard/generalBoard/{board_id}                | 일반 게시판 삭제     |
+| deleteQuizBoard              | PUT     | /api/admin/deleteBoard/quizBoard/{board_id}                   | 문제 게시판 삭제     |
+| deleteGeneralBoard           | PUT     | /api/admin/deleteBoard/generalBoard/{board_id}                | 일반 게시판 삭제     |
 | acceptBoardManager           | PUT     | /api/admin/acceptBoardManager                                 | 집현전 신청 승인     |
 | rejectBoardManager           | PUT     | /api/admin/rejectBoardManager                                 | 집현전 신청 거부     |
 
