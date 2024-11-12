@@ -8,8 +8,10 @@ import java.util.regex.Pattern;
 import java.util.stream.Collectors;
 
 import org.springframework.beans.factory.annotation.Value;
+import org.springframework.security.core.Authentication;
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.authority.SimpleGrantedAuthority;
+import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -20,7 +22,6 @@ import com.estsoft.guesshangeul.exception.UsersEmailDuplicateException;
 import com.estsoft.guesshangeul.exception.UsersNicknameDuplicateException;
 import com.estsoft.guesshangeul.exception.UsersNotFoundException;
 import com.estsoft.guesshangeul.user.dto.AddUserRequest;
-import com.estsoft.guesshangeul.user.dto.DeleteUsersRequest;
 import com.estsoft.guesshangeul.user.dto.UsersResponse;
 import com.estsoft.guesshangeul.user.entity.Authorities;
 import com.estsoft.guesshangeul.user.entity.PasswordResetToken;
@@ -36,17 +37,14 @@ import lombok.RequiredArgsConstructor;
 public class UsersService {
 	private final UsersRepository usersRepository;
 	private final AuthoritiesRepository authoritiesRepository;
+	private final PasswordResetTokenRepository tokenRepository;
 	private final BCryptPasswordEncoder bCryptPasswordEncoder;
 	private final EmailService emailService;
-	private final PasswordResetTokenRepository tokenRepository;
 
 	private static final Pattern EMAIL_PATTERN = Pattern.compile(
-		"^(?=.{1,64}@)[A-Za-z0-9_-]+(\\.[A-Za-z0-9_-]+)*@[^-][A-Za-z0-9-]+(\\.[A-Za-z0-9-]+)*(\\.[A-Za-z]{2,})$"
-	);
+		"^(?=.{1,64}@)[A-Za-z0-9_-]+(\\.[A-Za-z0-9_-]+)*@[^-][A-Za-z0-9-]+(\\.[A-Za-z0-9-]+)*(\\.[A-Za-z]{2,})$");
 
-	private static final Pattern NICKNAME_PATTERN = Pattern.compile(
-		"^[가-힣a-zA-Z0-9._-]{2,20}$"
-	);
+	private static final Pattern NICKNAME_PATTERN = Pattern.compile("^[가-힣a-zA-Z0-9._-]{2,20}$");
 
 	@Value("${app.url}")
 	private String appUrl;
@@ -80,6 +78,30 @@ public class UsersService {
 		}
 		request.setPassword(bCryptPasswordEncoder.encode(request.getPassword()));
 		return usersRepository.save(request.toEntity());
+	}
+
+	// 회원 탈퇴 (admin)
+	@Transactional
+	public boolean withdrawal(Long userId) {
+		Users user = usersRepository.findById(userId).orElse(new Users());
+		if (user.getId() >= 1) {
+			user.withdrawal(true);
+			return true;
+		}
+		return false;
+	}
+
+	// 셀프 회원 탈퇴
+	@Transactional
+	public boolean selfWithdrawal() {
+		Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
+		Users user = (Users)authentication.getPrincipal();
+		Users managedUser = usersRepository.findById(user.getId()).orElse(new Users());
+		if (managedUser.getId() >= 1) {
+			managedUser.withdrawal(true);
+			return true;
+		}
+		return false;
 	}
 
 	// 비밀번호 변경 메일
@@ -165,9 +187,18 @@ public class UsersService {
 		return grantedAuthorities;
 	}
 	//유저 삭제 메서드(소프트 삭제)
-	public Users deleteUser(Long id, DeleteUsersRequest request){
-		Users users = usersRepository.findById(id).orElseThrow(()->new IllegalArgumentException("User not found" + id));
-		users.DeleteUsers(request.getUserId(), true);
+	// public Users deleteUser(Long id, DeleteUsersRequest request){
+	// 	Users users = usersRepository.findById(id).orElseThrow(()->new IllegalArgumentException("User not found" + id));
+	// 	users.DeleteUsers(request.getUserId(), true);
+	// 	return users;
+	// }
+
+	// 유저 삭제
+	public Users deleteUserById(Long userId) {
+		Users users = usersRepository.findById(userId)
+			.orElseThrow(() -> new RuntimeException("User not found with ID: " + userId));
+		users.setDeleted(true);
+		usersRepository.save(users);
 		return users;
 	}
 }
