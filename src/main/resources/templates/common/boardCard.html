@@ -16,7 +16,7 @@
         <!-- 빈 공간 채우기 -->
         <th:block th:if="${#lists.size(board.posts) < 5}">
             <th:block th:each="i : ${#numbers.sequence(board.posts.size() + 1, 5)}">
-                <div class="list-group-item" style="min-height: 70px;">
+                <div class="list-group-item" style="min-height: 83px;">
                     <!-- 빈 게시글 자리 -->
                 </div>
             </th:block>
