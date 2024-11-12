@@ -16,11 +16,7 @@ if (withdrawalConfirmBtn) {
         ;
 
         fetch('/api/selfWithdrawal', {
-            method: 'PUT',
-            headers: {
-                'Content-Type': 'application/json'
-            },
-            body: JSON.stringify(data)
+            method: 'PUT'
         })
             .then(response => {
                 if (response.ok) {
