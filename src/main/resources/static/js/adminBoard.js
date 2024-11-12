@@ -7,7 +7,7 @@ function deleteBoard(deleteButton) {
     const deleteUrl = `/api/admin/deleteBoard/generalBoard/${boardId}`;
 
     fetch(`/api/admin/deleteBoard/generalBoard/${boardId}`, {
-        method: 'GET'
+        method: 'PUT'
     }).then(() => {
         alert('삭제가 완료되었습니다');
         location.reload();

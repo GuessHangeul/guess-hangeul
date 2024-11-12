@@ -6,6 +6,7 @@ import java.util.List;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
+import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
@@ -32,21 +33,21 @@ public class AdminController {
 	}
 
 	// 유저 닉네임 초기화
-	@GetMapping("/api/admin/initializeNickname/{userId}")
+	@PutMapping("/api/admin/initializeNickname/{userId}")
 	public ResponseEntity<UsersResponse> resetNickname(@PathVariable Long userId) {
 		Users users = adminService.resetNickname(userId);
 		return ResponseEntity.ok(new UsersResponse(users));
 	}
 
 	// 일반 게시판 삭제
-	@GetMapping("/api/admin/deleteBoard/generalBoard/{boardId}")
+	@PutMapping("/api/admin/deleteBoard/generalBoard/{boardId}")
 	public ResponseEntity<GeneralBoardResponse> deleteGeneralBoard(@PathVariable Long boardId) {
 		GeneralBoard generalBoard = adminService.deleteGeneralBoard(boardId);
 		return ResponseEntity.ok(new GeneralBoardResponse(generalBoard));
 	}
 
 	// 퀴즈 게시판 삭제
-	@GetMapping("/api/admin/deleteBoard/quizBoard/{boardId}")
+	@PutMapping("/api/admin/deleteBoard/quizBoard/{boardId}")
 	public ResponseEntity<QuizBoardResponse> deleteQuizBoard(@PathVariable Long boardId) {
 		QuizBoard quizBoard = adminService.deleteQuizBoard(boardId);
 		return ResponseEntity.ok(new QuizBoardResponse(quizBoard));

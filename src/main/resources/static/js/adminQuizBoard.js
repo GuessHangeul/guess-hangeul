@@ -7,7 +7,8 @@ function deleteBoard(deleteButton) {
     const deleteUrl = `/api/admin/deleteBoard/quizBoard/${boardId}`;
 
     fetch(`/api/admin/deleteBoard/quizBoard/${boardId}`, {
-        method: 'GET'
+        method: '' +
+            'PUT'
     }).then(() => {
         alert('삭제가 완료되었습니다');
         location.reload();
