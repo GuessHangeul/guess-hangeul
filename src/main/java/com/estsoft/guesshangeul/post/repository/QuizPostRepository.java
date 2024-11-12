@@ -18,6 +18,8 @@ public interface QuizPostRepository extends JpaRepository<QuizPost, Long> {
 
 	List<QuizPost> findByQuizBoardId(Long quizBoardId);
 
+	void deleteByQuizBoardIdAndIdIn(Long quizBoardId, List<Long> id);
+
 	Optional<QuizPost> findByQuizBoardIdAndId(Long quizBoardId, Long id);
 
 	Optional<QuizPost> findByQuizBoardIdAndQuizTitle(Long quizBoardId, String quizTitle);
