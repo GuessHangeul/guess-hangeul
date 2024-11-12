@@ -1,6 +1,6 @@
 package com.estsoft.guesshangeul.post.dto;
 
-import java.time.LocalDateTime;
+import static com.estsoft.guesshangeul.util.DateFormatUtil.*;
 
 import com.estsoft.guesshangeul.user.dto.UsersResponse;
 
@@ -17,8 +17,8 @@ public class QuizPostWithCommentCountResponse {
 	private String content;
 	private Boolean isHidden;
 	private Long view;
-	private LocalDateTime createdAt;
-	private LocalDateTime updatedAt;
+	private String createdAt;
+	private String updatedAt;
 	private Long commentCount;
 
 	public QuizPostWithCommentCountResponse(QuizPostWithCommentCountInterface dto) {
@@ -29,8 +29,8 @@ public class QuizPostWithCommentCountResponse {
 		this.content = dto.getContent();
 		this.isHidden = dto.getIsHidden();
 		this.view = dto.getView();
-		this.createdAt = dto.getCreatedAt();
-		this.updatedAt = dto.getUpdatedAt();
+		this.createdAt = dto.getCreatedAt().format(formatter);
+		this.updatedAt = dto.getUpdatedAt().format(formatter);
 		this.commentCount = dto.getCommentCount();
 	}
 }

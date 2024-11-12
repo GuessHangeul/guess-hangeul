@@ -17,8 +17,7 @@ import com.estsoft.guesshangeul.board.dto.QuizBoardResponse;
 import com.estsoft.guesshangeul.board.service.GeneralBoardService;
 import com.estsoft.guesshangeul.board.service.QuizBoardService;
 import com.estsoft.guesshangeul.post.dto.GeneralPostWithCommentCountResponse;
-import com.estsoft.guesshangeul.post.dto.GeneralPostResponse;
-import com.estsoft.guesshangeul.post.dto.QuizPostResponse;
+import com.estsoft.guesshangeul.post.dto.QuizPostWithCommentCountResponse;
 import com.estsoft.guesshangeul.post.service.GeneralPostService;
 import com.estsoft.guesshangeul.post.service.QuizPostService;
 import com.estsoft.guesshangeul.user.dto.UsersResponse;
@@ -32,10 +31,11 @@ public class AdminPageController {
 	private final QuizBoardService quizBoardService;
 	private final GeneralPostService generalPostService;
 	private final QuizPostService quizPostService;
-  private final UsersService usersService;
+	private final UsersService usersService;
 
-  public AdminPageController(AdminBoardService adminBoardService, GeneralBoardService generalBoardService,
-		QuizBoardService quizBoardService, GeneralPostService generalPostService, QuizPostService quizPostService, UsersService usersService) {
+	public AdminPageController(AdminBoardService adminBoardService, GeneralBoardService generalBoardService,
+		QuizBoardService quizBoardService, GeneralPostService generalPostService, QuizPostService quizPostService,
+		UsersService usersService) {
 		this.adminBoardService = adminBoardService;
 		this.generalBoardService = generalBoardService;
 		this.quizBoardService = quizBoardService;
@@ -82,7 +82,8 @@ public class AdminPageController {
 		model.addAttribute("quizBoard", response);
 
 		// quizPost 조회
-		List<QuizPostResponse> posts = quizPostService.getAllQuizPosts(boardId);
+		List<QuizPostWithCommentCountResponse> posts = quizPostService.getAllQuizPostsWithCommentCount(boardId,
+			null, Pageable.unpaged());
 		model.addAttribute("posts", posts);
 
 		return "adminQuizBoard";
