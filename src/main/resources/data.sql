@@ -2,16 +2,16 @@
 INSERT INTO `users`
 (`user_id`, `connect_count`, `connected_at`, `created_at`, `email`, `is_deleted`, `nickname`, `password`, `score`)
 VALUES
-(1, 0, '2024-11-12 09:00:00', '2024-11-12 09:00:00', 'juhyeong@root.com', 0, '박주형', '$10$BZAOw.Jve0ZDmGUWbYeeKOXgUoxz6MoQ6Vx7AMDvGD5YZjPsYBAHG', 0),
-(2, 0, '2024-11-12 09:00:00', '2024-11-12 09:00:00', 'huiju@root.com', 0, '박희주', '$10$BZAOw.Jve0ZDmGUWbYeeKOXgUoxz6MoQ6Vx7AMDvGD5YZjPsYBAHG', 0),
-(3, 0, '2024-11-12 09:00:00', '2024-11-12 09:00:00', 'wonsun@root.com', 0, '방원선', '$10$BZAOw.Jve0ZDmGUWbYeeKOXgUoxz6MoQ6Vx7AMDvGD5YZjPsYBAHG', 0),
-(4, 0, '2024-11-12 09:00:00', '2024-11-12 09:00:00', 'junhyeok@root.com', 0, '장준혁', '$10$BZAOw.Jve0ZDmGUWbYeeKOXgUoxz6MoQ6Vx7AMDvGD5YZjPsYBAHG', 0),
-(5, 0, '2024-11-12 09:00:00', '2024-11-12 09:00:00', 'seungwon@root.com', 0, '정승원', '$10$BZAOw.Jve0ZDmGUWbYeeKOXgUoxz6MoQ6Vx7AMDvGD5YZjPsYBAHG', 0),
-(6, 0, '2024-11-12 09:00:00', '2024-11-12 09:00:00', 'yunho@root.com', 0, '정윤호', '$10$BZAOw.Jve0ZDmGUWbYeeKOXgUoxz6MoQ6Vx7AMDvGD5YZjPsYBAHG', 0),
-(7, 0, '2024-11-12 09:00:00', '2024-11-12 09:00:00', 'user1@user.com', 0, '유저명1', '$10$BZAOw.Jve0ZDmGUWbYeeKOXgUoxz6MoQ6Vx7AMDvGD5YZjPsYBAHG', 0),
-(8, 0, '2024-11-12 09:00:00', '2024-11-12 09:00:00', 'user2@user.com', 0, '유저명2', '$10$BZAOw.Jve0ZDmGUWbYeeKOXgUoxz6MoQ6Vx7AMDvGD5YZjPsYBAHG', 0),
-(9, 0, '2024-11-12 09:00:00', '2024-11-12 09:00:00', 'user3@user.com', 0, '유저명3', '$10$BZAOw.Jve0ZDmGUWbYeeKOXgUoxz6MoQ6Vx7AMDvGD5YZjPsYBAHG', 0),
-(10, 0, '2024-11-12 09:00:00', '2024-11-12 09:00:00', 'user4@user.com', 0, '유저명4', '$10$BZAOw.Jve0ZDmGUWbYeeKOXgUoxz6MoQ6Vx7AMDvGD5YZjPsYBAHG', 0)
+(1, 0, '2024-11-12 09:00:00', '2024-11-12 09:00:00', 'juhyeong@root.com', 0, '박주형', '$2a$10$JM9O1jZ4H03O0QC4ndhF7.GOsvZ2RKpcM/rkVStwbVkkzlBxHanLi', 0),
+(2, 0, '2024-11-12 09:00:00', '2024-11-12 09:00:00', 'huiju@root.com', 0, '박희주', '$2a$10$JM9O1jZ4H03O0QC4ndhF7.GOsvZ2RKpcM/rkVStwbVkkzlBxHanLi', 0),
+(3, 0, '2024-11-12 09:00:00', '2024-11-12 09:00:00', 'wonsun@root.com', 0, '방원선', '$2a$10$JM9O1jZ4H03O0QC4ndhF7.GOsvZ2RKpcM/rkVStwbVkkzlBxHanLi', 0),
+(4, 0, '2024-11-12 09:00:00', '2024-11-12 09:00:00', 'junhyeok@root.com', 0, '장준혁', '$2a$10$JM9O1jZ4H03O0QC4ndhF7.GOsvZ2RKpcM/rkVStwbVkkzlBxHanLi', 0),
+(5, 0, '2024-11-12 09:00:00', '2024-11-12 09:00:00', 'seungwon@root.com', 0, '정승원', '$2a$10$JM9O1jZ4H03O0QC4ndhF7.GOsvZ2RKpcM/rkVStwbVkkzlBxHanLi', 0),
+(6, 0, '2024-11-12 09:00:00', '2024-11-12 09:00:00', 'yunho@root.com', 0, '정윤호', '$2a$10$JM9O1jZ4H03O0QC4ndhF7.GOsvZ2RKpcM/rkVStwbVkkzlBxHanLi', 0),
+(7, 0, '2024-11-12 09:00:00', '2024-11-12 09:00:00', 'user1@user.com', 0, '유저명1', '$2a$10$JM9O1jZ4H03O0QC4ndhF7.GOsvZ2RKpcM/rkVStwbVkkzlBxHanLi', 0),
+(8, 0, '2024-11-12 09:00:00', '2024-11-12 09:00:00', 'user2@user.com', 0, '유저명2', '$2a$10$JM9O1jZ4H03O0QC4ndhF7.GOsvZ2RKpcM/rkVStwbVkkzlBxHanLi', 0),
+(9, 0, '2024-11-12 09:00:00', '2024-11-12 09:00:00', 'user3@user.com', 0, '유저명3', '$2a$10$JM9O1jZ4H03O0QC4ndhF7.GOsvZ2RKpcM/rkVStwbVkkzlBxHanLi', 0),
+(10, 0, '2024-11-12 09:00:00', '2024-11-12 09:00:00', 'user4@user.com', 0, '유저명4', '$2a$10$JM9O1jZ4H03O0QC4ndhF7.GOsvZ2RKpcM/rkVStwbVkkzlBxHanLi', 0)
 ;
 
 -- 권한 예시
