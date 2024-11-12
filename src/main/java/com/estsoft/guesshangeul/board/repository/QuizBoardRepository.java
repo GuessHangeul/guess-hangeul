@@ -14,4 +14,6 @@ public interface QuizBoardRepository extends JpaRepository<QuizBoard, Long> {
 	List<QuizBoard> findAllByIsDeleted(boolean isDeleted, Pageable pageable);
 
 	Optional<QuizBoard> findByTitle(String title);
+
+	Optional<QuizBoard> findFirstByIsDeletedOrderByIdDesc(Boolean b);
 }
