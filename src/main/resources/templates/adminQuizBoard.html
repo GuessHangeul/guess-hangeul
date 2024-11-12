@@ -41,9 +41,19 @@
             </form>
         </nav>
 
-        <div class="post">
-            <input type="checkbox" id="general-post" checked/>
-            <label for="general-post">게시글 내용(작성자/등급, 제목, 생성, 업데이트, 조회수/댓글수</label>
+        <div class="post" th:attr="data-boardId=${board.id}" th:classappend="${post.isHidden} ? 'hidden-post'"
+             th:each="post : ${posts}">
+            <input type="checkbox" id="general-post" class="post-checkbox" name="postIds" th:value="${post.id}"/>
+            <div class="top">
+                <span class="user" th:text="${post.nickname}">작성자</span>
+                <span th:text="${post.createdAt}">생성</span>
+                <span>/</span>
+                <span th:text="${post.updatedAt}">업데이트</span>
+            </div>
+            <div class="bottom">
+                <span class="title" th:text="${post.quizTitle}">제목</span>
+                <span th:text="${post.view}">조회수</span>
+            </div>
         </div>
     </div>
     <script th:src="@{/js/adminQuizBoard.js}"></script>
