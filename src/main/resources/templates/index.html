@@ -12,15 +12,11 @@
 <body>
 <div layout:fragment="content">
     <div class="container">
-        <div th:each="i : ${#numbers.sequence(0, boards.size() - 1, 2)}" class="row">
-            <div class="col">
-                <th:block th:replace="~{/common/boardCard :: boardCard(board=${boards[i]})}"></th:block>
+        <h3 th:if="${boards.isEmpty()}">서비스 준비 중입니다.</h3>
+        <div class="row row-cols-2">
+            <div class="col" th:each="board : ${boards}">
+                <div th:replace="~{/common/boardCard :: boardCard(${board})}"></div>
             </div>
-            <div class="col">
-                <th:block th:if="${i + 1 < boards.size()}"
-                          th:replace="~{/common/boardCard :: boardCard(board=${boards[i+1]})}"></th:block>
-            </div>
-
         </div>
     </div>
 </div>

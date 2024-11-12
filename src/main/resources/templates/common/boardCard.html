@@ -4,10 +4,10 @@
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha1/dist/css/bootstrap.min.css">
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha1/dist/js/bootstrap.bundle.min.js"></script>
     <div class="list-group my-3">
-        <li class="list-group-item list-group-item-primary"
-            th:href="${board.boardType == 1 ? '/generalBoard/' + board.id : '/quizBoard/' + board.id}"
-            th:text="${board.title}">
-            <h4>게시판 제목</h4></li>
+        <a class="list-group-item list-group-item-primary"
+           th:href="${board.boardType == 1 ? '/generalBoard/' + board.id : '/quizBoard/' + board.id}"
+           th:text="${board.title}">
+            <h4>게시판 제목</h4></a>
         <th:block th:each="post : ${board.posts}">
             <th:block
                     th:replace="~{/common/postItem :: postItem(${post}, ${board.id}, ${board.boardType})}"></th:block>
