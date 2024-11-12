@@ -170,5 +170,10 @@ public class UsersService {
 		users.DeleteUsers(request.getUserId(), true);
 		return users;
 	}
+	// 점수 기준으로 정렬된 유저 목록 반환
+	@Transactional(readOnly = true)
+	public List<Users> getRankedUsers() {
+		return usersRepository.findAllByIsDeletedOrderByScoreDesc(false);
+	}
 }
 
