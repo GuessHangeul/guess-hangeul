@@ -18,7 +18,6 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.estsoft.guesshangeul.post.dto.AddQuizPostRequest;
-import com.estsoft.guesshangeul.post.dto.GetHiddenPostResponse;
 import com.estsoft.guesshangeul.post.dto.QuizPostResponse;
 import com.estsoft.guesshangeul.post.dto.QuizPostWithCommentCountResponse;
 import com.estsoft.guesshangeul.post.dto.UpdateQuizPostRequest;
@@ -56,14 +55,6 @@ public class QuizPostController {
 	public ResponseEntity<QuizPostResponse> getQuizPostById(@PathVariable Long quizBoardId, @PathVariable Long id) {
 		QuizPostResponse post = quizPostService.getQuizPostById(quizBoardId, id);
 		return ResponseEntity.status(HttpStatus.OK).body(post);
-	}
-
-	// 퀴즈 게시글 숨김 여부 조회
-	@GetMapping("?isHidden={isHidden}")
-	public ResponseEntity<List<GetHiddenPostResponse>> getQuizPostByIsHidden(@PathVariable Long quizBoardId,
-		@RequestParam boolean isHidden) {
-		List<GetHiddenPostResponse> posts = quizPostService.getQuizPostByIsHidden(quizBoardId, isHidden);
-		return ResponseEntity.status(HttpStatus.OK).body(posts);
 	}
 
 	// 퀴즈 게시글 생성
