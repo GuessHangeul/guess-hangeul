@@ -18,8 +18,8 @@ public class SwaggerConfig {
 
 	private Info apiInfo() {
 		return new Info()
-			.title("ㄴㄹㅁㅆㅁ API")
-			.description("초성퀴즈 커뮤니티 ㄴㄹㅁㅆㅁ API")
-			.version("1.0.0");
+			.title("ㄴㄹㅁㅆㅁ API 문서") // API 제목
+			.description("CRUD API 문서") // API 설명
+			.version("1.0.0"); // API 버전
 	}
 }
