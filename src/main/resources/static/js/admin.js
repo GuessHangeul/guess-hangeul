@@ -34,7 +34,7 @@ resetButtons.forEach((button, index) => {
         console.log(`userId: ${userId}`); // 가져온 userId 확인
 
         fetch(`/api/admin/initializeNickname/${userId}`, {
-            method: 'GET'
+            method: 'PUT'
         })
             .then(response => {
                 if (!response.ok) throw new Error("초기화 실패");
