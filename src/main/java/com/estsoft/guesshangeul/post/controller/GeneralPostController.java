@@ -2,8 +2,9 @@ package com.estsoft.guesshangeul.post.controller;
 
 import java.util.List;
 
-import groovyjarjarpicocli.CommandLine;
-import org.hibernate.annotations.Parameter;
+import org.springframework.data.domain.Pageable;
+import org.springframework.data.domain.Sort;
+import org.springframework.data.web.PageableDefault;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.DeleteMapping;
@@ -13,12 +14,16 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.estsoft.guesshangeul.post.dto.AddGeneralPostRequest;
 import com.estsoft.guesshangeul.post.dto.GeneralPostResponse;
+import com.estsoft.guesshangeul.post.dto.GeneralPostWithCommentCountResponse;
 import com.estsoft.guesshangeul.post.dto.UpdateGeneralPostRequest;
 import com.estsoft.guesshangeul.post.service.GeneralPostService;
+
+import jakarta.transaction.Transactional;
 
 @RestController
 @RequestMapping("/api/generalBoard/{generalBoardId}/generalPost")
@@ -32,22 +37,29 @@ public class GeneralPostController {
 
 	// 전체 게시글 조회
 	@GetMapping
-	public ResponseEntity<List<GeneralPostResponse>> getAllGeneralPosts(@PathVariable Long generalBoardId) {
-		List<GeneralPostResponse> posts = generalPostService.getAllGeneralPosts(generalBoardId);
+	public ResponseEntity<List<GeneralPostWithCommentCountResponse>> getAllGeneralPostsWithCommentCount(
+		@PathVariable Long generalBoardId,
+		@RequestParam(value = "search", required = false) String title,
+		@RequestParam(value = "isHidden", required = false) Boolean isHidden,
+		@PageableDefault(size = 20, sort = "createdAt", direction = Sort.Direction.DESC) Pageable pageable) {
+		List<GeneralPostWithCommentCountResponse> posts;
+		if (title == null) {
+			posts = generalPostService.getAllGeneralPostsWithCommentCount(
+				generalBoardId, isHidden, pageable);
+		} else {
+			// 제목 검색으로 조회
+			posts = generalPostService.getAllGeneralPostsByTitleWithCommentCount(
+				generalBoardId, title, isHidden, pageable);
+		}
+
 		return ResponseEntity.status(HttpStatus.OK).body(posts);
 	}
 
 	// 게시글 id로 조회
 	@GetMapping("/{id}")
-	public ResponseEntity<GeneralPostResponse> getGeneralPostById(@PathVariable Long generalBoardId, @PathVariable Long id) {
+	public ResponseEntity<GeneralPostResponse> getGeneralPostById(@PathVariable Long generalBoardId,
+		@PathVariable Long id) {
 		GeneralPostResponse post = generalPostService.getGeneralPostById(generalBoardId, id);
-		return ResponseEntity.status(HttpStatus.OK).body(post);
-	}
-
-	// 게시글 제목으로 조회
-	@GetMapping("?search={title}")
-	public ResponseEntity<GeneralPostResponse> getGeneralPostByTitle(@PathVariable Long generalBoardId, @PathVariable String title) {
-		GeneralPostResponse post = generalPostService.getGeneralPostByTitle(generalBoardId, title);
 		return ResponseEntity.status(HttpStatus.OK).body(post);
 	}
 
@@ -61,7 +73,8 @@ public class GeneralPostController {
 
 	// 게시글 수정
 	@PutMapping("/{id}")
-	public ResponseEntity<GeneralPostResponse> updateGeneralPost(@PathVariable Long generalBoardId,@PathVariable Long id,
+	public ResponseEntity<GeneralPostResponse> updateGeneralPost(@PathVariable Long generalBoardId,
+		@PathVariable Long id,
 		@RequestBody UpdateGeneralPostRequest request) {
 		GeneralPostResponse post = generalPostService.updateGeneralPost(generalBoardId, id, request);
 		return ResponseEntity.status(HttpStatus.OK).body(post);
@@ -71,6 +84,15 @@ public class GeneralPostController {
 	@DeleteMapping("/{id}")
 	public ResponseEntity<Void> deleteGeneralPost(@PathVariable Long generalBoardId, @PathVariable Long id) {
 		generalPostService.deleteGeneralPost(generalBoardId, id);
+		return ResponseEntity.status(HttpStatus.NO_CONTENT).build();
+	}
+
+	// postId List로 받아서 삭제
+	@Transactional
+	@DeleteMapping
+	public ResponseEntity<Void> deleteByGeneralPostId(@PathVariable Long generalBoardId,
+		@RequestParam List<Long> postId) {
+		generalPostService.deleteByGeneralPostId(generalBoardId, postId);
 		return ResponseEntity.status(HttpStatus.NO_CONTENT).build();
 	}
 }

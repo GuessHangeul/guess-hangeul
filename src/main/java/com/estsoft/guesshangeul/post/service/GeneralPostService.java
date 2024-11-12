@@ -3,24 +3,24 @@ package com.estsoft.guesshangeul.post.service;
 import java.util.List;
 import java.util.Optional;
 
-import org.springframework.stereotype.Service;
 
+import org.springframework.data.domain.Pageable;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.core.userdetails.UserDetails;
+import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import com.estsoft.guesshangeul.board.entity.GeneralBoard;
 import com.estsoft.guesshangeul.board.repository.GeneralBoardRepository;
-
-import com.estsoft.guesshangeul.post.dto.GeneralPostResponse;
+import com.estsoft.guesshangeul.exception.EntityNotFoundException;
 import com.estsoft.guesshangeul.post.dto.AddGeneralPostRequest;
+import com.estsoft.guesshangeul.post.dto.GeneralPostResponse;
+import com.estsoft.guesshangeul.post.dto.GeneralPostWithCommentCountInterface;
+import com.estsoft.guesshangeul.post.dto.GeneralPostWithCommentCountResponse;
 import com.estsoft.guesshangeul.post.dto.UpdateGeneralPostRequest;
 import com.estsoft.guesshangeul.post.entity.GeneralPost;
 import com.estsoft.guesshangeul.post.repository.GeneralPostRepository;
-
-import com.estsoft.guesshangeul.exception.EntityNotFoundException;
-
 import com.estsoft.guesshangeul.user.entity.Users;
 import com.estsoft.guesshangeul.user.service.UsersDetailsService;
 
@@ -38,11 +38,42 @@ public class GeneralPostService {
 	}
 
 	// 모든 게시글 조회
-	public List<GeneralPostResponse> getAllGeneralPosts(Long generalBoardId) {
-		List<GeneralPost> posts = generalPostRepository.findByGeneralBoardId(generalBoardId);
-		return posts.stream()
-			.map(GeneralPostResponse::new)
+	@Transactional
+	public List<GeneralPostWithCommentCountResponse> getAllGeneralPostsWithCommentCount(Long generalBoardId,
+		Boolean isHidden,
+		Pageable pageable) {
+		List<GeneralPostWithCommentCountInterface> posts;
+		if (isHidden == null) {
+			posts = generalPostRepository.findAllWithCommentCount(generalBoardId, pageable);
+		} else {
+			posts = generalPostRepository.findAllByIsHiddenWithCommentCount(generalBoardId, isHidden, pageable);
+		}
+
+		List<GeneralPostWithCommentCountResponse> result = posts.stream()
+			.map(GeneralPostWithCommentCountResponse::new)
 			.toList();
+
+		return result;
+	}
+
+	// 검색어를 적용한 모든 게시글 조회
+	@Transactional
+	public List<GeneralPostWithCommentCountResponse> getAllGeneralPostsByTitleWithCommentCount(Long generalBoardId,
+		String title, Boolean isHidden, Pageable pageable) {
+		List<GeneralPostWithCommentCountInterface> posts;
+		if (isHidden == null) {
+			posts = generalPostRepository.findAllByTitleWithCommentCount(
+				generalBoardId, title, pageable);
+		} else {
+			posts = generalPostRepository.findAllByTitleAndIsHiddenWithCommentCount(
+				generalBoardId, title, isHidden, pageable);
+		}
+
+		List<GeneralPostWithCommentCountResponse> result = posts.stream()
+			.map(GeneralPostWithCommentCountResponse::new)
+			.toList();
+
+		return result;
 	}
 
 	// ID로 게시글 조회 (없으면 예외 발생)
@@ -102,5 +133,9 @@ public class GeneralPostService {
 		GeneralPost post = generalPostRepository.findByGeneralBoardIdAndId(generalBoardId, id)
 			.orElseThrow(() -> new RuntimeException("해당 게시글은 존재하지 않습니다."));
 		generalPostRepository.delete(post);
+	}
+
+	public void deleteByGeneralPostId(Long generalBoardId, List<Long> postId) {
+		generalPostRepository.deleteByGeneralBoardIdAndIdIn(generalBoardId, postId);
 	}
 }
