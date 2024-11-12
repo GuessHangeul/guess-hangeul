@@ -16,8 +16,10 @@ import com.estsoft.guesshangeul.board.dto.QuizBoardDto;
 import com.estsoft.guesshangeul.board.dto.QuizBoardResponse;
 import com.estsoft.guesshangeul.board.service.GeneralBoardService;
 import com.estsoft.guesshangeul.board.service.QuizBoardService;
-import com.estsoft.guesshangeul.post.dto.GeneralPostResponse;
+import com.estsoft.guesshangeul.post.dto.GeneralPostWithCommentCountResponse;
+import com.estsoft.guesshangeul.post.dto.QuizPostWithCommentCountResponse;
 import com.estsoft.guesshangeul.post.service.GeneralPostService;
+import com.estsoft.guesshangeul.post.service.QuizPostService;
 import com.estsoft.guesshangeul.user.dto.UsersResponse;
 import com.estsoft.guesshangeul.user.service.UsersService;
 
@@ -28,14 +30,17 @@ public class AdminPageController {
 	private final GeneralBoardService generalBoardService;
 	private final QuizBoardService quizBoardService;
 	private final GeneralPostService generalPostService;
+	private final QuizPostService quizPostService;
 	private final UsersService usersService;
 
 	public AdminPageController(AdminBoardService adminBoardService, GeneralBoardService generalBoardService,
-		QuizBoardService quizBoardService, GeneralPostService generalPostService, UsersService usersService) {
+		QuizBoardService quizBoardService, GeneralPostService generalPostService, QuizPostService quizPostService,
+		UsersService usersService) {
 		this.adminBoardService = adminBoardService;
 		this.generalBoardService = generalBoardService;
 		this.quizBoardService = quizBoardService;
 		this.generalPostService = generalPostService;
+		this.quizPostService = quizPostService;
 		this.usersService = usersService;
 	}
 
@@ -61,21 +66,25 @@ public class AdminPageController {
 		model.addAttribute("generalBoard", boardResponses);
 
 		// generalPost 조회
-		List<GeneralPostResponse> posts = generalPostService.getAllGeneralPosts(boardId);
+		List<GeneralPostWithCommentCountResponse> posts = generalPostService.getAllGeneralPostsWithCommentCount(boardId,
+			null, Pageable.unpaged());
 		model.addAttribute("posts", posts);
 
 		return "adminGeneralBoard";
 	}
 
 	@GetMapping("/admin/quizBoard/{boardId}")
-	public String showQuizBoard(@PathVariable String boardId, Model model, Pageable pageable) {
-		model.addAttribute("board", quizBoardService.findByBoardId(Long.parseLong(boardId)));
+	public String showQuizBoard(@PathVariable Long boardId, Model model, Pageable pageable) {
+		model.addAttribute("board", quizBoardService.findByBoardId(boardId));
 		// quizBoard 목록 조회
 		List<QuizBoardDto> result = quizBoardService.findAllQuizBoardByIsDeleted(false, pageable);
 		List<QuizBoardResponse> response = result.stream().map(QuizBoardResponse::new).toList();
 		model.addAttribute("quizBoard", response);
 
 		// quizPost 조회
+		List<QuizPostWithCommentCountResponse> posts = quizPostService.getAllQuizPostsWithCommentCount(boardId,
+			null, Pageable.unpaged());
+		model.addAttribute("posts", posts);
 
 		return "adminQuizBoard";
 	}

@@ -4,6 +4,7 @@ import java.util.List;
 import java.util.Optional;
 import java.util.stream.Collectors;
 
+import org.springframework.data.domain.Pageable;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.core.userdetails.UserDetails;
@@ -16,6 +17,8 @@ import com.estsoft.guesshangeul.exception.EntityNotFoundException;
 import com.estsoft.guesshangeul.post.dto.AddQuizPostRequest;
 import com.estsoft.guesshangeul.post.dto.GetHiddenPostResponse;
 import com.estsoft.guesshangeul.post.dto.QuizPostResponse;
+import com.estsoft.guesshangeul.post.dto.QuizPostWithCommentCountInterface;
+import com.estsoft.guesshangeul.post.dto.QuizPostWithCommentCountResponse;
 import com.estsoft.guesshangeul.post.dto.UpdateQuizPostRequest;
 import com.estsoft.guesshangeul.post.entity.QuizPost;
 import com.estsoft.guesshangeul.post.repository.QuizPostRepository;
@@ -37,25 +40,46 @@ public class QuizPostService {
 		this.quizBoardRepository = quizBoardRepository;
 	}
 
-	// 모든 퀴즈 게시글 조회
-	public List<QuizPostResponse> getAllQuizPosts(Long quizBoardId) {
-		List<QuizPost> posts = quizPostRepository.findByQuizBoardId(quizBoardId);
-		return posts.stream()
-			.map(QuizPostResponse::new)
+	// 모든 게시글 조회
+	@Transactional
+	public List<QuizPostWithCommentCountResponse> getAllQuizPostsWithCommentCount(Long quizBoardId, Boolean isHidden,
+		Pageable pageable) {
+		List<QuizPostWithCommentCountInterface> posts;
+		if (isHidden == null) {
+			posts = quizPostRepository.findAllWithCommentCount(quizBoardId, pageable);
+		} else {
+			posts = quizPostRepository.findAllByIsHiddenWithCommentCount(quizBoardId, isHidden, pageable);
+		}
+		List<QuizPostWithCommentCountResponse> result = posts.stream()
+			.map(QuizPostWithCommentCountResponse::new)
 			.toList();
+
+		return result;
+	}
+
+	// 퀴즈 제목으로 조회
+	@Transactional
+	public List<QuizPostWithCommentCountResponse> getAllQuizPostsByTitleWithCommentCount(Long generalBoardId,
+		String title, Boolean isHidden, Pageable pageable) {
+		List<QuizPostWithCommentCountInterface> posts;
+		if (isHidden == null) {
+			posts = quizPostRepository.findAllByTitleWithCommentCount(generalBoardId, title, pageable);
+		} else {
+			posts = quizPostRepository.findAllByTitleAndIsHiddenWithCommentCount(generalBoardId, title, isHidden,
+				pageable);
+		}
+
+		List<QuizPostWithCommentCountResponse> result = posts.stream()
+			.map(QuizPostWithCommentCountResponse::new)
+			.toList();
+
+		return result;
 	}
 
 	// 퀴즈 게시글 ID로 조회
 	public QuizPostResponse getQuizPostById(Long quizBoardId, Long id) {
 		QuizPost post = quizPostRepository.findByQuizBoardIdAndId(quizBoardId, id)
 			.orElseThrow(() -> new RuntimeException("해당 게시글은 존재하지 않습니다."));
-		return new QuizPostResponse(post);
-	}
-
-	// 퀴즈 제목으로 조회
-	public QuizPostResponse getQuizPostByTitle(Long quizBoardId, String quizTitle) {
-		QuizPost post = quizPostRepository.findByQuizBoardIdAndQuizTitle(quizBoardId, quizTitle)
-			.orElseThrow(() -> new RuntimeException("해당 제목의 게시글은 존재하지 않습니다."));
 		return new QuizPostResponse(post);
 	}
 
@@ -111,4 +135,11 @@ public class QuizPostService {
 			.orElseThrow(() -> new RuntimeException("해당 게시글은 존재하지 않습니다."));
 		quizPostRepository.delete(post);
 	}
+
+	// 퀴즈 게시글 id List로 받아서 삭제
+	@Transactional
+	public void deleteQuizPostByIdIn(Long quizBoardId, List<Long> postId) {
+		quizPostRepository.deleteByQuizBoardIdAndIdIn(quizBoardId, postId);
+	}
+
 }

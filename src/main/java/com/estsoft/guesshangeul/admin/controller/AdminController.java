@@ -4,9 +4,9 @@ import java.util.ArrayList;
 import java.util.List;
 
 import org.springframework.http.ResponseEntity;
-import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.bind.annotation.PutMapping;
+import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.estsoft.guesshangeul.admin.dto.BoardManagerApplyResponse;
@@ -23,7 +23,12 @@ import com.estsoft.guesshangeul.post.entity.QuizPost;
 import com.estsoft.guesshangeul.user.dto.UsersResponse;
 import com.estsoft.guesshangeul.user.entity.Users;
 
+import io.swagger.v3.oas.annotations.Operation;
+import io.swagger.v3.oas.annotations.Parameter;
+import io.swagger.v3.oas.annotations.tags.Tag;
+
 @RestController
+@Tag(name = "관리자 페이지 컨트롤러")
 public class AdminController {
 	private final AdminService adminService;
 
@@ -32,30 +37,37 @@ public class AdminController {
 	}
 
 	// 유저 닉네임 초기화
-	@GetMapping("/api/admin/initializeNickname/{userId}")
+	@PutMapping("/api/admin/initializeNickname/{userId}")
+	@Parameter(name = "userId", description = "유저 ID", example = "1")
+	@Operation(summary = "유저 닉네임 초기화", description = "관리자 페이지 유저 관리 중 유저 닉네임 초기화 기능")
 	public ResponseEntity<UsersResponse> resetNickname(@PathVariable Long userId) {
 		Users users = adminService.resetNickname(userId);
 		return ResponseEntity.ok(new UsersResponse(users));
 	}
 
 	// 일반 게시판 삭제
-	@GetMapping("/api/admin/deleteBoard/generalBoard/{boardId}")
+	@PutMapping("/api/admin/deleteBoard/generalBoard/{boardId}")
+	@Parameter(name = "boardId", description = "게시판ID", example = "1")
+	@Operation(summary = "일반 게시판 삭제", description = "관리자 페이지 일반 게시판 관리 중 게시판 삭제 기능")
 	public ResponseEntity<GeneralBoardResponse> deleteGeneralBoard(@PathVariable Long boardId) {
 		GeneralBoard generalBoard = adminService.deleteGeneralBoard(boardId);
 		return ResponseEntity.ok(new GeneralBoardResponse(generalBoard));
 	}
 
 	// 퀴즈 게시판 삭제
-	@GetMapping("/api/admin/deleteBoard/quizBoard/{boardId}")
+	@PutMapping("/api/admin/deleteBoard/quizBoard/{boardId}")
+	@Parameter(name = "boardId", description = "게시판ID", example = "1")
+	@Operation(summary = "퀴즈 게시판 삭제", description = "관리자 페이지 퀴즈 게시판 관리 중 게시판 삭제 기능")
 	public ResponseEntity<QuizBoardResponse> deleteQuizBoard(@PathVariable Long boardId) {
 		QuizBoard quizBoard = adminService.deleteQuizBoard(boardId);
 		return ResponseEntity.ok(new QuizBoardResponse(quizBoard));
 	}
 
 	// 일반 게시판 게시글 숨김
-	@GetMapping("/api/admin/generalBoard/{boardId}/post/changeVisibilityHide")
+	@PutMapping("/api/admin/generalBoard/{boardId}/post/changeVisibilityHide")
+	@Operation(summary = "일반 게시글 숨김", description = "관리자 페이지 일반 게시판 게시글 숨김")
 	public ResponseEntity<List<GeneralPostResponse>> changeVisibilityHide(@PathVariable Long boardId,
-		@RequestParam List<Long> postId) {
+		@RequestBody List<Long> postId) {
 		List<GeneralPost> generalPosts = adminService.generalPostHide(boardId, postId);
 		List<GeneralPostResponse> generalPostResponses = new ArrayList<>();
 		for (GeneralPost generalPost : generalPosts) {
@@ -65,9 +77,10 @@ public class AdminController {
 	}
 
 	// 일반 게시판 게시글 숨김 해제
-	@GetMapping("/api/admin/generalBoard/{boardId}/post/changeVisibilityUnhidden")
+	@PutMapping("/api/admin/generalBoard/{boardId}/post/changeVisibilityUnhidden")
+	@Operation(summary = "일반 게시글 숨김 해제", description = "관리자 페이지 일반 게시판 게시글 숨김 해제")
 	public ResponseEntity<List<GeneralPostResponse>> changeVisibilityUnhidden(@PathVariable Long boardId,
-		@RequestParam List<Long> postId) {
+		@RequestBody List<Long> postId) {
 		List<GeneralPost> generalPosts = adminService.generalPostUnhide(boardId, postId);
 		List<GeneralPostResponse> generalPostResponses = new ArrayList<>();
 		for (GeneralPost generalPost : generalPosts) {
@@ -77,9 +90,10 @@ public class AdminController {
 	}
 
 	// 퀴즈 게시판 게시글 숨김
-	@GetMapping("/api/admin/quizBoard/{boardId}/post/changeVisibilityHide")
+	@PutMapping("/api/admin/quizBoard/{boardId}/post/changeVisibilityHide")
+	@Operation(summary = "퀴즈 게시글 숨김", description = "관리자 페이지 퀴즈 게시판 게시글 숨김")
 	public ResponseEntity<List<QuizPostResponse>> quizChangeVisibilityHide(@PathVariable Long boardId,
-		@RequestParam List<Long> postId) {
+		@RequestBody List<Long> postId) {
 		List<QuizPost> quizPosts = adminService.quizPostHide(boardId, postId);
 		List<QuizPostResponse> quizPostResponses = new ArrayList<>();
 		for (QuizPost quizPost : quizPosts) {
@@ -89,9 +103,10 @@ public class AdminController {
 	}
 
 	// 퀴즈 게시판 게시글 숨김 해제
-	@GetMapping("/api/admin/quizBoard/{boardId}/post/changeVisibilityUnhidden")
+	@Operation(summary = "퀴즈 게시글 숨김 해제", description = "관리자 페이지 퀴즈 게시판 게시글 숨김 해제")
+	@PutMapping("/api/admin/quizBoard/{boardId}/post/changeVisibilityUnhidden")
 	public ResponseEntity<List<QuizPostResponse>> quizChangeVisibilityUnhidden(@PathVariable Long boardId,
-		@RequestParam List<Long> postId) {
+		@RequestBody List<Long> postId) {
 		List<QuizPost> quizPosts = adminService.quizPostUnhide(boardId, postId);
 		List<QuizPostResponse> quizPostResponses = new ArrayList<>();
 		for (QuizPost quizPost : quizPosts) {
@@ -101,15 +116,17 @@ public class AdminController {
 	}
 
 	// 집현전 신청 승인
-	@GetMapping("/api/admin/acceptBoardManager")
-	public ResponseEntity<BoardManagerApplyResponse> acceptBoardManager(@RequestParam Long boardManagerId) {
+	@PutMapping("/api/admin/acceptBoardManager")
+	@Operation(summary = "집현전 신청 승인", description = "관리자 집현전 관리 페이지 신청 승인")
+	public ResponseEntity<BoardManagerApplyResponse> acceptBoardManager(@RequestBody Long boardManagerId) {
 		BoardManagerApply boardManagerApply = adminService.acceptBoardManager(boardManagerId);
 		return ResponseEntity.ok(new BoardManagerApplyResponse(boardManagerApply));
 	}
 
 	// 집현전 신청 거부
-	@GetMapping("/api/admin/rejectBoardManager")
-	public ResponseEntity<BoardManagerApplyResponse> rejectBoardManager(@RequestParam Long boardManagerId) {
+	@PutMapping("/api/admin/rejectBoardManager")
+	@Operation(summary = "집현전 신청 거부", description = "관리자 집현전 관리 페이지 신청 거부")
+	public ResponseEntity<BoardManagerApplyResponse> rejectBoardManager(@RequestBody Long boardManagerId) {
 		BoardManagerApply boardManagerApply = adminService.rejectBoardManager(boardManagerId);
 		return ResponseEntity.ok(new BoardManagerApplyResponse(boardManagerApply));
 	}

@@ -26,8 +26,8 @@ import com.estsoft.guesshangeul.user.dto.CheckEmailExistsRequest;
 import com.estsoft.guesshangeul.user.dto.CheckEmailExistsResponse;
 import com.estsoft.guesshangeul.user.dto.CheckNicknameExistsRequest;
 import com.estsoft.guesshangeul.user.dto.CheckNicknameExistsResponse;
-import com.estsoft.guesshangeul.user.dto.DeleteUsersRequest;
 import com.estsoft.guesshangeul.user.dto.ModifyPwdRequest;
+import com.estsoft.guesshangeul.user.dto.UsersResponse;
 import com.estsoft.guesshangeul.user.entity.Authorities;
 import com.estsoft.guesshangeul.user.entity.Users;
 import com.estsoft.guesshangeul.user.service.UsersDetailsService;
@@ -144,11 +144,16 @@ public class UsersController {
 			log.error(e.getMessage());
 		}
 	}
+	// @PutMapping("/users/{id}")
+	// public ResponseEntity<Users> deleteUsers(@PathVariable Long id, @RequestBody DeleteUsersRequest request) {//유저 삭제는 소프트 삭제인 관계로 update처리
+	// 	Users deleteUser = usersService.deleteUser(id, request);
+	// 	return ResponseEntity.ok(deleteUser);
+	// }
 
-	@PutMapping("/users/{id}")
-	public ResponseEntity<Users> deleteUsers(@PathVariable Long id,
-		@RequestBody DeleteUsersRequest request) {//유저 삭제는 소프트 삭제인 관계로 update처리
-		Users deleteUser = usersService.deleteUser(id, request);
-		return ResponseEntity.ok(deleteUser);
+	// 삭제
+	@PutMapping("/users/{userId}")
+	public ResponseEntity<UsersResponse> deleteUser(@PathVariable Long userId) {
+		Users users = usersService.deleteUserById(userId);
+		return ResponseEntity.ok(new UsersResponse(users));
 	}
 }

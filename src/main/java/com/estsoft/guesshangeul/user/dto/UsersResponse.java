@@ -4,18 +4,27 @@ import static com.estsoft.guesshangeul.util.DateFormatUtil.*;
 
 import com.estsoft.guesshangeul.user.entity.Users;
 
+import io.swagger.v3.oas.annotations.media.Schema;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 
 @Getter
 @NoArgsConstructor
+@Schema(description = "유저 응답")
 public class UsersResponse {
+	@Schema(description = "유저 ID", type = "Long")
 	private Long userId;
+	@Schema(description = "유저 닉네임", type = "String")
 	private String nickname;
+	@Schema(description = "유저 권한", type = "String")
 	private String authority;
+	@Schema(description = "유저 생성 날짜", type = "String")
 	private String createdAt;
+	@Schema(description = "유저 최근 접속 날짜", type = "String")
 	private String connectedAt;
+	@Schema(description = "유저 접속 횟수", type = "int")
 	private int connectCount;
+	@Schema(description = "유저 삭제 여부", type = "boolean")
 	private boolean isDeleted;
 
 	public UsersResponse(Users users) {
@@ -30,25 +39,7 @@ public class UsersResponse {
 	public UsersResponse(Users users, String authorityString) {
 		this.userId = users.getId();
 		this.nickname = users.getNickname();
-		String FixAuthority = "";
-		switch (authorityString) {
-			case "ROLE_NOBI":
-				FixAuthority = "노비";
-				break;
-			case "ROLE_PYEONGMIN":
-				FixAuthority = "평민";
-				break;
-			case "ROLE_YANGBAN":
-				FixAuthority = "양반";
-				break;
-			case "ROLE_JIPHYEONJEON":
-				FixAuthority = "집현전";
-				break;
-			case "ROLE_KINGSEJONG":
-				FixAuthority = "세종대왕";
-				break;
-		}
-		this.authority = FixAuthority;
+		this.authority = RoleType.toName(authorityString);
 		this.createdAt = users.getCreatedAt().format(formatter);
 		this.connectedAt = users.getConnectedAt().format(formatter);
 		this.connectCount = users.getConnectCount();
