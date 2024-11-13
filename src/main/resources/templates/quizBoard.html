@@ -39,6 +39,7 @@
                 <div class="container row w-100">
                     <div class="col-3">
                         <button class="btn btn-primary text-nowrap" type="button"
+                                sec:authorize="hasRole('YANGBAN')||hasRole('JIPHYEONJEON')||hasRole('KINGSEJONG')"
                                 th:onclick="|location.href='/quizBoard/${currentBoard.id}/newPost'|">게시글 작성
                         </button>
                     </div>
@@ -51,10 +52,11 @@
                     </div>
                     <div class="col-3">
                         <div class="dropdown text-end">
-                            <button class="btn btn-secondary dropdown-toggle" type="button"
-                                    data-bs-toggle="dropdown" aria-expanded="false">
-                                정렬 기준
-                            </button>
+                            <!--                            미완성-->
+                            <!--                            <button class="btn btn-secondary dropdown-toggle" type="button"-->
+                            <!--                                    data-bs-toggle="dropdown" aria-expanded="false">-->
+                            <!--                                정렬 기준-->
+                            <!--                            </button>-->
                             <ul class="dropdown-menu text-small dropdown-menu-end">
                                 <li><a class="dropdown-item">최신순</a></li>
                                 <li><a class="dropdown-item">조회순</a></li>
