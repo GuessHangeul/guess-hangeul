@@ -11,6 +11,7 @@ import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestParam;
 
+import com.estsoft.guesshangeul.admin.entity.BoardManagerApply;
 import com.estsoft.guesshangeul.admin.service.AdminBoardService;
 import com.estsoft.guesshangeul.board.dto.GeneralBoardDto;
 import com.estsoft.guesshangeul.board.dto.GeneralBoardResponse;
@@ -116,14 +117,15 @@ public class AdminPageController {
 	public String showBoardManagerApply(Model model,
 		@RequestParam(value = "nickname", required = false) String nickname,
 		@PageableDefault(size = 10) Pageable pageable) {
-		List<ViewRankupRequestResponse> list;
+		List<BoardManagerApply> responseList;
 		if (nickname == null || nickname.isEmpty()) {
-			list = viewRankupRequestService.findAll().stream().map(ViewRankupRequestResponse::new).toList();
+			responseList = viewRankupRequestService.findAll();
 		} else {
-			list = viewRankupRequestService.findByUsersNickname(nickname, pageable)
-				.stream()
-				.map(ViewRankupRequestResponse::new)
-				.toList();
+			responseList = viewRankupRequestService.findByUsersNickname(nickname, pageable);
+		}
+		List<ViewRankupRequestResponse> list = new ArrayList<>();
+		for (BoardManagerApply boardManagerApply : responseList) {
+			list.add(usersService.getViewRankupResponse(boardManagerApply.getUsers().getId()));
 		}
 		model.addAttribute("list", list);
 		return "adminBoardManager";
