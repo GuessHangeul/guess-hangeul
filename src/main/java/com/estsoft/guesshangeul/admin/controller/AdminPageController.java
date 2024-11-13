@@ -4,6 +4,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 import org.springframework.data.domain.Pageable;
+import org.springframework.data.web.PageableDefault;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -113,8 +114,15 @@ public class AdminPageController {
 	}
 
 	@GetMapping("/admin/boardManagerApply")
-	public String showBoardManagerApply(Model model) {
-		List<BoardManagerApply> responseList = viewRankupRequestService.findAll();
+	public String showBoardManagerApply(Model model,
+		@RequestParam(value = "nickname", required = false) String nickname,
+		@PageableDefault(size = 10) Pageable pageable) {
+		List<BoardManagerApply> responseList;
+		if (nickname == null || nickname.isEmpty()) {
+			responseList = viewRankupRequestService.findAll();
+		} else {
+			responseList = viewRankupRequestService.findByUsersNickname(nickname, pageable);
+		}
 		List<ViewRankupRequestResponse> list = new ArrayList<>();
 		for (BoardManagerApply boardManagerApply : responseList) {
 			list.add(usersService.getViewRankupResponse(boardManagerApply.getUsers().getId()));
