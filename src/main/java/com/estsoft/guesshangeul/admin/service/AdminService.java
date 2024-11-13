@@ -3,10 +3,15 @@ package com.estsoft.guesshangeul.admin.service;
 import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.core.Authentication;
+import org.springframework.security.core.context.SecurityContextHolder;
+import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.stereotype.Service;
 
 import com.estsoft.guesshangeul.admin.entity.BoardManagerApply;
 import com.estsoft.guesshangeul.admin.repository.BoardManagerApplyRepository;
+import com.estsoft.guesshangeul.board.dto.QuizBoardCreateRequest;
+import com.estsoft.guesshangeul.board.dto.QuizBoardDto;
 import com.estsoft.guesshangeul.board.entity.GeneralBoard;
 import com.estsoft.guesshangeul.board.entity.QuizBoard;
 import com.estsoft.guesshangeul.board.repository.GeneralBoardRepository;
@@ -19,6 +24,7 @@ import com.estsoft.guesshangeul.user.entity.Authorities;
 import com.estsoft.guesshangeul.user.entity.Users;
 import com.estsoft.guesshangeul.user.repository.AuthoritiesRepository;
 import com.estsoft.guesshangeul.user.repository.UsersRepository;
+import com.estsoft.guesshangeul.user.service.UsersDetailsService;
 
 @Service
 public class AdminService {

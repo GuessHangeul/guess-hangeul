@@ -15,5 +15,5 @@ public interface QuizBoardRepository extends JpaRepository<QuizBoard, Long> {
 
 	Optional<QuizBoard> findByTitle(String title);
 
-	Optional<QuizBoard> findFirstByIsDeletedOrderByIdDesc(Boolean b);
+	Optional<QuizBoard> findFirstByIsDeletedOrderById(Boolean b);
 }

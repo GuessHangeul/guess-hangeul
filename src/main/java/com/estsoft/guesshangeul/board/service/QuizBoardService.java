@@ -56,7 +56,7 @@ public class QuizBoardService {
 	}
 
 	public QuizBoardDto findExistingFirstBoard() {
-		QuizBoard quizBoard = quizBoardRepository.findFirstByIsDeletedOrderByIdDesc(false)
+		QuizBoard quizBoard = quizBoardRepository.findFirstByIsDeletedOrderById(false)
 			.orElseThrow(() -> new NoSuchElementException("일반 게시판이 없습니다."));
 		return new QuizBoardDto(quizBoard);
 	}

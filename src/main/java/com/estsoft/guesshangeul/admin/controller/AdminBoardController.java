@@ -18,14 +18,14 @@ import com.estsoft.guesshangeul.user.service.UsersService;
 
 import lombok.RequiredArgsConstructor;
 
-@RequestMapping("/api/user")
+@RequestMapping
 @Controller
 @RequiredArgsConstructor
 public class AdminBoardController {
 	private final AdminBoardService adminBoardService;
 	private final UsersService usersService;
 
-	@GetMapping
+	@GetMapping("/api/user")
 	public ResponseEntity<List<UsersResponse>> getAllUsers(
 		@RequestParam(value = "page", required = false, defaultValue = "0") Integer page,
 		@RequestParam(value = "size", required = false) Integer size,

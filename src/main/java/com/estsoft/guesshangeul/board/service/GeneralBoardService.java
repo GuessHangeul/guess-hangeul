@@ -27,7 +27,7 @@ public class GeneralBoardService {
 	}
 
 	public GeneralBoardDto findExistingFirstBoard() {
-		GeneralBoard generalBoard = generalBoardRepository.findFirstByIsDeletedOrderByIdDesc(false)
+		GeneralBoard generalBoard = generalBoardRepository.findFirstByIsDeletedOrderById(false)
 			.orElseThrow(() -> new NoSuchElementException("일반 게시판이 없습니다."));
 		return new GeneralBoardDto(generalBoard);
 	}
