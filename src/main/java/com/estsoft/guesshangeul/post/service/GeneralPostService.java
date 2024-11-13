@@ -107,6 +107,7 @@ public class GeneralPostService {
 			throw new EntityNotFoundException("GeneralBoard", generalBoardId);
 		}
 
+		request.setView(0L);
 		GeneralPost post = request.toEntity();
 		post.setUsers(users);
 		post.setGeneralBoard(generalBoardOptional.get());
