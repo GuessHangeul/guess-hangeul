@@ -212,7 +212,7 @@ public class UsersService {
 	@Transactional
 	@Scheduled(cron = "0 0 0 * * *", zone = "Asia/Seoul")
 	public void updateUserRank() {
-		List<Users> userlist = usersRepository.findByIsDeletedFalseOrderByScoreDesc();
+		List<Users> userlist = usersRepository.findAllByIsDeletedOrderByScoreDesc(false);
 
 		int rankers = (int)Math.ceil(userlist.size() * 0.1);
 
@@ -223,5 +223,11 @@ public class UsersService {
 			Authorities authority = new Authorities(user.getId(), TOP_RANK);
 			authoritiesRepository.save(authority);
 		}
+	}
+
+	// 점수 기준으로 정렬된 유저 목록 반환
+	@Transactional(readOnly = true)
+	public List<Users> getRankedUsers() {
+		return usersRepository.findAllByIsDeletedOrderByScoreDesc(false);
 	}
 }
