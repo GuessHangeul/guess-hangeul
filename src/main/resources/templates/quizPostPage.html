@@ -45,6 +45,11 @@
             <div class="d-flex justify-content-between">
                 <a th:href="@{/quizBoard/{quizBoardId}/quizPost/{prevPostId}(quizBoardId=${post.id}, prevPostId=${prevPostId})}"
                    class="btn" th:classappend="${prevPostId==null?'btn-secondary disabled':'btn-primary'}">이전 게시물</a>
+                <div class="d-flex flex-row gap-2" sec:authorize="isAuthenticated()">
+                    <input class="input" id="answerInput" type="text">
+                    <button id="submitAnswerBtn" class="btn btn-primary" th:data-id="${post.id}">정답 제출</button>
+                    <button id="openAnswerBtn" class="btn btn-primary" th:data-id="${post.id}">정답 확인</button>
+                </div>
                 <a th:href="@{/quizBoard/{quizBoardId}/quizPost/{nextPostId}(quizBoardId=${post.id}, nextPostId=${nextPostId})}"
                    class="btn"
                    th:classappend="${nextPostId==null?'btn-secondary disabled':'btn-primary'}">다음 게시물</a>
