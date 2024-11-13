@@ -16,7 +16,8 @@
     <!--일반 게시판 목록-->
     <div class="d-flex flex-row gap-3 align-items-center">
         <div th:each="board : ${boardList}">
-            <button class="btn btn-outline-info" type="button" th:text="${board.title}"
+            <button class="btn" type="button" th:text="${board.title}"
+                    th:classappend="${currentBoard.id==board.id?'btn-info':'btn-outline-info'}"
                     th:onclick="|location.href='/quizBoard/${board.id}'|"></button>
         </div>
         <button class="btn btn-primary rounded-circle d-flex align-items-center justify-content-center" type="button"
@@ -30,9 +31,10 @@
     <div th:if="${currentBoard==null}"><h3>게시판이 없습니다.</h3></div>
     <div class="content" th:if="${currentBoard!=null}">
         <div class="list-group my-3">
-            <li class="list-group-item list-group-item-primary"
+            <li class="list-group-item list-group-item-primary fs-4"
                 th:text="${currentBoard.title}">
-                <h4>게시판 제목</h4></li>
+                게시판 제목
+            </li>
             <li class="list-group-item list-group-item-secondary d-flex flex-row">
                 <div class="container row w-100">
                     <div class="col-3">
@@ -62,7 +64,7 @@
                 </div>
             </li>
 
-            <div th:each="post : ${posts}">
+            <div>
                 <th:block th:each="post : ${posts}">
                     <th:block
                             th:replace="~{/common/postItem :: postItem(${post}, ${currentBoard.id}, ${1})}"></th:block>
