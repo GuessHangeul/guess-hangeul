@@ -3,6 +3,7 @@ package com.estsoft.guesshangeul.userrank.dto;
 import static com.estsoft.guesshangeul.util.DateFormatUtil.*;
 
 import com.estsoft.guesshangeul.admin.entity.BoardManagerApply;
+import com.estsoft.guesshangeul.user.dto.RoleType;
 
 import lombok.Getter;
 
@@ -20,7 +21,17 @@ public class ViewRankupResponse {
 	public ViewRankupResponse(BoardManagerApply apply) {
 		this.id = apply.getId();
 		this.nickname = apply.getUsers().getNickname();
-		this.authority = "";
+		this.score = apply.getUsers().getScore();
+		this.userId = apply.getUsers().getId();
+		this.status = apply.getStatus();
+		this.createdAt = apply.getCreatedAt().format(formatter);
+		this.connectcount = apply.getUsers().getConnectCount();
+	}
+
+	public ViewRankupResponse(BoardManagerApply apply, String authorityString) {
+		this.id = apply.getId();
+		this.nickname = apply.getUsers().getNickname();
+		this.authority = RoleType.toName(authorityString);
 		this.score = apply.getUsers().getScore();
 		this.userId = apply.getUsers().getId();
 		this.status = apply.getStatus();

@@ -9,6 +9,7 @@ import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 
+import com.estsoft.guesshangeul.admin.entity.BoardManagerApply;
 import com.estsoft.guesshangeul.admin.service.AdminBoardService;
 import com.estsoft.guesshangeul.board.dto.GeneralBoardDto;
 import com.estsoft.guesshangeul.board.dto.GeneralBoardResponse;
@@ -99,10 +100,11 @@ public class AdminPageController {
 
 	@GetMapping("/admin/boardManagerApply")
 	public String showBoardManagerApply(Model model) {
-		List<ViewRankupResponse> list = viewRankupRequestService.findAll()
-			.stream()
-			.map(ViewRankupResponse::new)
-			.toList();
+		List<BoardManagerApply> responseList = viewRankupRequestService.findAll();
+		List<ViewRankupResponse> list = new ArrayList<>();
+		for (BoardManagerApply boardManagerApply : responseList) {
+			list.add(usersService.getViewRankupResponse(boardManagerApply.getUsers().getId()));
+		}
 		model.addAttribute("list", list);
 		return "adminBoardManager";
 	}

@@ -16,6 +16,8 @@ import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
+import com.estsoft.guesshangeul.admin.entity.BoardManagerApply;
+import com.estsoft.guesshangeul.admin.repository.BoardManagerApplyRepository;
 import com.estsoft.guesshangeul.exception.InvalidEmailFormatException;
 import com.estsoft.guesshangeul.exception.InvalidNicknameFormatException;
 import com.estsoft.guesshangeul.exception.UsersEmailDuplicateException;
@@ -29,6 +31,8 @@ import com.estsoft.guesshangeul.user.entity.Users;
 import com.estsoft.guesshangeul.user.repository.AuthoritiesRepository;
 import com.estsoft.guesshangeul.user.repository.PasswordResetTokenRepository;
 import com.estsoft.guesshangeul.user.repository.UsersRepository;
+import com.estsoft.guesshangeul.userrank.dto.ViewRankupResponse;
+import com.estsoft.guesshangeul.userrank.repository.BoardManagerRepository;
 
 import lombok.RequiredArgsConstructor;
 
@@ -45,6 +49,8 @@ public class UsersService {
 		"^(?=.{1,64}@)[A-Za-z0-9_-]+(\\.[A-Za-z0-9_-]+)*@[^-][A-Za-z0-9-]+(\\.[A-Za-z0-9-]+)*(\\.[A-Za-z]{2,})$");
 
 	private static final Pattern NICKNAME_PATTERN = Pattern.compile("^[가-힣a-zA-Z0-9._-]{2,20}$");
+	private final BoardManagerApplyRepository boardManagerApplyRepository;
+	private final BoardManagerRepository boardManagerRepository;
 
 	@Value("${app.url}")
 	private String appUrl;
@@ -201,5 +207,22 @@ public class UsersService {
 		usersRepository.save(users);
 		return users;
 	}
+
+	public ViewRankupResponse getViewRankupResponse(Long userId) {
+		// userId로 Users 엔티티 조회
+		BoardManagerApply boardManagerApply = boardManagerRepository.findByUserId(userId);
+
+		// userId로 권한 목록 조회
+		List<GrantedAuthority> grantedAuthorities = loadUserAuthorities(userId);
+
+		// GrantedAuthority 리스트를 콤마로 구분된 문자열로 변환
+		String authorityString = grantedAuthorities.stream()
+			.map(GrantedAuthority::getAuthority)
+			.collect(Collectors.joining(", "));
+
+		// UsersResponse 객체 생성 후 반환
+		return new ViewRankupResponse(boardManagerApply, authorityString);
+	}
+
 }
 
