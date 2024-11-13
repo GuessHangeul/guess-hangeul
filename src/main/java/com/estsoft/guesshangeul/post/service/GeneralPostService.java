@@ -3,7 +3,6 @@ package com.estsoft.guesshangeul.post.service;
 import java.util.List;
 import java.util.Optional;
 
-
 import org.springframework.data.domain.Pageable;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.context.SecurityContextHolder;
@@ -78,8 +77,8 @@ public class GeneralPostService {
 
 	// ID로 게시글 조회 (없으면 예외 발생)
 	@Transactional(readOnly = true)
-	public GeneralPostResponse getGeneralPostById(Long generalBoardId, Long id) {
-		GeneralPost post = generalPostRepository.findByGeneralBoardIdAndId(generalBoardId, id)
+	public GeneralPostResponse getGeneralPostById(Long id) {
+		GeneralPost post = generalPostRepository.findById(id)
 			.orElseThrow(() -> new RuntimeException("해당 게시글은 존재하지 않습니다."));
 		return new GeneralPostResponse(post);
 	}
@@ -118,25 +117,32 @@ public class GeneralPostService {
 
 	// 게시글 수정
 	@Transactional
-	public GeneralPostResponse updateGeneralPost(Long generalBoardId, Long id, UpdateGeneralPostRequest request) {
-		GeneralPost post = generalPostRepository.findByGeneralBoardIdAndId(generalBoardId, id)
+	public GeneralPostResponse updateGeneralPost(Long id, UpdateGeneralPostRequest request) {
+		GeneralPost post = generalPostRepository.findById(id)
 			.orElseThrow(() -> new RuntimeException("해당 게시글은 존재하지 않습니다."));
 		post.setTitle(request.getTitle());
 		post.setContent(request.getContent());
-		post.setHidden(request.isHidden());
 		GeneralPost updatedPost = generalPostRepository.save(post);
 		return new GeneralPostResponse(updatedPost);
 	}
 
 	// 게시글 삭제
 	@Transactional
-	public void deleteGeneralPost(Long generalBoardId, Long id) {
-		GeneralPost post = generalPostRepository.findByGeneralBoardIdAndId(generalBoardId, id)
+	public void deleteGeneralPost(Long id) {
+		GeneralPost post = generalPostRepository.findById(id)
 			.orElseThrow(() -> new RuntimeException("해당 게시글은 존재하지 않습니다."));
 		generalPostRepository.delete(post);
 	}
 
 	public void deleteByGeneralPostId(Long generalBoardId, List<Long> postId) {
 		generalPostRepository.deleteByGeneralBoardIdAndIdIn(generalBoardId, postId);
+	}
+
+	public Optional<Long> getPrevId(Long id) {
+		return generalPostRepository.findPreviousId(id);
+	}
+
+	public Optional<Long> getNextId(Long id) {
+		return generalPostRepository.findNextId(id);
 	}
 }

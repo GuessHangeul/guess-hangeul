@@ -55,7 +55,7 @@ public class QuizPostController {
 	// 퀴즈 게시글 id로 조회
 	@GetMapping("/{id}")
 	public ResponseEntity<QuizPostResponse> getQuizPostById(@PathVariable Long quizBoardId, @PathVariable Long id) {
-		QuizPostResponse post = quizPostService.getQuizPostById(quizBoardId, id);
+		QuizPostResponse post = quizPostService.getQuizPostById(id);
 		return ResponseEntity.status(HttpStatus.OK).body(post);
 	}
 
@@ -71,7 +71,7 @@ public class QuizPostController {
 	@PutMapping("/{id}")
 	public ResponseEntity<QuizPostResponse> updateQuizPost(@PathVariable Long quizBoardId, @PathVariable Long id,
 		@RequestBody UpdateQuizPostRequest request) {
-		QuizPostResponse post = quizPostService.updateQuizPost(quizBoardId, id, request);
+		QuizPostResponse post = quizPostService.updateQuizPost(id, request);
 		return ResponseEntity.status(HttpStatus.OK).body(post);
 	}
 

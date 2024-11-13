@@ -57,9 +57,9 @@ public class GeneralPostController {
 
 	// 게시글 id로 조회
 	@GetMapping("/{id}")
-	public ResponseEntity<GeneralPostResponse> getGeneralPostById(@PathVariable Long generalBoardId,
-		@PathVariable Long id) {
-		GeneralPostResponse post = generalPostService.getGeneralPostById(generalBoardId, id);
+	public ResponseEntity<GeneralPostResponse> getGeneralPostById(@PathVariable Long id,
+		@PathVariable String generalBoardId) {
+		GeneralPostResponse post = generalPostService.getGeneralPostById(id);
 		return ResponseEntity.status(HttpStatus.OK).body(post);
 	}
 
@@ -73,17 +73,16 @@ public class GeneralPostController {
 
 	// 게시글 수정
 	@PutMapping("/{id}")
-	public ResponseEntity<GeneralPostResponse> updateGeneralPost(@PathVariable Long generalBoardId,
-		@PathVariable Long id,
-		@RequestBody UpdateGeneralPostRequest request) {
-		GeneralPostResponse post = generalPostService.updateGeneralPost(generalBoardId, id, request);
+	public ResponseEntity<GeneralPostResponse> updateGeneralPost(@PathVariable Long id,
+		@RequestBody UpdateGeneralPostRequest request, @PathVariable String generalBoardId) {
+		GeneralPostResponse post = generalPostService.updateGeneralPost(id, request);
 		return ResponseEntity.status(HttpStatus.OK).body(post);
 	}
 
 	// 게시글 삭제
 	@DeleteMapping("/{id}")
-	public ResponseEntity<Void> deleteGeneralPost(@PathVariable Long generalBoardId, @PathVariable Long id) {
-		generalPostService.deleteGeneralPost(generalBoardId, id);
+	public ResponseEntity<Void> deleteGeneralPost(@PathVariable Long id, @PathVariable String generalBoardId) {
+		generalPostService.deleteGeneralPost(id);
 		return ResponseEntity.status(HttpStatus.NO_CONTENT).build();
 	}
 

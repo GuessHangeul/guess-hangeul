@@ -110,5 +110,12 @@ public interface QuizPostRepository extends JpaRepository<QuizPost, Long> {
 
 	void deleteByQuizBoardIdAndIdIn(Long quizBoardId, List<Long> id);
 
-	Optional<QuizPost> findByQuizBoardIdAndId(Long quizBoardId, Long id);
+	Optional<QuizPost> findById(Long id);
+
+	@Query("SELECT MIN(p.id) FROM QuizPost p WHERE p.id > :postId")
+	Optional<Long> findNextId(Long postId);
+
+	// 특정 ID보다 작은 ID 중 가장 큰 ID 조회
+	@Query("SELECT MAX(p.id) FROM QuizPost p WHERE p.id < :postId")
+	Optional<Long> findPrevId(Long postId);
 }

@@ -1,16 +1,18 @@
 package com.estsoft.guesshangeul.comment.service;
 
-import com.estsoft.guesshangeul.comment.entity.QuizComment;
-import com.estsoft.guesshangeul.comment.dto.QuizCommentRequest;
-import com.estsoft.guesshangeul.post.entity.QuizPost;
-import com.estsoft.guesshangeul.post.repository.QuizPostRepository;
-import com.estsoft.guesshangeul.comment.repository.QuizCommentRepository;
-import com.estsoft.guesshangeul.user.entity.Users;
-import com.estsoft.guesshangeul.user.repository.UsersRepository;
+import java.util.List;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
-import java.util.List;
+import com.estsoft.guesshangeul.comment.dto.CommentResponse;
+import com.estsoft.guesshangeul.comment.dto.QuizCommentRequest;
+import com.estsoft.guesshangeul.comment.entity.QuizComment;
+import com.estsoft.guesshangeul.comment.repository.QuizCommentRepository;
+import com.estsoft.guesshangeul.post.entity.QuizPost;
+import com.estsoft.guesshangeul.post.repository.QuizPostRepository;
+import com.estsoft.guesshangeul.user.entity.Users;
+import com.estsoft.guesshangeul.user.repository.UsersRepository;
 
 @Service
 public class QuizCommentService {
@@ -23,11 +25,12 @@ public class QuizCommentService {
 	@Autowired
 	private UsersRepository userRepository;
 
-	public List<QuizComment> getComments(Long postId) {
-		return commentRepository.findByPostId(postId);
+	public List<CommentResponse> getComments(Long postId) {
+		List<QuizComment> comments = commentRepository.findByPostId(postId);
+		return comments.stream().map(CommentResponse::new).toList();
 	}
 
-	public QuizComment addComment(QuizCommentRequest request) {
+	public CommentResponse addComment(QuizCommentRequest request) {
 		QuizPost post = postRepository.findById(request.getPostId())
 			.orElseThrow(() -> new RuntimeException("Post not found"));
 		Users user = userRepository.findById(request.getUserId())
@@ -37,14 +40,16 @@ public class QuizCommentService {
 		comment.setContent(request.getContent());
 		comment.setPost(post);
 		comment.setUser(user);
-		return commentRepository.save(comment);
+		comment = commentRepository.save(comment);
+		return new CommentResponse(comment);
 	}
 
-	public QuizComment modifyComment(Long commentId, String content) {
+	public CommentResponse modifyComment(Long commentId, String content) {
 		QuizComment comment = commentRepository.findById(commentId)
 			.orElseThrow(() -> new RuntimeException("Comment not found"));
 		comment.setContent(content);
-		return commentRepository.save(comment);
+		comment = commentRepository.save(comment);
+		return new CommentResponse(comment);
 	}
 
 	public void deleteComment(Long commentId) {

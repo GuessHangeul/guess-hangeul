@@ -2,6 +2,8 @@ package com.estsoft.guesshangeul.comment.entity;
 
 import java.time.LocalDateTime;
 
+import org.hibernate.annotations.OnDelete;
+import org.hibernate.annotations.OnDeleteAction;
 import org.springframework.data.annotation.CreatedDate;
 import org.springframework.data.jpa.domain.support.AuditingEntityListener;
 
@@ -39,6 +41,7 @@ public class QuizComment {
 
 	@ManyToOne
 	@JoinColumn(name = "quiz_post_id")
+	@OnDelete(action = OnDeleteAction.CASCADE)
 	private QuizPost post;
 
 	@Column(nullable = false)
