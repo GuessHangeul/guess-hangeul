@@ -53,10 +53,9 @@ public class SecurityConfig {
 		AuthorizeHttpRequestsConfigurer<HttpSecurity>.AuthorizationManagerRequestMatcherRegistry registry) {
 
 		for (SecurityUrlPattern pattern : SecurityUrlPattern.values()) {
-			registry.requestMatchers(pattern.getPatterns())
+			registry.requestMatchers(pattern.getMethod(), pattern.getPattern())
 				.hasRole(pattern.getAuthority());
 		}
-
 		registry.anyRequest().permitAll();
 	}
 
