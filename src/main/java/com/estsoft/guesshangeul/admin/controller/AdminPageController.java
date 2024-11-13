@@ -22,6 +22,9 @@ import com.estsoft.guesshangeul.post.service.GeneralPostService;
 import com.estsoft.guesshangeul.post.service.QuizPostService;
 import com.estsoft.guesshangeul.user.dto.UsersResponse;
 import com.estsoft.guesshangeul.user.service.UsersService;
+import com.estsoft.guesshangeul.userrank.controller.ViewRankupRequestController;
+import com.estsoft.guesshangeul.userrank.dto.ViewRankupResponse;
+import com.estsoft.guesshangeul.userrank.service.ViewRankupRequestService;
 
 @Controller
 public class AdminPageController {
@@ -32,16 +35,21 @@ public class AdminPageController {
 	private final GeneralPostService generalPostService;
 	private final QuizPostService quizPostService;
 	private final UsersService usersService;
+	private final ViewRankupRequestController viewRankupRequestController;
+	private final ViewRankupRequestService viewRankupRequestService;
 
 	public AdminPageController(AdminBoardService adminBoardService, GeneralBoardService generalBoardService,
 		QuizBoardService quizBoardService, GeneralPostService generalPostService, QuizPostService quizPostService,
-		UsersService usersService) {
+		UsersService usersService, ViewRankupRequestController viewRankupRequestController,
+		ViewRankupRequestService viewRankupRequestService) {
 		this.adminBoardService = adminBoardService;
 		this.generalBoardService = generalBoardService;
 		this.quizBoardService = quizBoardService;
 		this.generalPostService = generalPostService;
 		this.quizPostService = quizPostService;
 		this.usersService = usersService;
+		this.viewRankupRequestController = viewRankupRequestController;
+		this.viewRankupRequestService = viewRankupRequestService;
 	}
 
 	@GetMapping("/admin")
@@ -91,6 +99,11 @@ public class AdminPageController {
 
 	@GetMapping("/admin/boardManagerApply")
 	public String showBoardManagerApply(Model model) {
+		List<ViewRankupResponse> list = viewRankupRequestService.findAll()
+			.stream()
+			.map(ViewRankupResponse::new)
+			.toList();
+		model.addAttribute("list", list);
 		return "adminBoardManager";
 	}
 }
