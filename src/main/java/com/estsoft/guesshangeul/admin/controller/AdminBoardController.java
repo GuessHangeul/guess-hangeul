@@ -29,7 +29,8 @@ public class AdminBoardController {
 	public ResponseEntity<List<UsersResponse>> getAllUsers(
 		@RequestParam(value = "page", required = false, defaultValue = "0") Integer page,
 		@RequestParam(value = "size", required = false) Integer size,
-		@RequestParam(value = "sort", required = false) String sort) {
+		@RequestParam(value = "sort", required = false) String sort,
+		@RequestParam(value = "nickname", required = false) String nickname) {
 		int pageSize = (size == null) ? Integer.MAX_VALUE : size;
 
 		Pageable pageable;
@@ -43,12 +44,18 @@ public class AdminBoardController {
 				? Sort.Direction.ASC : Sort.Direction.DESC;  // 정렬 방향
 			pageable = PageRequest.of(page, pageSize, Sort.by(direction, sortField));
 		}
+		List<UsersResponse> response;
 
-		List<UsersResponse> response = adminBoardService.findAllUsersbyIsDeleted(false, pageable);
+		if (nickname == null) {
+			response = adminBoardService.findAllUsersbyIsDeleted(false, pageable);
+		} else {
+			response = adminBoardService.findUserByNickname(false, nickname, pageable);
+		}
 		List<UsersResponse> usersResponses = new ArrayList<>();
 		for (UsersResponse user : response) {
 			usersResponses.add(usersService.getUserResponse(user.getUserId()));
 		}
+
 		return ResponseEntity.ok(usersResponses);
 	}
 }

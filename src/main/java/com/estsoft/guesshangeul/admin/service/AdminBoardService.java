@@ -20,4 +20,9 @@ public class AdminBoardService {
 		List<Users> usersList = usersRepository.findAllByIsDeleted(isDeleted, pageable);
 		return usersList.stream().map(UsersResponse::new).toList();
 	}
+
+	public List<UsersResponse> findUserByNickname(Boolean isDeleted, String nickname, Pageable pageable) {
+		List<Users> usersList = usersRepository.findByIsDeletedAndNickname(isDeleted, nickname, pageable);
+		return usersList.stream().map(UsersResponse::new).toList();
+	}
 }
