@@ -19,4 +19,6 @@ public interface UsersRepository extends JpaRepository<Users, Long> {
 
 	// 유저 점수 내림차순 정렬
 	List<Users> findAllByIsDeletedOrderByScoreDesc(Boolean isDeleted);
+
+	List<Users> findByIsDeletedAndNickname(Boolean isDeleted, String nickname, Pageable pageable);
 }
