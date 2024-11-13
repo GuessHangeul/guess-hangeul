@@ -75,6 +75,10 @@ public class Users implements UserDetails {
 		this.email = email;
 	}
 
+	public Users(Long userId) {
+		this.id = userId;
+	}
+
 	public void passwordChange(String password) {
 		this.password = password;
 	}
