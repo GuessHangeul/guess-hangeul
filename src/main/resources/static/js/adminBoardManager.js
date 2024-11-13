@@ -1,49 +1,57 @@
-// 유저 삭제
-const deleteButtons = document.querySelectorAll('.delete-btn');
+// 승급
+const applyButtons = document.querySelectorAll('.apply-btn');
 
-deleteButtons.forEach((button, index) => {
+applyButtons.forEach((button, index) => {
     console.log(`Button ${index + 1} 등록 완료`); // 등록 여부 확인
     button.addEventListener('click', event => {
         console.log('버튼 클릭됨'); // 버튼 클릭 시 확인
-        const userId = button.closest('tr').querySelector('.userId').textContent.trim();
-        console.log(`userId: ${userId}`); // 가져온 userId 확인
+        const userId = button.closest('tr').querySelector('.boardManagerId').textContent.trim();
+        console.log(`boardManagerId: ${userId}`); // 가져온 userId 확인
 
-        fetch(`/api/users/${userId}`, {
-            method: 'PUT'
+        fetch(`/api/admin/acceptBoardManager?boardManagerId`, {
+            method: 'PUT', // PUT 방식 설정
+            headers: {
+                'Content-Type': 'application/json' // JSON 형식으로 전송
+            },
+            body: JSON.stringify(userId) // 선택된 ID 리스트를 JSON으로 변환하여 RequestBody로 전송
         })
             .then(response => {
-                if (!response.ok) throw new Error("삭제 실패");
-                alert('삭제 완료되었습니다.');
-                location.replace('/admin');
+                if (!response.ok) throw new Error("승인 실패");
+                alert('승인 완료되었습니다.');
+                location.replace('/admin/boardManagerApply');
             })
             .catch(error => {
-                console.error('삭제 중 오류 발생:', error);
-                alert('삭제 실패했습니다.');
+                console.error('승인 중 오류 발생:', error);
+                alert('승인 실패했습니다.');
             });
     });
 });
 
-// 닉네임 초기화
-const resetButtons = document.querySelectorAll('.reset-btn');
+// 반려
+const rejectButtons = document.querySelectorAll('.reject-btn');
 
-resetButtons.forEach((button, index) => {
+rejectButtons.forEach((button, index) => {
     console.log(`Button ${index + 1} 등록 완료`); // 등록 여부 확인
     button.addEventListener('click', event => {
         console.log('버튼 클릭됨'); // 버튼 클릭 시 확인
-        const userId = button.closest('tr').querySelector('.userId').textContent.trim();
-        console.log(`userId: ${userId}`); // 가져온 userId 확인
+        const userId = button.closest('tr').querySelector('.boardManagerId').textContent.trim();
+        console.log(`boardManagerId: ${userId}`); // 가져온 userId 확인
 
-        fetch(`/api/admin/initializeNickname/${userId}`, {
-            method: 'PUT'
+        fetch(`/api/admin/rejectBoardManager`, {
+            method: 'PUT', // PUT 방식 설정
+            headers: {
+                'Content-Type': 'application/json' // JSON 형식으로 전송
+            },
+            body: JSON.stringify(userId) // 선택된 ID 리스트를 JSON으로 변환하여 RequestBody로 전송
         })
             .then(response => {
-                if (!response.ok) throw new Error("초기화 실패");
-                alert('초기화가 완료되었습니다.');
-                location.replace('/admin');
+                if (!response.ok) throw new Error("반려 실패");
+                alert('반려 완료되었습니다.');
+                location.replace('/admin/boardManagerApply');
             })
             .catch(error => {
-                console.error('초기화 중 오류 발생:', error);
-                alert('초기화에 실패했습니다.');
+                console.error('반려 중 오류 발생:', error);
+                alert('반려 실패했습니다.');
             });
     });
 });
@@ -84,9 +92,10 @@ function sortTable(columnIndex) {
 
 // 검색
 function searchByNickname() {
+    // 입력된 검색어와 게시판 ID 가져오기
     const nickname = document.getElementById("searchTitle");
 
-    window.location.href = `/admin?nickname=${nickname.value}`;
+    window.location.href = `/admin/boardManagerApply?nickname=${nickname.value}`;
 }
 
 document.getElementById("searchButton").addEventListener("click", async function () {
@@ -99,3 +108,4 @@ document.getElementById("searchButton").addEventListener("click", async function
     // 검색 완료 후 버튼 다시 활성화
     button.disabled = false;
 });
+

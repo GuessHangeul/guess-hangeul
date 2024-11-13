@@ -1,0 +1,62 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org"
+      xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
+      layout:decorate="~{/common/defaultLayout}">
+<head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>일반게시글</title>
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha1/dist/css/bootstrap.min.css">
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha1/dist/js/bootstrap.bundle.min.js"></script>
+    <script th:src="@{/js/generalPostPage.js}"></script>
+</head>
+<body>
+<th:block layout:fragment="content">
+<header>
+    <!-- Header content -->
+</header>
+<main>
+    <section class="container mt-5">
+        <h1>일반게시글</h1>
+        <div th:each="post : ${posts}" class="card mb-3">
+            <div class="card-header">
+                <span class="user" th:text="${post.nickname}">작성자</span>
+                <span th:text="${post.createdAt}">생성</span>
+                <span>/</span>
+                <span th:text="${post.updatedAt}">업데이트</span>
+            </div>
+            <div class="card-body">
+                <h5 class="card-title" th:text="${post.title}">제목</h5>
+                <p class="card-text" th:text="${post.content}"></p>
+                <a th:href="@{/generalBoard/{generalBoardId}/generalPost/{id}(generalBoardId=${post.id}, id=${post.id})}" class="btn btn-primary">수정</a>
+            </div>
+            <div class="card-footer text-muted">
+                <span th:text="'조회수: ' + ${post.view}">조회수</span>
+            </div>
+        </div>
+        <div class="d-flex justify-content-between">
+            <a th:href="@{/generalBoard/{generalBoardId}/generalPost/{prevPostId}(generalBoardId=${post.id}, prevPostId=${post.prevPostId})}" class="btn btn-secondary">이전 게시물</a>
+            <a th:href="@{/generalBoard/{generalBoardId}/generalPost/{nextPostId}(generalBoardId=${post.id}, nextPostId=${post.nextPostId})}" class="btn btn-secondary">다음 게시물</a>
+        </div>
+        <form th:action="@{/api/generalBoard/{generalBoardId}/generalPost/{id}/comment(generalBoardId=${post.boardId}, postId=${post.id})}" method="post" style="margin-top:50px">
+            <div class="mb-3">
+                <label for="commentContent" class="form-label">댓글 작성</label>
+                <textarea class="form-control" id="commentContent" name="content" rows="3" required></textarea>
+            </div>
+            <button type="submit" class="btn btn-primary">댓글 작성</button>
+        </form>
+        <section class="mt-5">
+            <h2>댓글</h2>
+            <div th:each="comment : ${post.comments}" class="card mb-2">
+                <div class="card-body">
+                    <h5 class="card-title" th:text="${comment.author}">작성자</h5>
+                    <p class="card-text" th:text="${comment.content}">댓글 내용</p>
+                    <p class="card-text"><small class="text-muted" th:text="${comment.createdAt}">작성일</small></p>
+                </div>
+            </div>
+        </section>
+    </section>
+</main>
+</body>
+</html>

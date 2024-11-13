@@ -1,6 +1,7 @@
 package com.estsoft.guesshangeul.userrank.service;
 
 import java.time.LocalDateTime;
+import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -29,5 +30,9 @@ public class BoardManagerApplyService {//집현전 신청 받아서 DB에 입력
 		// BoardManagerApply 객체 생성
 		BoardManagerApply apply = new BoardManagerApply(null, users, requ.getStatus(), LocalDateTime.now());
 		return boardManagerApplyRepository.save(apply);
+	}
+
+	public List<BoardManagerApply> findAll() {
+		return boardManagerApplyRepository.findAll();
 	}
 }

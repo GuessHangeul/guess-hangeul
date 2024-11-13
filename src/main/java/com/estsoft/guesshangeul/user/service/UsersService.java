@@ -17,12 +17,14 @@ import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
+import com.estsoft.guesshangeul.admin.entity.BoardManagerApply;
 import com.estsoft.guesshangeul.exception.InvalidEmailFormatException;
 import com.estsoft.guesshangeul.exception.InvalidNicknameFormatException;
 import com.estsoft.guesshangeul.exception.UsersEmailDuplicateException;
 import com.estsoft.guesshangeul.exception.UsersNicknameDuplicateException;
 import com.estsoft.guesshangeul.exception.UsersNotFoundException;
 import com.estsoft.guesshangeul.user.dto.AddUserRequest;
+import com.estsoft.guesshangeul.user.dto.DeleteUsersRequest;
 import com.estsoft.guesshangeul.user.dto.UsersResponse;
 import com.estsoft.guesshangeul.user.entity.Authorities;
 import com.estsoft.guesshangeul.user.entity.PasswordResetToken;
@@ -30,6 +32,8 @@ import com.estsoft.guesshangeul.user.entity.Users;
 import com.estsoft.guesshangeul.user.repository.AuthoritiesRepository;
 import com.estsoft.guesshangeul.user.repository.PasswordResetTokenRepository;
 import com.estsoft.guesshangeul.user.repository.UsersRepository;
+import com.estsoft.guesshangeul.userrank.dto.ViewRankupRequestResponse;
+import com.estsoft.guesshangeul.userrank.repository.BoardManagerRepository;
 
 import lombok.RequiredArgsConstructor;
 
@@ -46,6 +50,7 @@ public class UsersService {
 		"^(?=.{1,64}@)[A-Za-z0-9_-]+(\\.[A-Za-z0-9_-]+)*@[^-][A-Za-z0-9-]+(\\.[A-Za-z0-9-]+)*(\\.[A-Za-z]{2,})$");
 
 	private static final Pattern NICKNAME_PATTERN = Pattern.compile("^[가-힣a-zA-Z0-9._-]{2,20}$");
+	private final BoardManagerRepository boardManagerRepository;
 
 	@Value("${app.url}")
 	private String appUrl;
@@ -187,12 +192,14 @@ public class UsersService {
 
 		return grantedAuthorities;
 	}
+
 	//유저 삭제 메서드(소프트 삭제)
-	// public Users deleteUser(Long id, DeleteUsersRequest request){
-	// 	Users users = usersRepository.findById(id).orElseThrow(()->new IllegalArgumentException("User not found" + id));
-	// 	users.DeleteUsers(request.getUserId(), true);
-	// 	return users;
-	// }
+	public Users deleteUser(Long id, DeleteUsersRequest request) {
+		Users users = usersRepository.findById(id)
+			.orElseThrow(() -> new IllegalArgumentException("User not found" + id));
+		users.DeleteUsers(request.getUserId(), true);
+		return users;
+	}
 
 	// 유저 삭제
 	public Users deleteUserById(Long userId) {
@@ -209,7 +216,7 @@ public class UsersService {
 	@Transactional
 	@Scheduled(cron = "0 0 0 * * *", zone = "Asia/Seoul")
 	public void updateUserRank() {
-		List<Users> userlist = usersRepository.findByIsDeletedFalseOrderByScoreDesc();
+		List<Users> userlist = usersRepository.findAllByIsDeletedOrderByScoreDesc(false);
 
 		int rankers = (int)Math.ceil(userlist.size() * 0.1);
 
@@ -222,5 +229,26 @@ public class UsersService {
 		}
 	}
 
-}
+	public ViewRankupRequestResponse getViewRankupResponse(Long userId) {
+		// userId로 Users 엔티티 조회
+		BoardManagerApply boardManagerApply = boardManagerRepository.findByUserId(userId);
 
+		// userId로 권한 목록 조회
+		List<GrantedAuthority> grantedAuthorities = loadUserAuthorities(userId);
+
+		// GrantedAuthority 리스트를 콤마로 구분된 문자열로 변환
+		String authorityString = grantedAuthorities.stream()
+			.map(GrantedAuthority::getAuthority)
+			.collect(Collectors.joining(", "));
+
+		// UsersResponse 객체 생성 후 반환
+		return new ViewRankupRequestResponse(boardManagerApply, authorityString);
+  }
+
+    
+	// 점수 기준으로 정렬된 유저 목록 반환
+	@Transactional(readOnly = true)
+	public List<Users> getRankedUsers() {
+		return usersRepository.findAllByIsDeletedOrderByScoreDesc(false);
+	}
+}

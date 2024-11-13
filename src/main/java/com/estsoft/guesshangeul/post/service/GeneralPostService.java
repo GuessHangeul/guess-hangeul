@@ -77,6 +77,7 @@ public class GeneralPostService {
 	}
 
 	// ID로 게시글 조회 (없으면 예외 발생)
+	@Transactional(readOnly = true)
 	public GeneralPostResponse getGeneralPostById(Long generalBoardId, Long id) {
 		GeneralPost post = generalPostRepository.findByGeneralBoardIdAndId(generalBoardId, id)
 			.orElseThrow(() -> new RuntimeException("해당 게시글은 존재하지 않습니다."));
@@ -107,6 +108,7 @@ public class GeneralPostService {
 			throw new EntityNotFoundException("GeneralBoard", generalBoardId);
 		}
 
+		request.setView(0L);
 		GeneralPost post = request.toEntity();
 		post.setUsers(users);
 		post.setGeneralBoard(generalBoardOptional.get());
@@ -122,7 +124,6 @@ public class GeneralPostService {
 		post.setTitle(request.getTitle());
 		post.setContent(request.getContent());
 		post.setHidden(request.isHidden());
-		post.setView(request.getView());
 		GeneralPost updatedPost = generalPostRepository.save(post);
 		return new GeneralPostResponse(updatedPost);
 	}
