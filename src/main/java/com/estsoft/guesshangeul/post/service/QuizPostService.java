@@ -77,9 +77,12 @@ public class QuizPostService {
 	}
 
 	// 퀴즈 게시글 ID로 조회
+	@Transactional
 	public QuizPostResponse getQuizPostById(Long id) {
 		QuizPost post = quizPostRepository.findById(id)
 			.orElseThrow(() -> new RuntimeException("해당 게시글은 존재하지 않습니다."));
+		long prevView = post.getView();
+		post.setView(prevView += 1L);
 		return new QuizPostResponse(post);
 	}
 

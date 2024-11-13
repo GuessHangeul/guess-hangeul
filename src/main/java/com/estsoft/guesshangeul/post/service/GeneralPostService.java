@@ -80,6 +80,8 @@ public class GeneralPostService {
 	public GeneralPostResponse getGeneralPostById(Long id) {
 		GeneralPost post = generalPostRepository.findById(id)
 			.orElseThrow(() -> new RuntimeException("해당 게시글은 존재하지 않습니다."));
+		long prevView = post.getView();
+		post.setView(prevView += 1L);
 		return new GeneralPostResponse(post);
 	}
 
