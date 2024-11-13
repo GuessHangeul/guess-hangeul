@@ -1,0 +1,102 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org"
+      xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
+      layout:decorate="~{/common/sideContentLayout}"
+      xmlns:sec="http://www.thymeleaf.org/extras/spring-security">
+<head>
+    <meta charset="UTF-8">
+    <title>ㄴㄹㅁㅆㅁ</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1"/>
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha1/dist/css/bootstrap.min.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha1/dist/js/bootstrap.bundle.min.js"></script>
+</head>
+<body>
+<div layout:fragment="content">
+    <!--일반 게시판 목록-->
+    <div class="d-flex flex-row gap-3 align-items-center">
+        <div th:each="board : ${boardList}">
+            <button class="btn btn-outline-info" type="button" th:text="${board.title}"
+                    th:onclick="|location.href='/quizBoard/${board.id}'|"></button>
+        </div>
+        <button class="btn btn-primary rounded-circle d-flex align-items-center justify-content-center" type="button"
+                style="width:30px; height:30px;"
+                sec:authorize="hasRole('JIPHYEONJEON')||hasRole('KINGSEJONG')"
+                th:onclick="|location.href='/createBoard'|"><i class="fas fa-plus"></i>
+        </button>
+    </div>
+
+    <hr>
+    <div th:if="${currentBoard==null}"><h3>게시판이 없습니다.</h3></div>
+    <div class="content" th:if="${currentBoard!=null}">
+        <div class="list-group my-3">
+            <li class="list-group-item list-group-item-primary"
+                th:text="${currentBoard.title}">
+                <h4>게시판 제목</h4></li>
+            <li class="list-group-item list-group-item-secondary d-flex flex-row">
+                <div class="container row w-100">
+                    <div class="col-3">
+                        <button class="btn btn-primary text-nowrap" type="button"
+                                th:onclick="|location.href='/quizBoard/${currentBoard.id}/newPost'|">게시글 작성
+                        </button>
+                    </div>
+                    <div class="col-6 d-flex flex-row">
+                        <input type="text" id="search-input" class="form-control"
+                               placeholder="게시글을 검색하세요.">
+                        <button id="search-btn" class="btn btn-primary text-nowrap" type="button"
+                                th:onclick="'searchTitle(2,' + ${currentBoard.id} + ')'">검색
+                        </button>
+                    </div>
+                    <div class="col-3">
+                        <div class="dropdown text-end">
+                            <button class="btn btn-secondary dropdown-toggle" type="button"
+                                    data-bs-toggle="dropdown" aria-expanded="false">
+                                정렬 기준
+                            </button>
+                            <ul class="dropdown-menu text-small dropdown-menu-end">
+                                <li><a class="dropdown-item">최신순</a></li>
+                                <li><a class="dropdown-item">조회순</a></li>
+                            </ul>
+                        </div>
+                    </div>
+                </div>
+            </li>
+
+            <div th:each="post : ${posts}">
+                <th:block th:each="post : ${posts}">
+                    <th:block
+                            th:replace="~{/common/postItem :: postItem(${post}, ${currentBoard.id}, ${1})}"></th:block>
+                </th:block>
+            </div>
+        </div>
+        <nav class="d-flex align-items-center justify-content-center">
+            <ul class="pagination">
+                <!-- 이전 페이지 버튼 -->
+                <li th:classappend="${currentPage == 0} ? 'disabled'">
+                    <a class="page-link"
+                       th:href="@{/quizBoard/{boardId}(boardId=${currentBoard.id}, page=${currentPage - 1})}">이전</a>
+                </li>
+
+                <!-- 페이지 번호 버튼 (총 5개씩 표시) -->
+                <li th:each="pageNum : ${#numbers.sequence(
+                       ((currentPage - 2) >= 0 ? currentPage - 2 : 0),
+                       ((currentPage + 2) < totalPages ? currentPage + 2 : totalPages)
+                   )}"
+                    th:classappend="${pageNum == currentPage} ? 'active'">
+                    <a class="page-link"
+                       th:href="@{/quizBoard/{boardId}(boardId=${currentBoard.id}, page=${pageNum})}"
+                       th:text="${pageNum+1}"></a>
+                </li>
+
+                <!-- 다음 페이지 버튼 -->
+                <li th:classappend="${currentPage == totalPages} ? 'disabled'">
+                    <a class="page-link"
+                       th:href="@{/quizBoard/{boardId}(boardId=${currentBoard.id}, page=${currentPage + 1})}">다음</a>
+                </li>
+            </ul>
+        </nav>
+    </div>
+    <script th:src="@{/js/boardPage.js}"></script>
+</div>
+</body>
+</html>

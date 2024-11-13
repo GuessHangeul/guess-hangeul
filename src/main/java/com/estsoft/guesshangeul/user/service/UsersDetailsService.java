@@ -56,4 +56,12 @@ public class UsersDetailsService implements UserDetailsService {
 		return authoritiesRepository.saveAll(authorities);
 	}
 
+	// 권한 삭제
+	public void deleteUserAuthorities(List<AddAuthorityRequest> addAuthorityRequestList) {
+		List<Authorities> authorities = addAuthorityRequestList.stream()
+			.map(AddAuthorityRequest::toEntity)
+			.toList();
+		authoritiesRepository.deleteAll(authorities);
+	}
+
 }

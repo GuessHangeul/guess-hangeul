@@ -9,6 +9,7 @@ import java.util.Map;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.core.GrantedAuthority;
+import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PathVariable;
@@ -25,8 +26,8 @@ import com.estsoft.guesshangeul.user.dto.CheckEmailExistsRequest;
 import com.estsoft.guesshangeul.user.dto.CheckEmailExistsResponse;
 import com.estsoft.guesshangeul.user.dto.CheckNicknameExistsRequest;
 import com.estsoft.guesshangeul.user.dto.CheckNicknameExistsResponse;
-import com.estsoft.guesshangeul.user.dto.DeleteUsersRequest;
 import com.estsoft.guesshangeul.user.dto.ModifyPwdRequest;
+import com.estsoft.guesshangeul.user.dto.UsersResponse;
 import com.estsoft.guesshangeul.user.entity.Authorities;
 import com.estsoft.guesshangeul.user.entity.Users;
 import com.estsoft.guesshangeul.user.service.UsersDetailsService;
@@ -54,6 +55,18 @@ public class UsersController {
 		addAuthority(addAuthorityRequestList);
 	}
 
+	// 회원 탈퇴 (admin)
+	@PutMapping("/withDrawal/{userId}")
+	public ResponseEntity<Boolean> withdrawal(@PathVariable Long userId) {
+		return ResponseEntity.ok(usersService.withdrawal(userId));
+	}
+
+	// 셀프 회원 탈퇴
+	@PutMapping("/selfWithdrawal")
+	public ResponseEntity<Boolean> selfWithdrawal() {
+		return ResponseEntity.ok(usersService.selfWithdrawal());
+	}
+
 	// 권한 추가
 	@PostMapping("/user/authority")
 	public ResponseEntity<List<AuthorityResponse>> addAuthority(
@@ -64,6 +77,12 @@ public class UsersController {
 				.map(Authority -> new AuthorityResponse(Authority.getId(), Authority.getUserId(),
 					Authority.getAuthority()))
 				.toList());
+	}
+
+	// 권한 삭제
+	@DeleteMapping("/user/authority")
+	public void deleteAuthority(@RequestBody List<AddAuthorityRequest> addAuthorityRequestList) {
+		usersDetailsService.deleteUserAuthorities(addAuthorityRequestList);
 	}
 
 	//권한 조회
@@ -125,9 +144,16 @@ public class UsersController {
 			log.error(e.getMessage());
 		}
 	}
-	@PutMapping("/users/{id}")
-	public ResponseEntity<Users> deleteUsers(@PathVariable Long id, @RequestBody DeleteUsersRequest request) {//유저 삭제는 소프트 삭제인 관계로 update처리
-		Users deleteUser = usersService.deleteUser(id, request);
-		return ResponseEntity.ok(deleteUser);
+	// @PutMapping("/users/{id}")
+	// public ResponseEntity<Users> deleteUsers(@PathVariable Long id, @RequestBody DeleteUsersRequest request) {//유저 삭제는 소프트 삭제인 관계로 update처리
+	// 	Users deleteUser = usersService.deleteUser(id, request);
+	// 	return ResponseEntity.ok(deleteUser);
+	// }
+
+	// 삭제
+	@PutMapping("/users/{userId}")
+	public ResponseEntity<UsersResponse> deleteUser(@PathVariable Long userId) {
+		Users users = usersService.deleteUserById(userId);
+		return ResponseEntity.ok(new UsersResponse(users));
 	}
 }

@@ -1,6 +1,6 @@
 package com.estsoft.guesshangeul.post.dto;
 
-import java.time.LocalDateTime;
+import static com.estsoft.guesshangeul.util.DateFormatUtil.*;
 
 import com.estsoft.guesshangeul.post.entity.GeneralPost;
 import com.estsoft.guesshangeul.post.entity.QuizPost;
@@ -24,8 +24,8 @@ public class PostResponse {
 	private Boolean isHidden;
 	private Long view;
 	private Long commentCount;
-	private LocalDateTime createdAt;
-	private LocalDateTime updatedAt;
+	private String createdAt;
+	private String updatedAt;
 
 	public PostResponse(GeneralPost post) {
 		this.id = post.getId();
@@ -35,8 +35,8 @@ public class PostResponse {
 		this.content = post.getContent();
 		this.isHidden = post.isHidden();
 		this.view = post.getView();
-		this.createdAt = post.getCreatedAt();
-		this.updatedAt = post.getUpdatedAt();
+		this.createdAt = post.getCreatedAt().format(formatter);
+		this.updatedAt = post.getUpdatedAt().format(formatter);
 	}
 
 	public PostResponse(QuizPost post) {
@@ -47,7 +47,7 @@ public class PostResponse {
 		this.content = post.getHintContent();
 		this.isHidden = post.isHidden();
 		this.view = post.getView();
-		this.createdAt = post.getCreatedAt();
-		this.updatedAt = post.getUpdatedAt();
+		this.createdAt = post.getCreatedAt().format(formatter);
+		this.updatedAt = post.getUpdatedAt().format(formatter);
 	}
 }

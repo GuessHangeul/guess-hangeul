@@ -1,6 +1,7 @@
 package com.estsoft.guesshangeul.board.service;
 
 import java.util.List;
+import java.util.NoSuchElementException;
 
 import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
@@ -23,5 +24,11 @@ public class GeneralBoardService {
 
 	public GeneralBoardDto findByBoardId(Long boardId) {
 		return new GeneralBoardDto(generalBoardRepository.findById(boardId).orElseThrow());
+	}
+
+	public GeneralBoardDto findExistingFirstBoard() {
+		GeneralBoard generalBoard = generalBoardRepository.findFirstByIsDeletedOrderByIdDesc(false)
+			.orElseThrow(() -> new NoSuchElementException("일반 게시판이 없습니다."));
+		return new GeneralBoardDto(generalBoard);
 	}
 }
