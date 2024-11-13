@@ -8,6 +8,7 @@ import java.util.regex.Pattern;
 import java.util.stream.Collectors;
 
 import org.springframework.beans.factory.annotation.Value;
+import org.springframework.scheduling.annotation.Scheduled;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.authority.SimpleGrantedAuthority;
@@ -201,5 +202,25 @@ public class UsersService {
 		usersRepository.save(users);
 		return users;
 	}
+
+	private static final String TOP_RANK = "ROLE_YANGBAN";
+
+	// 00시 마다 랭커 업데이트
+	@Transactional
+	@Scheduled(cron = "0 0 0 * * *", zone = "Asia/Seoul")
+	public void updateUserRank() {
+		List<Users> userlist = usersRepository.findByIsDeletedFalseOrderByScoreDesc();
+
+		int rankers = (int)Math.ceil(userlist.size() * 0.1);
+
+		authoritiesRepository.deleteByAuthority(TOP_RANK);
+
+		for (int i = 0; i < rankers; i++) {
+			Users user = userlist.get(i);
+			Authorities authority = new Authorities(user.getId(), TOP_RANK);
+			authoritiesRepository.save(authority);
+		}
+	}
+
 }
 
