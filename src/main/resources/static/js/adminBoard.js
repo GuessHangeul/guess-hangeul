@@ -139,11 +139,22 @@ document.querySelector('.delete-btn').addEventListener('click', function () {
 });
 
 // 검색
-function searchPost(event) {
-    event.preventDefault(); // 폼의 기본 제출 동작을 막음
-    const generalBoardId = postElement.getAttribute('data-boardId');
-    const searchText = document.getElementById('searchText').value; // 입력된 검색어 가져오기
+function searchByTitle() {
+    // 입력된 검색어와 게시판 ID 가져오기
+    const title = document.getElementById("searchTitle");
+    const postElement = document.querySelector('.post');
+    const generalBoard = postElement.getAttribute('data-boardId');
 
-    // 검색어를 포함한 URL로 이동 (여기서 title은 검색어)
-    window.location.href = `/api/generalBoard/${generalBoardId}/generalPost?search=${searchText}`;
+    window.location.href = `/admin/generalBoard/${generalBoard}?search=${title.value}`;
 }
+
+document.getElementById("searchButton").addEventListener("click", async function () {
+    const button = document.getElementById("searchButton");
+    button.disabled = true; // 버튼 비활성화
+
+    // 예: 서버로 검색 요청 보내기
+    await new Promise(resolve => setTimeout(resolve, 1000)); // 예시로 1초 대기
+
+    // 검색 완료 후 버튼 다시 활성화
+    button.disabled = false;
+});

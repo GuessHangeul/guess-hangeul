@@ -28,4 +28,11 @@ public class ViewRankupRequestResponse {
 		this.createdAt = apply.getCreatedAt();
 		this.connectcount = apply.getUsers().getConnectCount();
 	}
+	public ViewRankupRequestResponse(BoardManagerApply boardManagerApply){
+		this.id = boardManagerApply.getId();
+		this.userId = boardManagerApply.getUsers().getId(); // Users 엔티티의 ID 값
+		this.nickname = boardManagerApply.getUsers().getNickname(); // Users 엔티티의 닉네임 값
+		this.status = boardManagerApply.getStatus();
+		this.createdAt = boardManagerApply.getCreatedAt();
+	}
 }

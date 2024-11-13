@@ -14,14 +14,14 @@ import com.estsoft.guesshangeul.user.service.UsersService;
 
 import lombok.RequiredArgsConstructor;
 
-@RequestMapping("/api/user")
+@RequestMapping
 @Controller
 @RequiredArgsConstructor
 public class AdminBoardController {
 	private final AdminBoardService adminBoardService;
 	private final UsersService usersService;
 
-	@GetMapping
+	@GetMapping(value = "/api/user")
 	public ResponseEntity<List<UsersResponse>> getAllUsers() {
 		List<UsersResponse> response = adminBoardService.findAllUsersbyIsDeleted(false);
 		List<UsersResponse> usersResponses = new ArrayList<>();

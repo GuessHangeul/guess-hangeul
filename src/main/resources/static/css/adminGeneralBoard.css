@@ -49,6 +49,12 @@ button:hover {
     gap: 10px;
 }
 
+.sidebar {
+    display: flex;
+    flex-direction: column;
+    list-style-type: none;
+}
+
 .nav-link-general-board {
     background-color: lightgrey;
 }
