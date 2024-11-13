@@ -52,13 +52,9 @@ public class SecurityConfig {
 	private void configureAuthorization(
 		AuthorizeHttpRequestsConfigurer<HttpSecurity>.AuthorizationManagerRequestMatcherRegistry registry) {
 
-		// registry.requestMatchers(SecurityUrlPattern.PUBLIC.getPatterns()).permitAll();
-
 		for (SecurityUrlPattern pattern : SecurityUrlPattern.values()) {
-			if (pattern.getAuthority() != null) {
-				registry.requestMatchers(pattern.getPatterns())
-					.hasRole(pattern.getAuthority());
-			}
+			registry.requestMatchers(pattern.getPatterns())
+				.hasRole(pattern.getAuthority());
 		}
 
 		registry.anyRequest().permitAll();
@@ -80,7 +76,6 @@ public class SecurityConfig {
 				.deleteCookies("SESSION", "JSESSIONID")
 				.invalidateHttpSession(true)
 				.permitAll()
-
 			)
 			.exceptionHandling(custom -> custom.accessDeniedHandler(customAccessDeniedHandler()))
 			.csrf(AbstractHttpConfigurer::disable)
