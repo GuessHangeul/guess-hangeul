@@ -212,7 +212,7 @@ public class UsersService {
 	@Transactional
 	@Scheduled(cron = "0 0 0 * * *", zone = "Asia/Seoul")
 	public void updateUserRank() {
-		List<Users> userlist = usersRepository.findByIsDeletedFalseOrderByScoreDesc();
+		List<Users> userlist = usersRepository.findAllByIsDeletedOrderByScoreDesc(false);
 
 		int rankers = (int)Math.ceil(userlist.size() * 0.1);
 
