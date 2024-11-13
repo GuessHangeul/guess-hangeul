@@ -137,3 +137,13 @@ document.querySelector('.delete-btn').addEventListener('click', function () {
         })
         .catch(error => console.error('Error:', error));
 });
+
+// 검색
+function searchByTitle() {
+    // 입력된 검색어와 게시판 ID 가져오기
+    const title = document.getElementById("searchTitle");
+    const postElement = document.querySelector('.post');
+    const quizBoardId = postElement.getAttribute('data-boardId');
+
+    window.location.href = `/admin/quizBoard/${quizBoardId}?search=${title.value}`;
+}
