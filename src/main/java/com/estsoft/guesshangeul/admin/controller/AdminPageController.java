@@ -10,6 +10,7 @@ import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestParam;
 
+import com.estsoft.guesshangeul.admin.entity.BoardManagerApply;
 import com.estsoft.guesshangeul.admin.service.AdminBoardService;
 import com.estsoft.guesshangeul.board.dto.GeneralBoardDto;
 import com.estsoft.guesshangeul.board.dto.GeneralBoardResponse;
@@ -23,6 +24,8 @@ import com.estsoft.guesshangeul.post.service.GeneralPostService;
 import com.estsoft.guesshangeul.post.service.QuizPostService;
 import com.estsoft.guesshangeul.user.dto.UsersResponse;
 import com.estsoft.guesshangeul.user.service.UsersService;
+import com.estsoft.guesshangeul.userrank.dto.ViewRankupRequestResponse;
+import com.estsoft.guesshangeul.userrank.service.ViewRankupRequestService;
 
 @Controller
 public class AdminPageController {
@@ -33,16 +36,18 @@ public class AdminPageController {
 	private final GeneralPostService generalPostService;
 	private final QuizPostService quizPostService;
 	private final UsersService usersService;
+	private final ViewRankupRequestService viewRankupRequestService;
 
 	public AdminPageController(AdminBoardService adminBoardService, GeneralBoardService generalBoardService,
 		QuizBoardService quizBoardService, GeneralPostService generalPostService, QuizPostService quizPostService,
-		UsersService usersService) {
+		UsersService usersService, ViewRankupRequestService viewRankupRequestService) {
 		this.adminBoardService = adminBoardService;
 		this.generalBoardService = generalBoardService;
 		this.quizBoardService = quizBoardService;
 		this.generalPostService = generalPostService;
 		this.quizPostService = quizPostService;
 		this.usersService = usersService;
+		this.viewRankupRequestService = viewRankupRequestService;
 	}
 
 	@GetMapping("/admin")
@@ -105,5 +110,16 @@ public class AdminPageController {
 		}
 		model.addAttribute("posts", posts);
 		return "adminQuizBoard";
+	}
+
+	@GetMapping("/admin/boardManagerApply")
+	public String showBoardManagerApply(Model model) {
+		List<BoardManagerApply> responseList = viewRankupRequestService.findAll();
+		List<ViewRankupRequestResponse> list = new ArrayList<>();
+		for (BoardManagerApply boardManagerApply : responseList) {
+			list.add(usersService.getViewRankupResponse(boardManagerApply.getUsers().getId()));
+		}
+		model.addAttribute("list", list);
+		return "adminBoardManager";
 	}
 }
