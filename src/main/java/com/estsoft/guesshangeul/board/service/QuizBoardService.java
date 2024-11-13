@@ -1,6 +1,7 @@
 package com.estsoft.guesshangeul.board.service;
 
 import java.util.List;
+import java.util.NoSuchElementException;
 import java.util.Optional;
 
 import org.springframework.data.domain.Pageable;
@@ -51,6 +52,12 @@ public class QuizBoardService {
 		String title = request.getTitle();
 		QuizBoard quizBoard = quizBoardRepository.save(new QuizBoard(title, users, false));
 
+		return new QuizBoardDto(quizBoard);
+	}
+
+	public QuizBoardDto findExistingFirstBoard() {
+		QuizBoard quizBoard = quizBoardRepository.findFirstByIsDeletedOrderById(false)
+			.orElseThrow(() -> new NoSuchElementException("일반 게시판이 없습니다."));
 		return new QuizBoardDto(quizBoard);
 	}
 }

@@ -3,6 +3,7 @@ package com.estsoft.guesshangeul.post.service;
 import java.util.List;
 import java.util.Optional;
 
+
 import org.springframework.data.domain.Pageable;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.context.SecurityContextHolder;
@@ -133,5 +134,9 @@ public class GeneralPostService {
 		GeneralPost post = generalPostRepository.findByGeneralBoardIdAndId(generalBoardId, id)
 			.orElseThrow(() -> new RuntimeException("해당 게시글은 존재하지 않습니다."));
 		generalPostRepository.delete(post);
+	}
+
+	public void deleteByGeneralPostId(Long generalBoardId, List<Long> postId) {
+		generalPostRepository.deleteByGeneralBoardIdAndIdIn(generalBoardId, postId);
 	}
 }

@@ -1,6 +1,7 @@
 package com.estsoft.guesshangeul.board.controller;
 
 import java.util.List;
+import java.util.NoSuchElementException;
 
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.domain.Sort;
@@ -47,6 +48,28 @@ public class BoardViewController {
 		return "index";
 	}
 
+	@GetMapping("/generalBoard")
+	public String redirectToFirstGeneralBoard(Model model,
+		@RequestParam(value = "search", required = false) String title,
+		@RequestParam(value = "isHidden", required = false) Boolean isHidden,
+		@PageableDefault(size = 20, sort = "createdAt", direction = Sort.Direction.DESC) Pageable pageable) {
+		try {
+			GeneralBoardDto board = generalBoardService.findExistingFirstBoard();
+			return "redirect:generalBoard/" + board.getId();
+		} catch (NoSuchElementException e) {
+			// 게시판 없음
+			model.addAttribute("currentBoard", null);
+			model.addAttribute("boardList", List.of());
+			// 페이지 정보
+			int currentPage = pageable.getPageNumber();
+			int totalPages = 0;
+			model.addAttribute("currentPage", currentPage);
+			model.addAttribute("totalPages", totalPages);
+
+			return "generalBoard";
+		}
+	}
+
 	@GetMapping("/generalBoard/{generalBoardId}")
 	public String generalBoardPage(Model model, @PathVariable Long generalBoardId,
 		@RequestParam(value = "search", required = false) String title,
@@ -80,6 +103,28 @@ public class BoardViewController {
 		model.addAttribute("totalPages", totalPages);
 
 		return "generalBoard";
+	}
+
+	@GetMapping("/quizBoard")
+	public String redirectToFirstQuizBoard(Model model,
+		@RequestParam(value = "search", required = false) String title,
+		@RequestParam(value = "isHidden", required = false) Boolean isHidden,
+		@PageableDefault(size = 20, sort = "createdAt", direction = Sort.Direction.DESC) Pageable pageable) {
+		try {
+			QuizBoardDto board = quizBoardService.findExistingFirstBoard();
+			return "redirect:quizBoard/" + board.getId();
+		} catch (NoSuchElementException e) {
+			// 게시판 없음
+			model.addAttribute("currentBoard", null);
+			model.addAttribute("boardList", List.of());
+			// 페이지 정보
+			int currentPage = pageable.getPageNumber();
+			int totalPages = 0;
+			model.addAttribute("currentPage", currentPage);
+			model.addAttribute("totalPages", totalPages);
+
+			return "quizBoard";
+		}
 	}
 
 	@GetMapping("/quizBoard/{quizBoardId}")

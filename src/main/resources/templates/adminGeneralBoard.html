@@ -35,13 +35,15 @@
                 <button class="unhide-btn" type="button">게시글 숨기기 해제</button>
                 <button class="delete-btn" type="button">게시글 삭제</button>
             </div>
+
             <form class="search">
-                <input class="searchText" type="text" placeholder="게시글을 검색하세요." size="30"/>
-                <button class="button" type="button">검색</button>
+                <input class="searchTitle" id="searchTitle" type="text" placeholder="게시글을 검색하세요." size="30"/>
+                <button class="search-button" id="searchButton" type="button" onclick="searchByTitle()">검색</button>
             </form>
         </nav>
 
-        <div class="post" th:attr="data-boardId=${board.id}" th:each="post : ${posts}">
+        <div class="post" th:attr="data-boardId=${board.id}" th:classappend="${post.isHidden} ? 'hidden-post'"
+             th:each="post : ${posts}">
             <input type="checkbox" id="general-post" class="post-checkbox" name="postIds" th:value="${post.id}"/>
             <div class="top">
                 <span class="user" th:text="${post.user.nickname}">작성자</span>

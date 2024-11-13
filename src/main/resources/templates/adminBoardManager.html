@@ -1,0 +1,75 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org"
+      xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
+      layout:decorate="~{/common/adminLayout}">
+<head>
+    <meta charset="UTF-8">
+    <title>ㄴㄹㅁㅆㅁ</title>
+    <link rel="stylesheet" th:href="@{/css/adminBoardManager.css}">
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha1/dist/css/bootstrap.min.css">
+    <meta name="viewport" content="width=device-width, initial-scale=1"/>
+    <style>
+        .sidebar {
+            display: flex;
+            flex-direction: column;
+            list-style-type: none;
+        }
+
+        .sidebar-boardManager {
+            background-color: lightgrey;
+        }
+    </style>
+</head>
+<body>
+<div class="boardManager" layout:fragment="content">
+    <h1>신청목록</h1>
+    <!--Topbar-->
+    <nav class="navbar">
+        <form class="search">
+            <input class="searchTitle" id="searchTitle" type="text" placeholder="닉네임을 검색하세요." size="30"/>
+            <button class="search-button" id="searchButton" type="button" onclick="searchByNickname()">검색</button>
+        </form>
+    </nav>
+    <!--End of Topbar-->
+
+    <!--Content-->
+    <div class="container">
+        <table class="table" id="userTable">
+            <thead>
+            <tr>
+                <th onclick="sortTable(0)">ID</th>
+                <th onclick="sortTable(1)">닉네임</th>
+                <th onclick="sortTable(2)">등급</th>
+                <th onclick="sortTable(3)">점수</th>
+                <th onclick="sortTable(4)">가입 일자</th>
+                <th onclick="sortTable(5)">접속 횟수</th>
+                <th></th>
+                <th></th>
+            </tr>
+            </thead>
+            <tbody>
+            <!--id 갯수 만큼 반복-->
+            <tr class="content" th:each="list : ${list}">
+                <td class="boardManagerId" th:text="${list.id}"></td>
+                <td th:text="${list.nickname}"></td>
+                <td th:text="${list.authority}"></td>
+                <td th:text="${list.score}"></td>
+                <td th:text="${list.createdAt}"></td>
+                <td th:text="${list.connectcount}"></td>
+                <td>
+                    <span th:if="${list.status == 1}">승급완료</span>
+                    <span th:if="${list.status == 2}">승급실패</span>
+                    <button class="apply-btn" type="button" th:if="${list.status == 0}">승급</button>
+                </td>
+                <td>
+                    <button class="reject-btn" type="button" th:if="${list.status == 0}">반려</button>
+                </td>
+            </tr>
+            </tbody>
+        </table>
+    </div>
+    <!--End of Content-->
+    <script th:src="@{/js/adminBoardManager.js}"></script>
+</div>
+</body>
+</html>
