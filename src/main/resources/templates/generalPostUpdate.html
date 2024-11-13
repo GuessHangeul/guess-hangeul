@@ -1,0 +1,39 @@
+<!DOCTYPE html>
+<html lang="ko" xmlns:th="http://www.thymeleaf.org">
+<head>
+  <meta charset="utf-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>일반 게시글 수정</title>
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@4.6.1/dist/css/bootstrap.min.css">
+</head>
+<body>
+<header>
+  <!-- Header content -->
+</header>
+<main>
+  <section class="d-flex vh-100 align-items-center justify-content-center">
+    <div class="d-flex container-fluid justify-content-center align-content-center">
+      <div class="card-body p-5 text-center" style="max-width: 1000px; border: 2px solid">
+        <h2 class="d-none md-3">일반 게시글 수정 페이지</h2>
+        <a th:href="@{/}">
+          <h1>일반 게시글 수정</h1>
+        </a>
+        <form class="text-left" th:action="@{/generalBoard/{generalBoardId}/updatePost/{id}(generalBoardId=${generalBoardId}, id=${post.id})}" method="post">
+          <input type="hidden" name="_method" value="put" />
+          <div class="mb-3">
+            <label class="form-label" for="title">제목</label>
+            <input class="form-control" type="text" name="title" id="title" th:value="${post.title}" required/>
+          </div>
+          <div class="mb-3">
+            <label class="form-label" for="content">내용</label>
+            <textarea class="form-control" name="content" id="content" required th:text="${post.content}"></textarea>
+          </div>
+          <button class="w-100 btn btn-primary mt-3" type="submit">수정 완료</button>
+        </form>
+      </div>
+    </div>
+  </section>
+</main>
+</body>
+</html>
