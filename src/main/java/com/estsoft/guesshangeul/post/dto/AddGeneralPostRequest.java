@@ -13,14 +13,12 @@ public class AddGeneralPostRequest {
 	private String title;
 	private String content;
 	private boolean isHidden;
-	private Long view;
 
 	public GeneralPost toEntity() {
 		GeneralPost generalPost = new GeneralPost();
 		generalPost.setTitle(this.title);
 		generalPost.setContent(this.content);
 		generalPost.setHidden(this.isHidden);
-		generalPost.setView(this.view);
 		return generalPost;
 	}
 }

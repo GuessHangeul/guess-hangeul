@@ -12,5 +12,4 @@ public class UpdateGeneralPostRequest {
     private String title;
     private String content;
     private boolean isHidden;
-    private Long view;
 }
