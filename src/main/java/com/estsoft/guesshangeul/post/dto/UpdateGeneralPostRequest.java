@@ -8,8 +8,7 @@ import lombok.Setter;
 @Setter
 @NoArgsConstructor
 public class UpdateGeneralPostRequest {
-    private Long id;
-    private String title;
-    private String content;
-    private boolean isHidden;
+	private Long id;
+	private String title;
+	private String content;
 }

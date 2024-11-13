@@ -77,8 +77,8 @@ public class QuizPostService {
 	}
 
 	// 퀴즈 게시글 ID로 조회
-	public QuizPostResponse getQuizPostById(Long quizBoardId, Long id) {
-		QuizPost post = quizPostRepository.findByQuizBoardIdAndId(quizBoardId, id)
+	public QuizPostResponse getQuizPostById(Long id) {
+		QuizPost post = quizPostRepository.findById(id)
 			.orElseThrow(() -> new RuntimeException("해당 게시글은 존재하지 않습니다."));
 		return new QuizPostResponse(post);
 	}
@@ -117,13 +117,11 @@ public class QuizPostService {
 
 	// 퀴즈 게시글 수정
 	@Transactional
-	public QuizPostResponse updateQuizPost(Long quizBoardId, Long id, UpdateQuizPostRequest request) {
-		QuizPost post = quizPostRepository.findByQuizBoardIdAndId(quizBoardId, id)
+	public QuizPostResponse updateQuizPost(Long id, UpdateQuizPostRequest request) {
+		QuizPost post = quizPostRepository.findById(id)
 			.orElseThrow(() -> new RuntimeException("해당 게시글은 존재하지 않습니다."));
 		post.setQuizTitle(request.getQuizTitle());
 		post.setHintContent(request.getHintContent());
-		post.setHidden(request.isHidden());
-		post.setView(request.getView());
 		QuizPost updatedPost = quizPostRepository.save(post);
 		return new QuizPostResponse(updatedPost);
 	}
@@ -131,7 +129,7 @@ public class QuizPostService {
 	// 퀴즈 게시글 삭제
 	@Transactional
 	public void deleteQuizPost(Long quizBoardId, Long id) {
-		QuizPost post = quizPostRepository.findByQuizBoardIdAndId(quizBoardId, id)
+		QuizPost post = quizPostRepository.findById(id)
 			.orElseThrow(() -> new RuntimeException("해당 게시글은 존재하지 않습니다."));
 		quizPostRepository.delete(post);
 	}
@@ -142,4 +140,11 @@ public class QuizPostService {
 		quizPostRepository.deleteByQuizBoardIdAndIdIn(quizBoardId, postId);
 	}
 
+	public Optional<Long> getPrevId(Long id) {
+		return quizPostRepository.findPrevId(id);
+	}
+
+	public Optional<Long> getNextId(Long id) {
+		return quizPostRepository.findNextId(id);
+	}
 }

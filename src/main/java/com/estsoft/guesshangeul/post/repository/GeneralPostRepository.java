@@ -104,11 +104,17 @@ public interface GeneralPostRepository extends JpaRepository<GeneralPost, Long> 
 	List<GeneralPostWithCommentCountInterface> findAllByTitleAndIsHiddenWithCommentCount(Long generalBoardId,
 		String title, Boolean isHidden, Pageable pageable);
 
-	List<GeneralPost> findByGeneralBoardId(Long generalBoardId);
-
-	Optional<GeneralPost> findByGeneralBoardIdAndId(Long generalBoardId, Long id);
+	Optional<GeneralPost> findById(Long id);
 
 	Optional<GeneralPost> findByGeneralBoardIdAndTitle(Long generalBoardId, String title);
 
 	void deleteByGeneralBoardIdAndIdIn(Long generalBoardId, List<Long> id);
+
+	// 특정 ID보다 큰 ID 중 가장 작은 ID 조회
+	@Query("SELECT MIN(p.id) FROM GeneralPost p WHERE p.id > :postId")
+	Optional<Long> findNextId(Long postId);
+
+	// 특정 ID보다 작은 ID 중 가장 큰 ID 조회
+	@Query("SELECT MAX(p.id) FROM GeneralPost p WHERE p.id < :postId")
+	Optional<Long> findPreviousId(Long postId);
 }

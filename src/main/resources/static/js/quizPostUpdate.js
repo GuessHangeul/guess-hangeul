@@ -1,6 +1,6 @@
 document.addEventListener('DOMContentLoaded', () => {
-    const form = document.getElementById('generalPostUpdateForm');
-    const generalBoardId = document.getElementById("generalBoardId").value;
+    const form = document.getElementById('quizPostUpdateForm');
+    const quizBoardId = document.getElementById("quizBoardId").value;
     const id = document.getElementById("postId").value;
 
     form.addEventListener('submit', async (event) => {
@@ -8,13 +8,13 @@ document.addEventListener('DOMContentLoaded', () => {
 
         const formData = new FormData(form);
         const data = {
-            title: document.getElementById("title").value,
-            content: document.getElementById("content").value
+            quizTitle: document.getElementById("title").value,
+            hintContent: document.getElementById("content").value
         };
 
         console.log(data);
 
-        const apiUrl = `/api/generalBoard/${generalBoardId}/generalPost/${id}`;
+        const apiUrl = `/api/quizBoard/${quizBoardId}/quizPost/${id}`;
 
         try {
             const response = await fetch(apiUrl, {
@@ -26,7 +26,7 @@ document.addEventListener('DOMContentLoaded', () => {
             });
 
             if (response.ok) {
-                window.location.href = `/generalBoard/${generalBoardId}/generalPost/${id}`;
+                window.location.href = `/quizBoard/${quizBoardId}/quizPost/${id}`;
             } else {
                 console.error('Failed to update the post.');
             }

@@ -7,7 +7,7 @@
     <meta charset="utf-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1">
-    <title>일반 게시글</title>
+    <title>퀴즈 게시글</title>
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha1/dist/css/bootstrap.min.css">
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha1/dist/js/bootstrap.bundle.min.js"></script>
 </head>
@@ -25,15 +25,15 @@
                     </div>
                 </div>
                 <div class="card-body p-4">
-                    <h5 class="card-title mb-4" th:text="${post.title}">제목</h5>
-                    <p class="card-text mb-4" th:text="${post.content}"></p>
+                    <h5 class="card-title mb-4" th:text="${post.quizTitle}">제목</h5>
+                    <p class="card-text mb-4" th:text="${post.hintContent}"></p>
                     <div class="d-flex flex-row gap-2 justify-content-end"
                          sec:authorize="isAuthenticated()"
-                         th:if="${#authentication.principal.id==post.userId}">
-                        <a th:href="@{/generalBoard/{generalBoardId}/updatePost/{id}(generalBoardId=${post.generalBoardId}, id=${post.id})}"
+                         th:if="${#authentication.principal.id==post.usersId}">
+                        <a th:href="@{/quizBoard/{quizBoardId}/updatePost/{id}(quizBoardId=${post.quizBoardId}, id=${post.id})}"
                            class="btn btn-primary">수정</a>
                         <button id="deletePostButton" class="btn btn-primary"
-                                th:data-id="${post.id}" th:data-generalboardid="${post.generalBoardId}">
+                                th:data-id="${post.id}" th:data-quizboardid="${post.quizBoardId}">
                             삭제
                         </button>
                     </div>
@@ -43,9 +43,9 @@
                 </div>
             </div>
             <div class="d-flex justify-content-between">
-                <a th:href="@{/generalBoard/{generalBoardId}/generalPost/{prevPostId}(generalBoardId=${post.id}, prevPostId=${prevPostId})}"
+                <a th:href="@{/quizBoard/{quizBoardId}/quizPost/{prevPostId}(quizBoardId=${post.id}, prevPostId=${prevPostId})}"
                    class="btn" th:classappend="${prevPostId==null?'btn-secondary disabled':'btn-primary'}">이전 게시물</a>
-                <a th:href="@{/generalBoard/{generalBoardId}/generalPost/{nextPostId}(generalBoardId=${post.id}, nextPostId=${nextPostId})}"
+                <a th:href="@{/quizBoard/{quizBoardId}/quizPost/{nextPostId}(quizBoardId=${post.id}, nextPostId=${nextPostId})}"
                    class="btn"
                    th:classappend="${nextPostId==null?'btn-secondary disabled':'btn-primary'}">다음 게시물</a>
             </div>
@@ -58,7 +58,7 @@
                 <input class="hidden" type="hidden" id="userId"
                        th:value="${#authentication.principal.id}">
                 <button id="addCommentButton" class="btn btn-primary"
-                        th:data-id="${post.id}" th:data-generalboardid="${post.generalBoardId}">
+                        th:data-id="${post.id}" th:data-quizboardid="${post.quizBoardId}">
                     댓글 작성
                 </button>
                 <hr>
@@ -79,7 +79,7 @@
             </section>
         </section>
     </main>
-    <script th:src="@{/js/generalPostPage.js}"></script>
+    <script th:src="@{/js/quizPostPage.js}"></script>
 </th:block>
 </body>
 </html>

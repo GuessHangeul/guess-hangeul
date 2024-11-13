@@ -2,6 +2,8 @@ package com.estsoft.guesshangeul.comment.entity;
 
 import java.time.LocalDateTime;
 
+import org.hibernate.annotations.OnDelete;
+import org.hibernate.annotations.OnDeleteAction;
 import org.springframework.data.annotation.CreatedDate;
 import org.springframework.data.jpa.domain.support.AuditingEntityListener;
 
@@ -39,6 +41,7 @@ public class GeneralComment {
 
 	@ManyToOne
 	@JoinColumn(name = "general_post_id")
+	@OnDelete(action = OnDeleteAction.CASCADE)
 	private GeneralPost post;
 
 	@Column(nullable = false)
