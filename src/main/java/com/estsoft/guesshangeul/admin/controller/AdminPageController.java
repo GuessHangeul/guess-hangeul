@@ -8,6 +8,7 @@ import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
+import org.springframework.web.bind.annotation.RequestParam;
 
 import com.estsoft.guesshangeul.admin.entity.BoardManagerApply;
 import com.estsoft.guesshangeul.admin.service.AdminBoardService;
@@ -66,7 +67,9 @@ public class AdminPageController {
 	}
 
 	@GetMapping("/admin/generalBoard/{boardId}")
-	public String showGeneralBoard(@PathVariable Long boardId, Model model, Pageable pageable) {
+	public String showGeneralBoard(@PathVariable Long boardId, Model model, Pageable pageable,
+		@RequestParam(value = "search", required = false) String title,
+		@RequestParam(value = "isHidden", required = false) Boolean isHidden) {
 		model.addAttribute("board", generalBoardService.findByBoardId(boardId));
 
 		// generalBoard 목록 조회
@@ -75,26 +78,41 @@ public class AdminPageController {
 		model.addAttribute("generalBoard", boardResponses);
 
 		// generalPost 조회
-		List<GeneralPostWithCommentCountResponse> posts = generalPostService.getAllGeneralPostsWithCommentCount(boardId,
-			null, Pageable.unpaged());
+		List<GeneralPostWithCommentCountResponse> posts;
+		if (title == null) {
+			posts = generalPostService.getAllGeneralPostsWithCommentCount(
+				boardId, isHidden, pageable);
+		} else {
+			// 제목 검색으로 조회
+			posts = generalPostService.getAllGeneralPostsByTitleWithCommentCount(
+				boardId, title, isHidden, pageable);
+		}
 		model.addAttribute("posts", posts);
 
 		return "adminGeneralBoard";
 	}
 
 	@GetMapping("/admin/quizBoard/{boardId}")
-	public String showQuizBoard(@PathVariable Long boardId, Model model, Pageable pageable) {
+	public String showQuizBoard(
+		Model model, @PathVariable Long boardId, @RequestParam(value = "search", required = false) String title,
+		@RequestParam(value = "isHidden", required = false) Boolean isHidden, Pageable pageable) {
+
 		model.addAttribute("board", quizBoardService.findByBoardId(boardId));
+
 		// quizBoard 목록 조회
 		List<QuizBoardDto> result = quizBoardService.findAllQuizBoardByIsDeleted(false, pageable);
 		List<QuizBoardResponse> response = result.stream().map(QuizBoardResponse::new).toList();
 		model.addAttribute("quizBoard", response);
 
 		// quizPost 조회
-		List<QuizPostWithCommentCountResponse> posts = quizPostService.getAllQuizPostsWithCommentCount(boardId,
-			null, Pageable.unpaged());
+		List<QuizPostWithCommentCountResponse> posts;
+		if (title == null) {
+			posts = quizPostService.getAllQuizPostsWithCommentCount(boardId, isHidden, pageable);
+		} else {
+			// 제목 검색으로 조회
+			posts = quizPostService.getAllQuizPostsByTitleWithCommentCount(boardId, title, isHidden, pageable);
+		}
 		model.addAttribute("posts", posts);
-
 		return "adminQuizBoard";
 	}
 
