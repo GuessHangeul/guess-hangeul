@@ -57,7 +57,7 @@
             <div>
                 <th:block th:each="post : ${posts}">
                     <th:block
-                            th:replace="~{/common/postItem :: postItem(${post}, ${currentBoard.id}, ${2})}"></th:block>
+                            th:replace="~{/common/postItem :: postItem(${post}, ${currentBoard.id}, ${1})}"></th:block>
                 </th:block>
             </div>
         </div>
