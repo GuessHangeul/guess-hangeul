@@ -38,7 +38,7 @@ public class BoardManagerApply {
 	private Long id;
 
 	@ManyToOne
-	@JoinColumn(name = "user_id")
+	@JoinColumn(name = "user_id",referencedColumnName = "id")
 	private Users users;
 
 	@Column(nullable = false)
@@ -52,6 +52,12 @@ public class BoardManagerApply {
 	@Builder
 	public BoardManagerApply(Long id, Users users,int status, LocalDateTime createdAt) {
 		this.id = id;
+		this.users = users;
+		this.status = status;
+		this.createdAt = createdAt;
+	}
+	@Builder
+	public BoardManagerApply(Users users,int status, LocalDateTime createdAt) {
 		this.users = users;
 		this.status = status;
 		this.createdAt = createdAt;

@@ -12,13 +12,13 @@ import com.estsoft.guesshangeul.user.dto.UsersResponse;
 
 import lombok.RequiredArgsConstructor;
 
-@RequestMapping("/api/user")
+@RequestMapping(value = "/api/user")
 @Controller
 @RequiredArgsConstructor
 public class AdminBoardController {
 	private final AdminBoardService adminBoardService;
 
-	@GetMapping
+	@GetMapping(value="/api/user")
 	public ResponseEntity<List<UsersResponse>> getAllUsers() {
 		List<UsersResponse> response = adminBoardService.findAllUsersbyIsDeleted(false);
 		return ResponseEntity.ok(response);

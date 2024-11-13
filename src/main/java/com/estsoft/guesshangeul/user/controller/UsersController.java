@@ -29,6 +29,7 @@ import com.estsoft.guesshangeul.user.dto.DeleteUsersRequest;
 import com.estsoft.guesshangeul.user.dto.ModifyPwdRequest;
 import com.estsoft.guesshangeul.user.entity.Authorities;
 import com.estsoft.guesshangeul.user.entity.Users;
+import com.estsoft.guesshangeul.user.repository.UsersRepository;
 import com.estsoft.guesshangeul.user.service.UsersDetailsService;
 import com.estsoft.guesshangeul.user.service.UsersService;
 
@@ -44,6 +45,7 @@ import lombok.extern.slf4j.Slf4j;
 public class UsersController {
 	private final UsersService usersService;
 	private final UsersDetailsService usersDetailsService;
+	private final UsersRepository usersRepository;
 
 	// 회원 가입
 	@PostMapping("/signup")
@@ -125,9 +127,16 @@ public class UsersController {
 			log.error(e.getMessage());
 		}
 	}
+	//사용자 삭제(사용자의 isdeleted를 true로)
 	@PutMapping("/users/{id}")
 	public ResponseEntity<Users> deleteUsers(@PathVariable Long id, @RequestBody DeleteUsersRequest request) {//유저 삭제는 소프트 삭제인 관계로 update처리
 		Users deleteUser = usersService.deleteUser(id, request);
 		return ResponseEntity.ok(deleteUser);
+	}
+	//데이터 정렬
+	@GetMapping("/user?sort=")
+	public ResponseEntity<List<Users>> SortUsers() {
+		List<Users> sortusers = usersRepository.findAll();
+		return null;
 	}
 }
