@@ -14,11 +14,11 @@
 </header>
 <th:block layout:fragment="content">
     <main>
-        <section class="d-flex vh-100 align-items-center justify-content-center"
+        <section class="d-flex h-100 align-items-center justify-content-center"
                  th:if="${#authentication.principal.id==post.usersId}">
-            <div class="d-flex container-fluid justify-content-center align-content-center">
-                <div class="card-body p-5 text-center" style="max-width: 1000px; border: 2px solid">
-                    <h2 class="d-none md-3">퀴즈 게시글 수정 페이지</h2>
+            <div class="d-flex container-fluid justify-content-center align-items-center h-100">
+                <div class="card-body p-5 w-100" style="border: 2px solid">
+                    <h2 class="md-3 text-center">퀴즈 게시글 수정</h2>
                     <form id="quizPostUpdateForm">
                         <input type="hidden" id="quizBoardId" th:value="${post.quizBoardId}"/>
                         <input type="hidden" id="postId" th:value="${post.id}"/>

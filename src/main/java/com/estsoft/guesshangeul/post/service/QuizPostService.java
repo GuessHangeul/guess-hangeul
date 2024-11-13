@@ -108,9 +108,7 @@ public class QuizPostService {
 			throw new EntityNotFoundException("QuizBoard", quizBoardId);
 		}
 
-		QuizPost post = request.toEntity();
-		post.setUser(users);
-		post.setQuizBoard(quizBoardOptional.get());
+		QuizPost post = request.toEntity(users, quizBoardOptional.get());
 		QuizPost createdPost = quizPostRepository.save(post);
 		return new QuizPostResponse(createdPost);
 	}
