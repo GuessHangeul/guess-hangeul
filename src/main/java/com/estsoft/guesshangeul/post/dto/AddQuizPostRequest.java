@@ -1,33 +1,32 @@
 package com.estsoft.guesshangeul.post.dto;
 
-
 import com.estsoft.guesshangeul.board.entity.QuizBoard;
 import com.estsoft.guesshangeul.post.entity.QuizPost;
 import com.estsoft.guesshangeul.user.entity.Users;
+import com.estsoft.guesshangeul.util.KoreanInitialExtractor;
+
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
-import org.apache.catalina.User;
 
 @Getter
 @Setter
 @NoArgsConstructor
 public class AddQuizPostRequest {
-    private Users users;
-    private QuizBoard quizBoardId;
-    private String quizTitle;
-    private String hintContent;
-    private boolean isHidden;
-    private Long view;
+	private String answer;
+	private String hintContent;
 
-    public QuizPost toEntity() {
-        QuizPost quizPost = new QuizPost();
-        quizPost.setUser(this.users);
-        quizPost.setQuizBoard(this.quizBoardId);
-        quizPost.setQuizTitle(this.quizTitle);
-        quizPost.setHintContent(this.hintContent);
-        quizPost.setHidden(this.isHidden);
-        quizPost.setView(this.view);
-        return quizPost;
-    }
+	public QuizPost toEntity(Users user, QuizBoard quizBoard) {
+		QuizPost quizPost = new QuizPost();
+		String quizTitle = KoreanInitialExtractor.extractInitials(this.answer);
+		quizPost.setQuizTitle(quizTitle);
+		quizPost.setAnswer(this.answer);
+		quizPost.setHintContent(this.hintContent);
+		quizPost.setHidden(false);
+		quizPost.setView(0L);
+		quizPost.setUser(user);
+		quizPost.setQuizBoard(quizBoard);
+
+		return quizPost;
+	}
 }

@@ -13,32 +13,30 @@
     <!-- Header content -->
 </header>
 <th:block layout:fragment="content">
-    <main>
-        <section class="d-flex vh-100 align-items-center justify-content-center"
-                 th:if="${#authentication.principal.id==post.userId}">
-            <div class="d-flex container-fluid justify-content-center align-content-center">
-                <div class="card-body p-5 text-center" style="max-width: 1000px; border: 2px solid">
-                    <h2 class="d-none md-3">일반 게시글 수정 페이지</h2>
-                    <form id="generalPostUpdateForm">
-                        <input type="hidden" id="generalBoardId" th:value="${post.generalBoardId}"/>
-                        <input type="hidden" id="postId" th:value="${post.id}"/>
-                        <div class="mb-3">
-                            <label class="form-label text-start" for="title">제목</label>
-                            <input class="form-control" type="text" name="title" id="title" th:value="${post.title}"
-                                   required/>
-                        </div>
-                        <div class="mb-3">
-                            <label class="form-label text-start" for="content">내용</label>
-                            <textarea class="form-control" name="content" id="content" required
-                                      th:text="${post.content}"></textarea>
-                        </div>
-                        <button id="postUpdateBtn" class="w-100 btn btn-primary mt-3" type="submit">수정 완료</button>
-                    </form>
-                </div>
+    <section class="d-flex h-100 align-items-center justify-content-center"
+             th:if="${#authentication.principal.id==post.userId}">
+        <div class="d-flex container-fluid justify-content-center align-items-center h-100">
+            <div class="card-body p-5 w-100" style="border: 2px solid">
+                <h2 class="md-3 text-center">일반 게시글 수정</h2>
+                <form id="generalPostUpdateForm">
+                    <input type="hidden" id="generalBoardId" th:value="${post.generalBoardId}"/>
+                    <input type="hidden" id="postId" th:value="${post.id}"/>
+                    <div class="mb-3">
+                        <label class="form-label text-start" for="title">제목</label>
+                        <input class="form-control" type="text" name="title" id="title" th:value="${post.title}"
+                               required/>
+                    </div>
+                    <div class="mb-3">
+                        <label class="form-label text-start" for="content">내용</label>
+                        <textarea class="form-control" name="content" id="content" required
+                                  th:text="${post.content}"></textarea>
+                    </div>
+                    <button id="postUpdateBtn" class="w-100 btn btn-primary mt-3" type="submit">수정 완료</button>
+                </form>
             </div>
-        </section>
-        <script th:src="@{/js/generalPostUpdate.js}"></script>
-    </main>
+        </div>
+    </section>
+    <script th:src="@{/js/generalPostUpdate.js}"></script>
 </th:block>
 </body>
 </html>
