@@ -39,12 +39,10 @@ public class AddUserRankController {//신청 내용 저장을 위한 컨트롤�
 	@PostMapping("/newBoardManagerApply")
 	public String applyForBoardManager(@AuthenticationPrincipal UserDetails userDetails) {
 		// 현재 로그인한 사용자의 ID를 가져옴
-		Long userId = Long.parseLong(userDetails.getUsername()); // 또는 적절한 방식으로 ID를 가져옴
+		Long userId = Long.parseLong(userDetails.getUsername());
 
-		// 신청을 처리하고 저장
 		service.apply(userId);
-
-		// 신청 후 리다이렉트할 페이지로 이동 (예: 신청 성공 페이지)
+		//메인 페이지로 이동
 		return "redirect:/";
 	}
 	@GetMapping("/boardManagerApply")
