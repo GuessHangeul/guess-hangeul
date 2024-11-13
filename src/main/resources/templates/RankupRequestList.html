@@ -68,22 +68,22 @@
         </thead>
         <tbody>
         <!--id 갯수 만큼 반복-->
-        <tr class="content" th:each="list : ${list}">
-            <td class="userId" th:text="${list.users.userId}"></td>
-            <td th:text="${list.users.nickname}"></td>
-            <td th:text="${list.users.authority}"></td>
-            <td th:text="${list.users.score}"></td>
-            <td th:text="${list.users.createdAt}"></td>
-            <td th:text="${list.createdAt}"></td>
-            <td th:text="${list.users.connectCount}"></td>
-            <td th:if="${list.status == 0}">
+        <tr class="content" th:each="board_manager_apply : ${list}">
+            <td class="userId" th:text="${board_manager_apply.users.userId}"></td>
+            <td th:text="${board_manager_apply.users.nickname}"></td>
+            <td th:text="${board_manager_apply.users.authority}"></td>
+            <td th:text="${board_manager_apply.users.score}"></td>
+            <td th:text="${board_manager_apply.users.createdAt}"></td>
+            <td th:text="${board_manager_apply.createdAt}"></td>
+            <td th:text="${board_manager_apply.users.connectCount}"></td>
+            <td th:if="${board_manager_apply.status == 0}">
                 <button class="approved" id = "approve-btn" type="button" onclick = "approve(this)">윤허</button>
                 <button class="rejected" id = "reject-btn" type="button" onclick = "rejected(this)">거부</button>
             </td>
-            <td th:if="${list.status == 1}">
+            <td th:if="${board_manager_apply.status == 1}">
                 허가됨
             </td>
-            <td th:if="${list.status == -1}">
+            <td th:if="${board_manager_apply.status == -1}">
                 거부됨
             </td>
         </tr>
