@@ -4,13 +4,13 @@ import java.util.ArrayList;
 import java.util.List;
 
 import org.springframework.data.domain.Pageable;
+import org.springframework.data.web.PageableDefault;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestParam;
 
-import com.estsoft.guesshangeul.admin.entity.BoardManagerApply;
 import com.estsoft.guesshangeul.admin.service.AdminBoardService;
 import com.estsoft.guesshangeul.board.dto.GeneralBoardDto;
 import com.estsoft.guesshangeul.board.dto.GeneralBoardResponse;
@@ -113,11 +113,17 @@ public class AdminPageController {
 	}
 
 	@GetMapping("/admin/boardManagerApply")
-	public String showBoardManagerApply(Model model) {
-		List<BoardManagerApply> responseList = viewRankupRequestService.findAll();
-		List<ViewRankupRequestResponse> list = new ArrayList<>();
-		for (BoardManagerApply boardManagerApply : responseList) {
-			list.add(usersService.getViewRankupResponse(boardManagerApply.getUsers().getId()));
+	public String showBoardManagerApply(Model model,
+		@RequestParam(value = "nickname", required = false) String nickname,
+		@PageableDefault(size = 10) Pageable pageable) {
+		List<ViewRankupRequestResponse> list;
+		if (nickname == null || nickname.isEmpty()) {
+			list = viewRankupRequestService.findAll().stream().map(ViewRankupRequestResponse::new).toList();
+		} else {
+			list = viewRankupRequestService.findByUsersNickname(nickname, pageable)
+				.stream()
+				.map(ViewRankupRequestResponse::new)
+				.toList();
 		}
 		model.addAttribute("list", list);
 		return "adminBoardManager";

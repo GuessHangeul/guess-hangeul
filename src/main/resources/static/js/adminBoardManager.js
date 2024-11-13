@@ -89,3 +89,23 @@ function sortTable(columnIndex) {
     table.setAttribute("data-sorted-column", columnIndex);
     table.setAttribute("data-sort-direction", ascending ? "asc" : "desc");
 }
+
+// 검색
+function searchByNickname() {
+    // 입력된 검색어와 게시판 ID 가져오기
+    const nickname = document.getElementById("searchTitle");
+
+    window.location.href = `/admin/boardManagerApply?nickname=${nickname.value}`;
+}
+
+document.getElementById("searchButton").addEventListener("click", async function () {
+    const button = document.getElementById("searchButton");
+    button.disabled = true; // 버튼 비활성화
+
+    // 예: 서버로 검색 요청 보내기
+    await new Promise(resolve => setTimeout(resolve, 1000)); // 예시로 1초 대기
+
+    // 검색 완료 후 버튼 다시 활성화
+    button.disabled = false;
+});
+
