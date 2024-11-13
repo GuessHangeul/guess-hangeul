@@ -3,6 +3,7 @@ package com.estsoft.guesshangeul.exception;
 import java.io.IOException;
 import java.net.URLEncoder;
 
+import org.springframework.context.annotation.Configuration;
 import org.springframework.security.authentication.AccountExpiredException;
 import org.springframework.security.authentication.BadCredentialsException;
 import org.springframework.security.authentication.CredentialsExpiredException;
@@ -17,6 +18,7 @@ import jakarta.servlet.http.HttpServletResponse;
 import lombok.extern.slf4j.Slf4j;
 
 @Slf4j
+@Configuration
 public class CustomAuthFailureHandler implements AuthenticationFailureHandler {
 
 	@Override

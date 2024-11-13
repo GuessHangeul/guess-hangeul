@@ -6,15 +6,23 @@ import org.springframework.security.config.annotation.web.builders.HttpSecurity;
 import org.springframework.security.config.annotation.web.configuration.EnableWebSecurity;
 import org.springframework.security.config.annotation.web.configuration.WebSecurityCustomizer;
 import org.springframework.security.config.annotation.web.configurers.AbstractHttpConfigurer;
+import org.springframework.security.config.annotation.web.configurers.AuthorizeHttpRequestsConfigurer;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.security.web.SecurityFilterChain;
-import org.springframework.security.web.authentication.AuthenticationFailureHandler;
 
+import com.estsoft.guesshangeul.exception.CustomAccessDeniedHandler;
 import com.estsoft.guesshangeul.exception.CustomAuthFailureHandler;
+import com.estsoft.guesshangeul.exception.CustomAuthSuccessHandler;
+import com.estsoft.guesshangeul.user.repository.UsersRepository;
+
+import lombok.RequiredArgsConstructor;
 
 @Configuration
 @EnableWebSecurity
+@RequiredArgsConstructor
 public class SecurityConfig {
+	private final UsersRepository userRepository;
+
 	@Bean
 	public WebSecurityCustomizer webSecurityCustomizer() {
 		return webSecurity -> webSecurity.ignoring()
@@ -27,41 +35,54 @@ public class SecurityConfig {
 	}
 
 	@Bean
-	public AuthenticationFailureHandler customAuthFailureHandler() {
+	public CustomAuthSuccessHandler customAuthSuccessHandler() {
+		return new CustomAuthSuccessHandler(userRepository);
+	}
+
+	@Bean
+	public CustomAuthFailureHandler customAuthFailureHandler() {
 		return new CustomAuthFailureHandler();
 	}
 
 	@Bean
-	public SecurityFilterChain filterChain(HttpSecurity httpSecurity) throws Exception {
-		return httpSecurity.authorizeHttpRequests(
-				custom -> custom
-					.requestMatchers("/login", "/signup", "/", "/api/*").permitAll()
-					// .requestMatchers("").hasRole("NOBI")
-					// .requestMatchers("").hasRole("PYEONGMIN")
-					// .requestMatchers("").hasRole("YANGBAN")
-					// .requestMatchers("/api/quizBoard").hasRole("JIPHYEONJEON")
-					// .requestMatchers("").hasRole("KINGSEJONG")
+	public CustomAccessDeniedHandler customAccessDeniedHandler() {
+		return new CustomAccessDeniedHandler();
+	}
 
-					.anyRequest()
-					// .authenticated()
-					.permitAll()
-			)
-			.formLogin(custom -> custom
-				.loginPage("/login")
+	private void configureAuthorization(
+		AuthorizeHttpRequestsConfigurer<HttpSecurity>.AuthorizationManagerRequestMatcherRegistry registry) {
+
+		// registry.requestMatchers(SecurityUrlPattern.PUBLIC.getPatterns()).permitAll();
+
+		for (SecurityUrlPattern pattern : SecurityUrlPattern.values()) {
+			if (pattern.getAuthority() != null) {
+				registry.requestMatchers(pattern.getPatterns())
+					.hasRole(pattern.getAuthority());
+			}
+		}
+
+		registry.anyRequest().permitAll();
+	}
+
+	@Bean
+	public SecurityFilterChain filterChain(HttpSecurity httpSecurity) throws Exception {
+		return httpSecurity
+			.authorizeHttpRequests(this::configureAuthorization)
+			.formLogin(custom -> custom.loginPage("/login")
 				.loginProcessingUrl("/api/login")
-				.defaultSuccessUrl("/", true)
 				.failureHandler(customAuthFailureHandler())
+				.successHandler(customAuthSuccessHandler())
 				.usernameParameter("email")
 				.passwordParameter("password")
-				.permitAll()
-			)
-			.logout(custom -> custom
-				.logoutSuccessUrl("/login")
+				.permitAll())
+			.logout(custom -> custom.logoutSuccessUrl("/login")
 				.logoutUrl("/api/logout")
 				.deleteCookies("SESSION", "JSESSIONID")
 				.invalidateHttpSession(true)
 				.permitAll()
+
 			)
+			.exceptionHandling(custom -> custom.accessDeniedHandler(customAccessDeniedHandler()))
 			.csrf(AbstractHttpConfigurer::disable)
 			.build();
 	}
