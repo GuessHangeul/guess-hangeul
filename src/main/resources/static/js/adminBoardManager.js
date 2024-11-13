@@ -6,10 +6,14 @@ applyButtons.forEach((button, index) => {
     button.addEventListener('click', event => {
         console.log('버튼 클릭됨'); // 버튼 클릭 시 확인
         const userId = button.closest('tr').querySelector('.boardManagerId').textContent.trim();
-        console.log(`boardManagerId: ${boardManagerId}`); // 가져온 userId 확인
+        console.log(`boardManagerId: ${userId}`); // 가져온 userId 확인
 
-        fetch(`/api/admin/acceptBoardManager?boardManagerId=${boardManagerId}`, {
-            method: 'GET'
+        fetch(`/api/admin/acceptBoardManager?boardManagerId`, {
+            method: 'PUT', // PUT 방식 설정
+            headers: {
+                'Content-Type': 'application/json' // JSON 형식으로 전송
+            },
+            body: JSON.stringify(userId) // 선택된 ID 리스트를 JSON으로 변환하여 RequestBody로 전송
         })
             .then(response => {
                 if (!response.ok) throw new Error("승인 실패");
@@ -31,15 +35,19 @@ rejectButtons.forEach((button, index) => {
     button.addEventListener('click', event => {
         console.log('버튼 클릭됨'); // 버튼 클릭 시 확인
         const userId = button.closest('tr').querySelector('.boardManagerId').textContent.trim();
-        console.log(`boardManagerId: ${boardManagerId}`); // 가져온 userId 확인
+        console.log(`boardManagerId: ${userId}`); // 가져온 userId 확인
 
-        fetch(`/api/admin/rejectBoardManager?boardManagerId=${boardManagerId}`, {
-            method: 'GET'
+        fetch(`/api/admin/rejectBoardManager`, {
+            method: 'PUT', // PUT 방식 설정
+            headers: {
+                'Content-Type': 'application/json' // JSON 형식으로 전송
+            },
+            body: JSON.stringify(userId) // 선택된 ID 리스트를 JSON으로 변환하여 RequestBody로 전송
         })
             .then(response => {
                 if (!response.ok) throw new Error("반려 실패");
                 alert('반려 완료되었습니다.');
-                location.replace('/api/admin/rejectBoardManager');
+                location.replace('/admin/boardManagerApply');
             })
             .catch(error => {
                 console.error('반려 중 오류 발생:', error);

@@ -1,0 +1,9 @@
+.sidebar {
+    display: flex;
+    flex-direction: column;
+    list-style-type: none;
+}
+
+.sidebar-boardManager {
+    background-color: lightgrey;
+}
