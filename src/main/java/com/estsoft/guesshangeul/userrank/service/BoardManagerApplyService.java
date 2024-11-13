@@ -35,4 +35,15 @@ public class BoardManagerApplyService {//집현전 신청 받아서 DB에 입력
 	public List<BoardManagerApply> findAll() {
 		return boardManagerApplyRepository.findAll();
 	}
+
+	public void apply(Long userId) {
+		// 새로운 BoardManagerApply 생성 및 현재 시간 설정
+		BoardManagerApply application = new BoardManagerApply();
+		application.setUsers(new Users(userId)); // Users 엔티티가 ID를 사용해 생성자로 초기화 가능해야 합니다.
+		application.setCreatedAt(LocalDateTime.now());
+		application.setStatus(0); // 초기 상태값
+
+		// 데이터베이스에 저장
+		boardManagerApplyRepository.save(application);
+	}
 }
