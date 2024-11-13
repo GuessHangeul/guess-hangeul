@@ -13,7 +13,7 @@ import com.estsoft.guesshangeul.board.entity.GeneralBoard;
 public interface GeneralBoardRepository extends JpaRepository<GeneralBoard, Long> {
 	List<GeneralBoard> findAllByIsDeleted(boolean isDeleted, Pageable pageable);
 
-	Optional<GeneralBoard> findFirstByIsDeletedOrderByIdDesc(Boolean isDeleted);
+	Optional<GeneralBoard> findFirstByIsDeletedOrderById(Boolean isDeleted);
 
 	// Fetch Join 활용
 	// @Query("""

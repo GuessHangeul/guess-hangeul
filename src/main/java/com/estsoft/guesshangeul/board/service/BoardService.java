@@ -5,8 +5,6 @@ import java.util.List;
 
 import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
-import org.springframework.data.domain.Sort;
-import org.springframework.data.web.PageableDefault;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -36,10 +34,9 @@ public class BoardService {
 	private final QuizCommentRepository quizCommentRepository;
 
 	@Transactional
-	public List<BoardResponse> readTotalBoard(
-		@PageableDefault(size = 6, sort = "id", direction = Sort.Direction.DESC) Pageable pageable) {
+	public List<BoardResponse> readTotalBoard(Pageable pageable) {
 		// 일반 게시판 요청
-		List<GeneralBoard> generalBoardList = generalBoardRepository.findAllByIsDeleted(false, Pageable.ofSize(6));
+		List<GeneralBoard> generalBoardList = generalBoardRepository.findAllByIsDeleted(false, pageable);
 		List<BoardResponse> generalBoardResponse = generalBoardList.stream().map(
 			board -> {
 				List<GeneralPost> generalPosts = generalPostRepository.findTop5ByGeneralBoardIdOrderByCreatedAtDesc(
@@ -61,7 +58,8 @@ public class BoardService {
 
 		// 나온 게시판 목록 개수 제외하여 나머지 개수만큼 요청
 		int offset = generalBoardList.size();
-		Pageable nextPageable = PageRequest.of(pageable.getPageNumber(), pageable.getPageSize(), pageable.getSort())
+		Pageable nextPageable = PageRequest.of(pageable.getPageNumber(), pageable.getPageSize() - offset,
+				pageable.getSort())
 			.withPage(pageable.getPageNumber() + (offset / pageable.getPageSize()));
 
 		// 퀴즈 게시판 요청

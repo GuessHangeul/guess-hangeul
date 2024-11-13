@@ -18,6 +18,8 @@ public class UsersResponse {
 	private String nickname;
 	@Schema(description = "유저 권한", type = "String")
 	private String authority;
+	@Schema(description = "유저 권한", type = "Integer")
+	private Integer score;
 	@Schema(description = "유저 생성 날짜", type = "String")
 	private String createdAt;
 	@Schema(description = "유저 최근 접속 날짜", type = "String")
@@ -30,6 +32,7 @@ public class UsersResponse {
 	public UsersResponse(Users users) {
 		this.userId = users.getId();
 		this.nickname = users.getNickname();
+		this.score = users.getScore();
 		this.createdAt = users.getCreatedAt().format(formatter);
 		this.connectedAt = users.getConnectedAt().format(formatter);
 		this.connectCount = users.getConnectCount();
@@ -40,6 +43,7 @@ public class UsersResponse {
 		this.userId = users.getId();
 		this.nickname = users.getNickname();
 		this.authority = RoleType.toName(authorityString);
+		this.score = users.getScore();
 		this.createdAt = users.getCreatedAt().format(formatter);
 		this.connectedAt = users.getConnectedAt().format(formatter);
 		this.connectCount = users.getConnectCount();

@@ -52,7 +52,7 @@ public class AdminPageController {
 
 	@GetMapping("/admin")
 	public String showUser(Model model) {
-		List<UsersResponse> response = adminBoardService.findAllUsersbyIsDeleted(false);
+		List<UsersResponse> response = adminBoardService.findAllUsersbyIsDeleted(false, Pageable.unpaged());
 		List<UsersResponse> usersResponses = new ArrayList<>();
 		for (UsersResponse user : response) {
 			usersResponses.add(usersService.getUserResponse(user.getUserId()));
