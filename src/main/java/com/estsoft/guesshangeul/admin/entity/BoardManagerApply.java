@@ -46,6 +46,10 @@ public class BoardManagerApply {
 	@Column(name = "created_at")
 	private LocalDateTime createdAt;
 
+	public BoardManagerApply(Users users) {
+		this.users = users;
+	}
+
 	@Builder
 	public BoardManagerApply(Long id, Users users, int status, LocalDateTime createdAt) {
 		this.id = id;

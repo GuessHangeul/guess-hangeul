@@ -1,49 +1,51 @@
 package com.estsoft.guesshangeul.userrank.service;
 
-import java.time.LocalDateTime;
 import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.core.Authentication;
+import org.springframework.security.core.context.SecurityContextHolder;
+import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.stereotype.Service;
 
 import com.estsoft.guesshangeul.admin.entity.BoardManagerApply;
 import com.estsoft.guesshangeul.user.entity.Users;
 import com.estsoft.guesshangeul.user.repository.UsersRepository;
-import com.estsoft.guesshangeul.userrank.dto.AddUserRankRequest;
+import com.estsoft.guesshangeul.user.service.UsersDetailsService;
+import com.estsoft.guesshangeul.userrank.dto.ViewRankupRequestResponse;
 import com.estsoft.guesshangeul.userrank.repository.BoardManagerRepository;
 
 @Service
 public class BoardManagerApplyService {//집현전 신청 받아서 DB에 입력
 	private final UsersRepository usersRepository;
 	private final BoardManagerRepository boardManagerApplyRepository;
+	private final UsersDetailsService usersDetailsService;
 
 	@Autowired
-	public BoardManagerApplyService(UsersRepository usersRepository, BoardManagerRepository boardManagerRepository) {
+	public BoardManagerApplyService(UsersRepository usersRepository, BoardManagerRepository boardManagerRepository,
+		UsersDetailsService usersDetailsService) {
 		this.usersRepository = usersRepository;
 		this.boardManagerApplyRepository = boardManagerRepository;
-	}
-	public BoardManagerApply save(AddUserRankRequest requ) {
-		// userId로 Users 객체를 조회
-		Users users = usersRepository.findById(requ.getId())
-			.orElseThrow(() -> new IllegalArgumentException("Invalid user ID: " + requ.getId()));
-
-		// BoardManagerApply 객체 생성
-		BoardManagerApply apply = new BoardManagerApply(null, users, requ.getStatus(), LocalDateTime.now());
-		return boardManagerApplyRepository.save(apply);
+		this.usersDetailsService = usersDetailsService;
 	}
 
 	public List<BoardManagerApply> findAll() {
 		return boardManagerApplyRepository.findAll();
 	}
 
-	public void apply(Long userId) {
-		// 새로운 BoardManagerApply 생성 및 현재 시간 설정
-		BoardManagerApply application = new BoardManagerApply();
-		application.setUsers(new Users(userId));
-		application.setCreatedAt(LocalDateTime.now());
-		application.setStatus(0); // 초기 상태값
+	public ViewRankupRequestResponse addBoardManager() {
+		Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
+		String username;
+		if (authentication.getPrincipal() instanceof UserDetails userDetails) {
+			username = userDetails.getUsername();
+		} else {
+			username = (String)authentication.getPrincipal();
+		}
 
-		// 데이터베이스에 저장
-		boardManagerApplyRepository.save(application);
+		Users users = (Users)usersDetailsService.loadUserByUsername(username);
+		BoardManagerApply boardManagerApply = boardManagerApplyRepository.save(new BoardManagerApply(users));
+		ViewRankupRequestResponse response = new ViewRankupRequestResponse(boardManagerApply);
+		return response;
 	}
+
 }
