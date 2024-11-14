@@ -45,6 +45,9 @@ public class QuizService {
 		QuizPost quizPost = quizPostRepository.findById(request.getQuizPostId()).get();
 		Users user = userRepository.findById(request.getUserId()).get();
 
+		// 답 정규화 (공백 제거)
+		request.setAnswer(request.getAnswer().replace(" ", ""));
+
 		CheckAnswerResponse response = new CheckAnswerResponse();
 
 		if (quizPost.getAnswer().equalsIgnoreCase(request.getAnswer())) {

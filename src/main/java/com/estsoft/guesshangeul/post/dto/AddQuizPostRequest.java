@@ -20,7 +20,7 @@ public class AddQuizPostRequest {
 		QuizPost quizPost = new QuizPost();
 		String quizTitle = KoreanInitialExtractor.extractInitials(this.answer);
 		quizPost.setQuizTitle(quizTitle);
-		quizPost.setAnswer(this.answer);
+		quizPost.setAnswer(this.answer.replace(" ", ""));
 		quizPost.setHintContent(this.hintContent);
 		quizPost.setHidden(false);
 		quizPost.setView(0L);
