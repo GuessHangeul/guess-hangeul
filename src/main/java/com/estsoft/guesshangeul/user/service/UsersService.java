@@ -115,6 +115,7 @@ public class UsersService {
 	public void createTokenSendEmail(Users user) {
 		// 기존 토큰이 있다면 삭제
 		tokenRepository.deleteByUser(user);
+		tokenRepository.flush();
 
 		String token = UUID.randomUUID().toString();
 		PasswordResetToken myToken = new PasswordResetToken(user, token);
@@ -243,9 +244,8 @@ public class UsersService {
 
 		// UsersResponse 객체 생성 후 반환
 		return new ViewRankupRequestResponse(boardManagerApply, authorityString);
-  }
+	}
 
-    
 	// 점수 기준으로 정렬된 유저 목록 반환
 	@Transactional(readOnly = true)
 	public List<Users> getRankedUsers() {
