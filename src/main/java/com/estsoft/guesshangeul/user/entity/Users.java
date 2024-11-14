@@ -51,6 +51,7 @@ public class Users implements UserDetails {
 	@Column(name = "created_at", nullable = false)
 	private LocalDateTime createdAt;
 
+	@CreatedDate
 	@Column(name = "connected_at")
 	private LocalDateTime connectedAt;
 
