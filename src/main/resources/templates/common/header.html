@@ -1,0 +1,58 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org" xmlns:sec="http://www.thymeleaf.org/extras/spring-security" lang="kr">
+<th:block th:fragment="header">
+    <header class="p-3 mb-3 border-bottom">
+        <th:block th:replace="~{/common/withdrawalModal :: withdrawalModal}"
+                  sec:authorize="isAuthenticated()"></th:block>
+        <div class="container">
+            <div class="d-flex justify-content-between align-items-center w-100">
+                <div>
+                    <a href="/" class="nav-link px-2 link-secondary">
+                        <img class="img-fluid" style="height: 30px;" th:src="@{/logo.png}" alt="로고 이미지">
+                    </a>
+                </div>
+
+                <ul class="nav flex-grow-1 justify-content-center">
+                    <li><a href="/quizBoard" class="nav-link px-3 link-body-emphasis">문제 게시판</a></li>
+                    <li><a href="/generalBoard" class="nav-link px-3 link-body-emphasis">커뮤니티</a></li>
+                    <li><a href="/rank" class="nav-link px-3 link-body-emphasis">랭킹</a></li>
+                    <li><a sec:authorize="hasRole('KINGSEJONG')" href="/admin" class="nav-link px-3 link-body-emphasis">관리자
+                        페이지</a></li>
+                </ul>
+
+                <div class="dropdown text-end">
+                    <a sec:authorize="!isAuthenticated()" th:href="@{/login}"
+                       class="d-block link-body-emphasis text-decoration-none" aria-expanded="false">
+                        <span th:text="로그인"></span>
+                    </a>
+                    <a sec:authorize="isAuthenticated()"
+                       class="d-block link-body-emphasis text-decoration-none dropdown-toggle"
+                       data-bs-toggle="dropdown" aria-expanded="false">
+                        <span th:text="${#authentication.principal.nickname}"></span>
+                    </a>
+                    <ul sec:authorize="isAuthenticated()" class="dropdown-menu text-small dropdown-menu-end">
+                        <li class="dropdown-item">
+                            <span th:with="roles=${#authentication.authorities.![authority]}"
+                                  th:text="${
+                                  #lists.contains(roles, 'ROLE_KINGSEJONG') ? '세종대왕' :
+                                  #lists.contains(roles, 'ROLE_JIPHYEONJEON') ? '집현전' :
+                                  #lists.contains(roles, 'ROLE_YANGBAN') ? '양반' :
+                                  #lists.contains(roles, 'ROLE_PYEONGMIN') ? '평민' :
+                                  #lists.contains(roles, 'ROLE_NOBI') ? '노비' : '방문자'}"></span>
+                            / <span th:text="${#authentication.principal.score}"></span>점
+                        </li>
+                        <li><a class="dropdown-item" href="/newBoardManagerApply">집현전 신청</a></li>
+                        <li><a class="dropdown-item" href="/api/logout">로그아웃</a></li>
+                        <li>
+                            <hr class="dropdown-divider">
+                        </li>
+                        <li><a class="dropdown-item text-danger" data-bs-toggle="modal"
+                               data-bs-target="#exampleModal">회원탈퇴
+                        </a></li>
+                    </ul>
+                </div>
+            </div>
+        </div>
+    </header>
+</th:block>
+</html>

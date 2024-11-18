@@ -1,0 +1,86 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org"
+      xmlns:sec="http://www.thymeleaf.org/extras/spring-security"
+      xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
+      layout:decorate="~{/common/defaultLayout}">
+<head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>일반 게시글</title>
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha1/dist/css/bootstrap.min.css">
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha1/dist/js/bootstrap.bundle.min.js"></script>
+</head>
+<body>
+<th:block layout:fragment="content">
+    <main>
+        <section class="container mt-5">
+            <div class="card mb-3">
+                <div class="card-header d-flex justify-content-between">
+                    <span class="user" th:text="${post.nickname}">작성자</span>
+                    <div class="d-flex flex-row text-secondary">
+                        <span th:text="${post.createdAt + ' 생성'}">생성</span>
+                        <span class="mx-2">/</span>
+                        <span th:text="${post.updatedAt + ' 업데이트'}">업데이트</span>
+                    </div>
+                </div>
+                <div class="card-body p-4">
+                    <h5 class="card-title mb-4" th:text="${post.title}">제목</h5>
+                    <p class="card-text mb-4" th:text="${post.content}"></p>
+                    <div class="d-flex flex-row gap-2 justify-content-end"
+                         sec:authorize="isAuthenticated()"
+                         th:if="${#authentication.principal.id==post.userId}">
+                        <a th:href="@{/generalBoard/{generalBoardId}/updatePost/{id}(generalBoardId=${post.generalBoardId}, id=${post.id})}"
+                           class="btn btn-primary">수정</a>
+                        <button id="deletePostButton" class="btn btn-primary"
+                                th:data-id="${post.id}" th:data-generalboardid="${post.generalBoardId}">
+                            삭제
+                        </button>
+                    </div>
+                </div>
+                <div class="card-footer text-muted">
+                    <span th:text="'조회수: ' + ${post.view}">조회수</span>
+                </div>
+            </div>
+            <div class="d-flex justify-content-between">
+                <a th:href="@{/generalBoard/{generalBoardId}/generalPost/{prevPostId}(generalBoardId=${post.id}, prevPostId=${prevPostId})}"
+                   class="btn" th:classappend="${prevPostId==null?'btn-secondary disabled':'btn-primary'}">이전 게시물</a>
+                <a th:href="@{/generalBoard/{generalBoardId}/generalPost/{nextPostId}(generalBoardId=${post.id}, nextPostId=${nextPostId})}"
+                   class="btn"
+                   th:classappend="${nextPostId==null?'btn-secondary disabled':'btn-primary'}">다음 게시물</a>
+            </div>
+            <hr>
+            <form class="my-3" sec:authorize="isAuthenticated()">
+                <div class="mb-3">
+                    <label for="commentContent" class="form-label">댓글 작성</label>
+                    <textarea class="form-control" id="commentContent" name="content" rows="3" required></textarea>
+                </div>
+                <input class="hidden" type="hidden" id="userId"
+                       th:value="${#authentication.principal.id}">
+                <div id="addCommentButton" class="btn btn-primary"
+                     th:onclick="addComment([[${post.id}]], [[${post.generalBoardId}]])"
+                     th:data-id="${post.id}" th:data-generalboardid="${post.generalBoardId}">
+                    댓글 작성
+                </div>
+                <hr>
+            </form>
+            <section class="mt-2">
+                <h4>댓글</h4>
+                <div th:each="comment : ${comments}" class="card mb-2">
+                    <div class="card-body">
+                        <div class="card-title d-flex flex-row">
+                            <h5 th:text="${comment.users.nickname}">작성자</h5>
+                            <small class="text-muted mx-3"
+                                   th:text="${comment.createdAt}">
+                                작성일</small>
+                        </div>
+                        <p class="card-text" th:text="${comment.content}">댓글 내용</p>
+                    </div>
+                </div>
+            </section>
+        </section>
+    </main>
+    <script th:src="@{/js/generalPostPage.js}"></script>
+</th:block>
+</body>
+</html>

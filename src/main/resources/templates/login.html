@@ -1,0 +1,46 @@
+<!DOCTYPE html>
+<html lang="ko" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>로그인</title>
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@4.6.1/dist/css/bootstrap.min.css">
+</head>
+
+<body>
+<section class="d-flex vh-100 align-items-center justify-content-center">
+    <div class="d-flex container-fluid justify-content-center align-content-center">
+        <div class="card-body p-5 text-center" style="max-width: 700px;">
+            <h2 class="d-none md-3">로그인 페이지</h2>
+            <a th:href="@{/}">
+                <img src="/logo.png" class="img-fluid" style="max-width: 70px;">
+            </a>
+            <form class="text-left" action="/api/login" method="post">
+                <div class="mb-3">
+                    <label class="form-label" for="email">이메일</label>
+                    <input class="form-control" type="email" name="email" id="email"/>
+                </div>
+                <div class="mb-3">
+                    <label class="form-label" for="password">비밀번호</label>
+                    <input class="form-control" type="password" name="password" id="password"/>
+                </div>
+                <div class="text-center" th:if="${not #strings.isEmpty(message)}">
+                    <span style="color: red;" th:text="${message}"></span>
+                </div>
+                <div class="text-right">
+                    <a href="/findUser">계정 찾기</a>
+                </div>
+                <div class="text-center">
+                    <button class="w-100 btn btn-primary mt-3" type="submit">로그인</button>
+                    <p class="d-inline">아직 회원이 아니신가요?</p>
+                    <a href="/signup">회원 가입</a>
+                </div>
+
+            </form>
+        </div>
+    </div>
+</section>
+</body>
+
+</html>

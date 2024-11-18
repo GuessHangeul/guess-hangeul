@@ -1,0 +1,16 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org"
+      xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout">
+<body>
+
+<!-- 레이아웃 내부 요소 배치 -->
+<div class="container d-flex flex-column vh-100">
+    <!-- 헤더 navbar 추가 -->
+    <header th:replace="~{/common/header :: header}"></header>
+    <main class="container d-flex flex-column h-100">
+        <th:block layout:fragment="content"></th:block>
+    </main>
+</div>
+
+</body>
+</html>

@@ -1,0 +1,69 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>계정 찾기</title>
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@4.6.1/dist/css/bootstrap.min.css">
+</head>
+
+<body>
+<section class="d-flex vh-100 align-items-center justify-content-center">
+    <div class="d-flex container-fluid justify-content-center align-content-center">
+        <div class="card-body p-5 text-center" style="max-width: 700px;">
+            <h2 class="d-none md-3">계정 찾기 페이지</h2>
+            <a th:href="@{/}">
+                <img src="/logo.png" class="img-fluid" style="max-width: 70px;">
+            </a>
+            <div class="text-left">
+                <div class="mb-3">
+                    <label class="form-label" for="email">이메일</label>
+                    <input class="form-control" type="email" name="email" id="email"/>
+                    <button id="check_email" class="w-100 btn btn-primary mt-3">확인</button>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
+
+<!-- 이메일 체크 모달 -->
+<div class="modal fade" id="resultModal" tabindex="-1">
+    <div class="modal-dialog text-center">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title">계정 찾기</h5>
+            </div>
+            <div class="modal-body">
+                <p id="modalMessage"></p>
+            </div>
+            <div class="modal-footer" id="modalFooter">
+                <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">닫기</button>
+            </div>
+        </div>
+    </div>
+</div>
+
+<!-- 비밀번호 변경 메일 발송 모달 -->
+<div class="modal fade" id="passwordResetModal" tabindex="-1">
+    <div class="modal-dialog text-center">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title">비밀번호 변경 이메일 전송</h5>
+            </div>
+            <div class="modal-body">
+                <p id="passwordResetMessage"></p>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">닫기</button>
+            </div>
+        </div>
+    </div>
+</div>
+
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
+<script src="/js/checkEmail.js"></script>
+
+</body>
+
+</html>
