@@ -57,10 +57,11 @@
                 </div>
                 <input class="hidden" type="hidden" id="userId"
                        th:value="${#authentication.principal.id}">
-                <button id="addCommentButton" class="btn btn-primary"
-                        th:data-id="${post.id}" th:data-generalboardid="${post.generalBoardId}">
+                <div id="addCommentButton" class="btn btn-primary"
+                     th:onclick="addComment([[${post.id}]], [[${post.generalBoardId}]])"
+                     th:data-id="${post.id}" th:data-generalboardid="${post.generalBoardId}">
                     댓글 작성
-                </button>
+                </div>
                 <hr>
             </form>
             <section class="mt-2">
